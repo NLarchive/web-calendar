@@ -1119,6 +1119,11 @@
 					"author": "frontend-dev-1",
 					"timestamp": "2026-02-15T21:44:00Z",
 					"text": "Added .github/workflows/deploy-pages.yml, .gitignore, and .nojekyll for static Pages deployment readiness."
+				},
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T21:58:00Z",
+					"text": "Enabled GitHub Pages (build_type=workflow) and confirmed workflow deployment success."
 				}
 			],
 			"attachments": [],
