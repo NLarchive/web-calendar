@@ -1641,6 +1641,75 @@
 					"Manual modal scroll with long form"
 				]
 			}
+		},
+		{
+			"task_id": 25,
+			"task_name": "Unify Load State UX with Source Selection and Replacement Warning",
+			"description": "Remove redundant Load Sample navbar action, consolidate loading into a single Load State modal with Sample/Custom/Empty sources, and add confirmation warning before replacing current state.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"ui",
+				"state-loading",
+				"ux",
+				"warning"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T00:25:00Z",
+			"completed_date": "2026-02-16T00:30:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T00:30:00Z",
+					"text": "Implemented one Load State modal (sample/custom/empty), added replacement confirmation prompt, removed standalone Load Sample action, and updated tests."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 24,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"UI behavior",
+				"DOM events",
+				"JavaScript"
+			],
+			"requisites": [
+				"Existing save/load state flow"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"No separate Load Sample button in navbar",
+					"Load State supports sample, custom file, and empty state",
+					"User receives warning confirmation before state replacement",
+					"Automated tests pass"
+				],
+				"verification_steps": [
+					"Open Load State modal and switch sources",
+					"Attempt load and confirm warning prompt appears",
+					"Run npm test"
+				]
+			}
 		}
 	],
 	"required_fields": [

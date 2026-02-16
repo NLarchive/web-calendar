@@ -111,10 +111,10 @@ export class App {
       }
     });
 
-    this.roots.closeSampleModalButton?.addEventListener('click', () => this.closeSampleModal());
-    this.roots.sampleModalRoot?.addEventListener('click', (event) => {
-      if (event.target === this.roots.sampleModalRoot) {
-        this.closeSampleModal();
+    this.roots.closeStateLoadModalButton?.addEventListener('click', () => this.closeStateLoadModal());
+    this.roots.stateLoadModalRoot?.addEventListener('click', (event) => {
+      if (event.target === this.roots.stateLoadModalRoot) {
+        this.closeStateLoadModal();
       }
     });
 
@@ -124,16 +124,21 @@ export class App {
       this.closeSyncModal();
     });
 
-    this.roots.sampleFormRoot?.addEventListener('submit', async (event) => {
+    this.roots.stateLoadSourceRoot?.addEventListener('change', () => {
+      this.updateStateLoadSourceUI();
+    });
+
+    this.roots.stateLoadFormRoot?.addEventListener('submit', async (event) => {
       event.preventDefault();
-      await this.loadSample();
-      this.closeSampleModal();
+      await this.runStateLoadFlow();
     });
 
     this.eventBus.on('state:updated', () => {
       this.persist();
       this.render();
     });
+
+    this.updateStateLoadSourceUI();
   }
 
   shiftFocusDate(delta) {
@@ -148,22 +153,17 @@ export class App {
     this.eventBus.emit('state:updated');
   }
 
-  async handleStateLoad(file) {
-    try {
-      const nextState = await parseCalendarStateFile(file);
-      const parsedFocusDate = nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate;
-      const focusDate = Number.isNaN(parsedFocusDate.getTime()) ? this.state.focusDate : parsedFocusDate;
+  applyLoadedState(nextState) {
+    const parsedFocusDate = nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate;
+    const focusDate = Number.isNaN(parsedFocusDate.getTime()) ? this.state.focusDate : parsedFocusDate;
 
-      this.state = {
-        ...this.state,
-        ...nextState,
-        appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
-        focusDate,
-      };
-      this.eventBus.emit('state:updated');
-    } catch {
-      alert('Invalid state file');
-    }
+    this.state = {
+      ...this.state,
+      ...nextState,
+      appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
+      focusDate,
+    };
+    this.eventBus.emit('state:updated');
   }
 
   persist() {
@@ -218,40 +218,85 @@ export class App {
     this.roots.syncModalRoot?.classList.add('hidden');
   }
 
-  openSampleModal() {
-    this.roots.sampleModalRoot?.classList.remove('hidden');
+  openStateLoadModal() {
+    this.roots.stateLoadModalRoot?.classList.remove('hidden');
+    this.updateStateLoadSourceUI();
   }
 
-  closeSampleModal() {
-    this.roots.sampleModalRoot?.classList.add('hidden');
+  closeStateLoadModal() {
+    this.roots.stateLoadModalRoot?.classList.add('hidden');
   }
 
-  async loadSample() {
-    const sampleName = this.roots.sampleSelectRoot?.value;
-    if (!sampleName) return;
+  updateStateLoadSourceUI() {
+    const source = this.roots.stateLoadSourceRoot?.value || 'sample';
+    if (this.roots.sampleStateFieldsRoot) {
+      this.roots.sampleStateFieldsRoot.classList.toggle('hidden', source !== 'sample');
+    }
+    if (this.roots.customStateFieldsRoot) {
+      this.roots.customStateFieldsRoot.classList.toggle('hidden', source !== 'custom');
+    }
+  }
+
+  confirmStateReplacement() {
+    const message = 'Loading a new state will replace current appointments. Save State first if you want a backup. Continue?';
+    if (typeof window.confirm !== 'function') return true;
+    return window.confirm(message);
+  }
+
+  async runStateLoadFlow() {
+    if (!this.confirmStateReplacement()) return;
+
+    const source = this.roots.stateLoadSourceRoot?.value || 'sample';
 
     try {
+      if (source === 'empty') {
+        this.applyLoadedState({
+          appointments: [],
+          viewMode: 'month',
+          sortMode: SORT_MODES.PRIORITY,
+          focusDate: new Date().toISOString(),
+        });
+        this.closeStateLoadModal();
+        return;
+      }
+
+      if (source === 'custom') {
+        const file = this.roots.stateLoadFileRoot?.files?.[0];
+        if (!file) {
+          alert('Please select a state file.');
+          return;
+        }
+
+        const nextState = await parseCalendarStateFile(file);
+        this.applyLoadedState(nextState);
+        this.closeStateLoadModal();
+        return;
+      }
+
+      const sampleName = this.roots.stateLoadSampleRoot?.value;
+      if (!sampleName) {
+        alert('Please select a sample state.');
+        return;
+      }
+
       const isGitHubPages = window.location.hostname === 'nlarchive.github.io';
       const baseUrl = isGitHubPages
         ? 'https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/'
         : './data/';
 
       const response = await fetch(`${baseUrl}${sampleName}`);
-      if (!response.ok) throw new Error('Failed to load sample');
+      if (!response.ok) throw new Error('Failed to load sample state');
 
       const nextState = await response.json();
-      const parsedFocusDate = nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate;
-      const focusDate = Number.isNaN(parsedFocusDate.getTime()) ? this.state.focusDate : parsedFocusDate;
-
-      this.state = {
-        ...this.state,
-        ...nextState,
-        appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
-        focusDate,
-      };
-      this.eventBus.emit('state:updated');
+      this.applyLoadedState(nextState);
+      this.closeStateLoadModal();
     } catch (error) {
-      alert(`Failed to load sample: ${error.message}`);
+      if (source === 'custom') {
+        alert('Invalid state file');
+        return;
+      }
+
+      alert(`Failed to load state: ${error?.message || 'Unknown error'}`);
     }
   }
 
@@ -325,8 +370,7 @@ export class App {
         this.eventBus.emit('state:updated');
       },
       onSaveState: () => this.openSyncModal('save'),
-      onLoadState: (file) => this.handleStateLoad(file),
-      onLoadSample: () => this.openSampleModal(),
+      onOpenLoadState: () => this.openStateLoadModal(),
       onToggleInfo: () => toggleInfoPanel(this.roots.infoRoot),
     });
 

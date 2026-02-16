@@ -76,24 +76,38 @@
           <p class="small">Google/Outlook/iCalendar sync uses export/import flow for client-side compatibility.</p>
         </div>
       </div>
-      <div id="sample-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sample-modal-title">
+      <div id="state-load-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="state-load-modal-title">
         <div class="modal-card">
           <div class="modal-header">
-            <h2 id="sample-modal-title">Load Sample Data</h2>
-            <button id="close-sample-modal" aria-label="Close sample popup">✕</button>
+            <h2 id="state-load-modal-title">Load State</h2>
+            <button id="close-state-load-modal" aria-label="Close load state popup">✕</button>
           </div>
-          <form id="sample-form" class="form-grid">
-            <label>Sample
-              <select id="sample-select" name="sample">
-                <option value="empty-calendar-state.json">Empty Calendar</option>
-                <option value="dog-vet-care-state.json">Dog Vet Care Schedule</option>
-                <option value="cat-vet-care-state.json">Cat Vet Care Schedule</option>
-                <option value="combined-vet-care-state.json">Combined Vet Care Schedule</option>
+          <form id="state-load-form" class="form-grid">
+            <label>Source
+              <select id="load-state-source" name="source">
+                <option value="sample">Sample State</option>
+                <option value="custom">Custom State</option>
+                <option value="empty">Empty State</option>
               </select>
             </label>
-            <button class="primary" type="submit">Load Sample</button>
+            <div id="sample-state-fields">
+              <label>Sample
+                <select id="load-state-sample" name="sample">
+                  <option value="dog-vet-care-state.json">Dog Vet Care Schedule</option>
+                  <option value="cat-vet-care-state.json">Cat Vet Care Schedule</option>
+                  <option value="combined-vet-care-state.json">Combined Vet Care Schedule</option>
+                </select>
+              </label>
+            </div>
+            <div id="custom-state-fields" class="hidden">
+              <label>State File
+                <input id="load-state-file" type="file" accept=".json,.csv,.ics,application/json,text/csv,text/calendar" />
+              </label>
+            </div>
+            <button class="primary" type="submit">Load State</button>
           </form>
-          <p class="small">Load predefined sample data to explore the scheduler with realistic veterinary care schedules.</p>
+          <p class="small">Loading a new state replaces current appointments. Use Save State first if you want a backup.</p>
+          <p class="small">Sample data source is local in development and GitHub-hosted in production.</p>
         </div>
       </div>
     </div>
