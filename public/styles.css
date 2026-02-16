@@ -252,6 +252,28 @@ button.active {
   margin: 0;
 }
 
+/* make only the close button sticky so it's always reachable while
+   not obstructing modal content; keeps header scrolling behavior unchanged */
+.modal-card .modal-header > button[aria-label^="Close"] {
+  position: sticky;
+  top: 8px; /* stay visible inside the modal-card scroll area */
+  z-index: 12;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: white;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.06);
+  border: 1px solid var(--border);
+}
+
+/* small visual tweak so the header text doesn't collide visually */
+.modal-card .modal-header > h2 {
+  margin-right: 8px;
+}
+
 .details-grid {
   display: grid;
   gap: 8px;
