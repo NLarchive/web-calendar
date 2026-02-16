@@ -1,5 +1,12 @@
-current project structure :"""
+workspace project structure of web-appoinment:"""
+D:\web\web-appoinment\.github
 D:\web\web-appoinment\.vscode
+D:\web\web-appoinment\data
+D:\web\web-appoinment\data\cat-vet-care-state.json
+D:\web\web-appoinment\data\combined-vet-care-state.json
+D:\web\web-appoinment\data\dog-vet-care-state.json
+D:\web\web-appoinment\data\empty-calendar-state.json
+D:\web\web-appoinment\data\vaccination-calendars.html
 D:\web\web-appoinment\node_modules
 D:\web\web-appoinment\public
 D:\web\web-appoinment\public\styles.css
@@ -8,6 +15,7 @@ D:\web\web-appoinment\src\app
 D:\web\web-appoinment\src\app\App.js
 D:\web\web-appoinment\src\connectors
 D:\web\web-appoinment\src\connectors\baseConnector.js
+D:\web\web-appoinment\src\connectors\calendarSyncConnector.js
 D:\web\web-appoinment\src\connectors\connectorRegistry.js
 D:\web\web-appoinment\src\connectors\githubTaskManagerConnector.js
 D:\web\web-appoinment\src\connectors\mcpTaskConnector.js
@@ -16,6 +24,7 @@ D:\web\web-appoinment\src\core\cacheMemory.js
 D:\web\web-appoinment\src\core\constants.js
 D:\web\web-appoinment\src\core\dateUtils.js
 D:\web\web-appoinment\src\core\eventBus.js
+D:\web\web-appoinment\src\core\sanitize.js
 D:\web\web-appoinment\src\core\schedulerEngine.js
 D:\web\web-appoinment\src\core\storage.js
 D:\web\web-appoinment\src\modules
@@ -29,7 +38,10 @@ D:\web\web-appoinment\src\modules\calendar\views\monthView.js
 D:\web\web-appoinment\src\modules\calendar\views\weekView.js
 D:\web\web-appoinment\src\modules\calendar\views\yearView.js
 D:\web\web-appoinment\src\modules\calendar\calendarController.js
+D:\web\web-appoinment\src\modules\sync
+D:\web\web-appoinment\src\modules\sync\calendarSyncFormats.js
 D:\web\web-appoinment\src\modules\ui
+D:\web\web-appoinment\src\modules\ui\appointmentDetailsPopup.js
 D:\web\web-appoinment\src\modules\ui\infoPanel.js
 D:\web\web-appoinment\src\modules\ui\navbar.js
 D:\web\web-appoinment\src\plugins
@@ -37,14 +49,34 @@ D:\web\web-appoinment\src\plugins\pluginManager.js
 D:\web\web-appoinment\src\main.js
 D:\web\web-appoinment\tests
 D:\web\web-appoinment\tests\engine
+D:\web\web-appoinment\tests\engine\cacheMemory.test.js
+D:\web\web-appoinment\tests\engine\calendarSyncConnector.test.js
+D:\web\web-appoinment\tests\engine\calendarSyncFormats.test.js
+D:\web\web-appoinment\tests\engine\connectorRegistry.test.js
+D:\web\web-appoinment\tests\engine\dateUtils.test.js
+D:\web\web-appoinment\tests\engine\eventBus.test.js
+D:\web\web-appoinment\tests\engine\pluginManager.test.js
+D:\web\web-appoinment\tests\engine\pluginManagerResilience.test.js
 D:\web\web-appoinment\tests\engine\schedulerEngine.test.js
+D:\web\web-appoinment\tests\engine\schedulerEngineEdgeCases.test.js
 D:\web\web-appoinment\tests\engine\storage.test.js
 D:\web\web-appoinment\tests\ui
+D:\web\web-appoinment\tests\ui\appointmentDetails.test.js
 D:\web\web-appoinment\tests\ui\appointmentForm.test.js
+D:\web\web-appoinment\tests\ui\appointmentList.test.js
 D:\web\web-appoinment\tests\ui\calendarController.test.js
+D:\web\web-appoinment\tests\ui\calendarHierarchyNavigation.test.js
+D:\web\web-appoinment\tests\ui\calendarInteraction.test.js
+D:\web\web-appoinment\tests\ui\calendarViews.test.js
+D:\web\web-appoinment\tests\ui\currentFocusDisplay.test.js
+D:\web\web-appoinment\tests\ui\infoPanel.test.js
+D:\web\web-appoinment\tests\ui\modal.test.js
 D:\web\web-appoinment\tests\setup.js
+D:\web\web-appoinment\.gitignore
+D:\web\web-appoinment\.nojekyll
 D:\web\web-appoinment\AGENTS.md
 D:\web\web-appoinment\index.html
+D:\web\web-appoinment\LICENSE
 D:\web\web-appoinment\package-lock.json
 D:\web\web-appoinment\package.json
 D:\web\web-appoinment\project-tasks-state.json
