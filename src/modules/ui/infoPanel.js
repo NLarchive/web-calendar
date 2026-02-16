@@ -1,9 +1,9 @@
 export function renderInfoPanel(root, handlers = {}) {
   root.innerHTML = `
     <div class="modal-card info-panel-card">
+      <button type="button" data-action="close-info" class="modal-close-sticky" aria-label="Close info popup">✕</button>
       <div class="info-panel-header">
         <h3>System Guide</h3>
-        <button type="button" data-action="close-info" aria-label="Close info popup">✕</button>
       </div>
       <p class="small">Modular appointment scheduler for service and veterinary workflows.</p>
       <h4>Core Features</h4>
@@ -25,6 +25,12 @@ export function renderInfoPanel(root, handlers = {}) {
   `;
 
   root.querySelector('[data-action="close-info"]')?.addEventListener('click', () => {
+    if (handlers.onClose) handlers.onClose();
+    else root.classList.add('hidden');
+  });
+
+  root.addEventListener('click', (event) => {
+    if (event.target !== root) return;
     if (handlers.onClose) handlers.onClose();
     else root.classList.add('hidden');
   });

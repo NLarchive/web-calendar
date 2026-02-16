@@ -1710,6 +1710,77 @@
 					"Run npm test"
 				]
 			}
+		},
+		{
+			"task_id": 26,
+			"task_name": "Refactor Modal Close Controls to Sticky Out-of-Header Placement",
+			"description": "Move close buttons for all modal popups out of modal headers into sticky controls to keep actions accessible during scroll, and improve info popup behavior with backdrop-click close and keyboard focus visibility.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"ui",
+				"modal",
+				"accessibility",
+				"ux"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T00:48:00Z",
+			"completed_date": "2026-02-16T00:52:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T00:52:00Z",
+					"text": "Moved close buttons outside modal headers and applied sticky positioning for appointment/details/sync/load-state/info popups, added backdrop close for info popup, and improved focus-visible styles."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 25,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"CSS layout",
+				"DOM structure",
+				"UI accessibility"
+			],
+			"requisites": [
+				"Existing modal components"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Close buttons are outside modal headers",
+					"Close controls remain visible while scrolling modal content",
+					"Modal titles and body content are not blocked",
+					"Info popup can close via backdrop click",
+					"Automated tests pass"
+				],
+				"verification_steps": [
+					"Open each modal and scroll content to verify sticky close",
+					"Check that header titles remain clear",
+					"Click info popup overlay to close",
+					"Run npm test"
+				]
+			}
 		}
 	],
 	"required_fields": [
