@@ -1,0 +1,31 @@
+import { STORAGE_KEY } from './constants.js';
+
+export function saveToLocalStorage(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+export function loadFromLocalStorage() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export function saveStateToFile(state, filename = 'appointment-state.json') {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+export async function loadStateFromFile(file) {
+  const text = await file.text();
+  return JSON.parse(text);
+}

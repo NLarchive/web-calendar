@@ -1,0 +1,19 @@
+{
+  "name": "web-appointment-system",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Client-side modular web appointment calendar scheduler",
+  "author": "Nicolas Ivan Larenas Bustamante",
+  "license": "MIT",
+  "homepage": "https://nlarchive.github.io/web-calendar/",
+  "type": "module",
+  "scripts": {
+    "serve": "npx http-server .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "jsdom": "^26.0.0",
+    "vitest": "^3.2.4"
+  }
+}

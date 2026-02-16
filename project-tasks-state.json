@@ -1,0 +1,1184 @@
+{
+	"template_type": "project_task_template",
+	"version": "1.2",
+	"description": "Task-state registry for the modular Web Appointment Calendar Scheduler implementation with critical-path and validation tracking.",
+	"project": {
+		"name": "Web Appointment Calendar Scheduler",
+		"description": "Client-side modular appointment system with calendar views, recurrence engine, caching, save/load state, connector stubs, and automated validation tests.",
+		"start_date": "2026-02-15",
+		"end_date": "2026-02-15",
+		"status": "Completed",
+		"budget": 25000
+	},
+	"categories": [
+		{
+			"name": "Project Setup",
+			"parent_category_name": null
+		},
+		{
+			"name": "Core Engine",
+			"parent_category_name": null
+		},
+		{
+			"name": "UI & Calendar",
+			"parent_category_name": null
+		},
+		{
+			"name": "Connectors & Extensibility",
+			"parent_category_name": null
+		},
+		{
+			"name": "Deployment",
+			"parent_category_name": null
+		},
+		{
+			"name": "Testing & Validation",
+			"parent_category_name": null
+		}
+	],
+	"workers": [
+		{
+			"worker_id": "architect-1",
+			"name": "Solution Architect",
+			"role": "Project Architect",
+			"skills": [
+				"System Design",
+				"Modular Architecture",
+				"JavaScript"
+			],
+			"tools": [
+				"VS Code",
+				"Git"
+			],
+			"hourly_rate": 70
+		},
+		{
+			"worker_id": "frontend-dev-1",
+			"name": "Frontend Developer",
+			"role": "Frontend Developer",
+			"skills": [
+				"HTML",
+				"CSS",
+				"JavaScript"
+			],
+			"tools": [
+				"Node.js",
+				"Vitest"
+			],
+			"hourly_rate": 55
+		},
+		{
+			"worker_id": "qa-1",
+			"name": "QA Engineer",
+			"role": "QA Engineer",
+			"skills": [
+				"Unit Testing",
+				"Integration Testing",
+				"Validation"
+			],
+			"tools": [
+				"Vitest",
+				"jsdom"
+			],
+			"hourly_rate": 50
+		}
+	],
+	"tasks": [
+		{
+			"task_id": 1,
+			"task_name": "Define Modular Architecture",
+			"description": "Define folder and module boundaries for core engine, UI, calendar views, connectors, plugins, and tests.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": true,
+			"tags": [
+				"architecture",
+				"planning"
+			],
+			"category_name": "Project Setup",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"goal": "Ensure each component is independent, maintainable, and integrable.",
+			"expected_output": "Defined source tree and module responsibilities.",
+			"skills_required": [
+				"System Design",
+				"Technical Planning"
+			],
+			"tools": [
+				"VS Code"
+			],
+			"requisites": [
+				"Project requirements and README"
+			],
+			"complexity": "Medium",
+			"time_estimate_hours": 4,
+			"parent_task_id": null,
+			"creator_id": "system",
+			"created_date": "2026-02-15T18:40:00Z",
+			"completed_date": "2026-02-15T18:55:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Clear module boundaries documented and applied in file structure"
+				],
+				"verification_steps": [
+					"Check source tree for dedicated folders",
+					"Confirm no circular responsibilities"
+				]
+			}
+		},
+		{
+			"task_id": 2,
+			"task_name": "Scaffold Application Shell",
+			"description": "Create index, styles, and app bootstrap with shared navbar and information panel slots.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 4,
+			"is_critical_path": true,
+			"tags": [
+				"ui",
+				"bootstrap"
+			],
+			"category_name": "Project Setup",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T18:55:00Z",
+			"completed_date": "2026-02-15T19:05:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 1,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"HTML",
+				"CSS"
+			],
+			"requisites": [
+				"Task 1 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"App shell renders with navbar, form, list, calendar, and info panel containers"
+				],
+				"verification_steps": [
+					"Open index.html and check visible regions"
+				]
+			}
+		},
+		{
+			"task_id": 3,
+			"task_name": "Implement Core Scheduling Engine",
+			"description": "Build date parsing, recurrence expansion, sorting, and range selection logic for day/week/month/year views.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 8,
+			"actual_hours": 7,
+			"is_critical_path": true,
+			"tags": [
+				"engine",
+				"recurrence",
+				"sorting"
+			],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-15T19:05:00Z",
+			"completed_date": "2026-02-15T19:15:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 2,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"JavaScript",
+				"Date/Time Handling"
+			],
+			"requisites": [
+				"Task 2 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Appointments normalized",
+					"Recurring events expanded within range",
+					"Sort modes priority/date-time available"
+				],
+				"verification_steps": [
+					"Run engine unit tests"
+				]
+			}
+		},
+		{
+			"task_id": 4,
+			"task_name": "Implement Persistence and Cache Memory",
+			"description": "Implement localStorage persistence, in-memory cache map, and state import/export JSON functionality.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 4,
+			"is_critical_path": true,
+			"tags": [
+				"state",
+				"cache",
+				"storage"
+			],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T19:15:00Z",
+			"completed_date": "2026-02-15T19:20:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 3,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"JavaScript",
+				"Browser APIs"
+			],
+			"requisites": [
+				"Task 3 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Save/load state works with JSON files",
+					"Local persistence restored on reload"
+				],
+				"verification_steps": [
+					"Run storage tests",
+					"Manual save/load smoke test"
+				]
+			}
+		},
+		{
+			"task_id": 5,
+			"task_name": "Build Calendar Views",
+			"description": "Implement dedicated day, week, month, and year render modules and a shared calendar controller.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 8,
+			"actual_hours": 7,
+			"is_critical_path": true,
+			"tags": [
+				"calendar",
+				"views",
+				"ui"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T19:20:00Z",
+			"completed_date": "2026-02-15T19:25:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 3,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"JavaScript",
+				"UI Rendering"
+			],
+			"requisites": [
+				"Task 3 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"All four timeline views render and navigate"
+				],
+				"verification_steps": [
+					"Run calendar controller UI test"
+				]
+			}
+		},
+		{
+			"task_id": 6,
+			"task_name": "Create Appointment Form and List Modules",
+			"description": "Implement modular form input and upcoming appointment list with priority display and validation-ready payloads.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 5,
+			"is_critical_path": true,
+			"tags": [
+				"forms",
+				"appointments"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T19:25:00Z",
+			"completed_date": "2026-02-15T19:28:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 2,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Form design",
+				"JavaScript"
+			],
+			"requisites": [
+				"Task 2 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Form submits valid payload and list updates"
+				],
+				"verification_steps": [
+					"Run appointment form UI test"
+				]
+			}
+		},
+		{
+			"task_id": 7,
+			"task_name": "Add Connector and Plugin Infrastructure",
+			"description": "Create connector registry, MCP connector stub, GitHub-task-manager compatibility mapper, and plugin manager hooks.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 5,
+			"is_critical_path": false,
+			"tags": [
+				"connectors",
+				"integration",
+				"plugins"
+			],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-15T19:28:00Z",
+			"completed_date": "2026-02-15T19:31:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 1,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"API design",
+				"Interoperability"
+			],
+			"requisites": [
+				"Task 1 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Connectors discoverable and easily extendable"
+				],
+				"verification_steps": [
+					"Check connector registry exposes list/get",
+					"Check mapper output shape"
+				]
+			}
+		},
+		{
+			"task_id": 8,
+			"task_name": "Create Dedicated Test Suite",
+			"description": "Create dedicated tests for scheduler engine, storage, form UI, and calendar rendering.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 5,
+			"is_critical_path": true,
+			"tags": [
+				"testing",
+				"quality"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T19:31:00Z",
+			"completed_date": "2026-02-15T19:34:00Z",
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 3,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 5,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 6,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Test automation",
+				"JavaScript"
+			],
+			"requisites": [
+				"Core and UI modules implemented"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Tests cover core engine and key UI interactions"
+				],
+				"verification_steps": [
+					"Run npm test and verify pass status"
+				]
+			}
+		},
+		{
+			"task_id": 9,
+			"task_name": "Run Validation and Final Integration",
+			"description": "Install dependencies, execute test suite, and ensure all modules are connected and operational.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": true,
+			"tags": [
+				"integration",
+				"validation"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T19:34:00Z",
+			"completed_date": "2026-02-15T19:36:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-15T19:36:00Z",
+					"text": "All tests passing: 4 files, 6 tests."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 8,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 7,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Verification",
+				"Troubleshooting"
+			],
+			"requisites": [
+				"Tasks 7 and 8 completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Automated tests all pass",
+					"No blocking runtime errors in modules"
+				],
+				"verification_steps": [
+					"Execute npm test",
+					"Review test report"
+				]
+			}
+		},
+		{
+			"task_id": 10,
+			"task_name": "Create Veterinary Sample Data Pack",
+			"description": "Create loadable dog and cat adult vet-care calendars with vaccination, quarterly deworming, and ectoparasite plans.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"sample-data",
+				"veterinary",
+				"json"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T19:40:00Z",
+			"completed_date": "2026-02-15T19:46:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-15T19:46:00Z",
+					"text": "Created dog, cat, and combined state files in /data plus HTML schedule reference."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 9,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Data modeling",
+				"Domain translation"
+			],
+			"requisites": [
+				"Base state schema available"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Dog and cat sample files load without schema mismatch",
+					"Contains vaccination, deworming every 3 months, and ectoparasite plans"
+				],
+				"verification_steps": [
+					"Use Load State and inspect calendar entries",
+					"Confirm recurrence rendering in month view"
+				]
+			}
+		},
+		{
+			"task_id": 11,
+			"task_name": "Convert New Appointment Form to Navbar Popup",
+			"description": "Move new appointment container to a modal popup opened from navbar button and closeable by button/backdrop.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"ui",
+				"modal",
+				"navbar"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T19:46:00Z",
+			"completed_date": "2026-02-15T19:52:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T19:52:00Z",
+					"text": "Added + New Appointment button in navbar and modal behavior in App."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 6,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"DOM events",
+				"UX implementation"
+			],
+			"requisites": [
+				"Existing form module"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Navbar opens modal",
+					"Modal closes from close button and overlay click",
+					"Form submission closes modal and updates state"
+				],
+				"verification_steps": [
+					"Manual UI interaction",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 12,
+			"task_name": "Enable Clickable Calendar Items Across All Views",
+			"description": "Make each visible calendar item in day/week/month/year clickable and open a complete appointment/task details popup.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"ui",
+				"calendar",
+				"interaction",
+				"popup"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T20:10:00Z",
+			"completed_date": "2026-02-15T20:18:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T20:18:00Z",
+					"text": "Added appointment-key mapping and click delegation in calendar controller; all views now expose click targets."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 5,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 11,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"DOM events",
+				"UI composition"
+			],
+			"requisites": [
+				"Calendar views rendered"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Every visible calendar item is clickable",
+					"Click opens full details popup"
+				],
+				"verification_steps": [
+					"Run calendar interaction tests for day/week/month/year",
+					"Manual click-through in UI"
+				]
+			}
+		},
+		{
+			"task_id": 13,
+			"task_name": "Expand Modular Reusable Test Suite",
+			"description": "Review engine and UI components in detail and create modular tests that enforce reusable UI and architecture best practices.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 4,
+			"is_critical_path": true,
+			"tags": [
+				"testing",
+				"modular",
+				"quality",
+				"reusability"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T20:18:00Z",
+			"completed_date": "2026-02-15T20:20:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-15T20:20:00Z",
+					"text": "Expanded suite to 11 files / 22 tests across scheduler engine, cache, event bus, connectors, plugins, modal, info panel, and calendar interactions."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 12,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 9,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Test architecture",
+				"UI testing",
+				"JavaScript"
+			],
+			"requisites": [
+				"Core/UI modules available"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Reusable modular test patterns created",
+					"All tests passing in CI/local run"
+				],
+				"verification_steps": [
+					"Run npm test",
+					"Review pass count and module coverage"
+				]
+			}
+		},
+		{
+			"task_id": 14,
+			"task_name": "Implement Hierarchical Calendar Drill-Down Navigation",
+			"description": "Enable hierarchy navigation by clicking year-month, month-cell, and calendar-day components to open month, week, and day detail views respectively.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"navigation",
+				"calendar",
+				"hierarchy",
+				"ux"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T20:30:00Z",
+			"completed_date": "2026-02-15T20:37:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T20:37:00Z",
+					"text": "Added data-nav-target/data-focus-date hierarchy cells and controller callback to transition view mode and focus date."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 12,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"UX behavior",
+				"DOM events",
+				"JavaScript"
+			],
+			"requisites": [
+				"Clickable calendar components implemented"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Year click opens month",
+					"Month cell click opens week",
+					"Week day click opens day detail"
+				],
+				"verification_steps": [
+					"Run calendarHierarchyNavigation tests",
+					"Manual navigation walkthrough"
+				]
+			}
+		},
+		{
+			"task_id": 15,
+			"task_name": "Add Current Calendar Header Focus Feedback and Final QA Sweep",
+			"description": "Show live feedback for current navigated day/month/year context in calendar panel header and run complete QA pass to ensure no pending high/critical tasks remain.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": true,
+			"tags": [
+				"feedback",
+				"qa",
+				"state-tracking"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T20:37:00Z",
+			"completed_date": "2026-02-15T20:39:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-15T20:39:00Z",
+					"text": "Calendar header focus feedback added and full suite passed. No pending high/critical tasks."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 14,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 13,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"QA validation",
+				"UI testing"
+			],
+			"requisites": [
+				"Navigation features implemented"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Visible feedback for current day/month/year context in panel header",
+					"All tests pass",
+					"No open high/critical tasks"
+				],
+				"verification_steps": [
+					"Run full npm test",
+					"Inspect task-state for pending statuses"
+				]
+			}
+		},
+		{
+			"task_id": 16,
+			"task_name": "Finalize Open Source License and Author Metadata",
+			"description": "Add MIT license, author attribution for Nicolas Ivan Larenas Bustamante, and update project metadata for open-source distribution.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": [
+				"license",
+				"metadata",
+				"open-source"
+			],
+			"category_name": "Project Setup",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-15T21:35:00Z",
+			"completed_date": "2026-02-15T21:43:00Z",
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-15T21:43:00Z",
+					"text": "Added MIT LICENSE and author/license metadata in package and README."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 15,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Open-source compliance",
+				"Project governance"
+			],
+			"requisites": [
+				"Project baseline completed"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"LICENSE file exists with approved OSS license",
+					"Author attribution visible in project metadata"
+				],
+				"verification_steps": [
+					"Review LICENSE",
+					"Review README and package metadata"
+				]
+			}
+		},
+		{
+			"task_id": 17,
+			"task_name": "Prepare Static GitHub Pages Deployment Pipeline",
+			"description": "Ensure project is ready for GitHub Pages static hosting with workflow automation and static-site repository hygiene.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 1,
+			"is_critical_path": true,
+			"tags": [
+				"github-pages",
+				"ci-cd",
+				"static-site"
+			],
+			"category_name": "Deployment",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T21:36:00Z",
+			"completed_date": "2026-02-15T21:44:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T21:44:00Z",
+					"text": "Added .github/workflows/deploy-pages.yml, .gitignore, and .nojekyll for static Pages deployment readiness."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 16,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"CI/CD",
+				"Static hosting"
+			],
+			"requisites": [
+				"Project source prepared"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"GitHub Pages workflow present",
+					"Repository excludes local artifacts",
+					"Static root content deployable"
+				],
+				"verification_steps": [
+					"Inspect workflow file",
+					"Check .gitignore and .nojekyll",
+					"Run npm test"
+				]
+			}
+		}
+	],
+	"required_fields": [
+		"project.name",
+		"tasks[].task_id",
+		"tasks[].task_name",
+		"tasks[].description",
+		"tasks[].start_date",
+		"tasks[].end_date",
+		"tasks[].priority",
+		"tasks[].status",
+		"tasks[].estimated_hours",
+		"tasks[].category_name"
+	],
+	"optional_fields": [
+		"project.description",
+		"project.budget",
+		"tasks[].progress_percentage",
+		"tasks[].actual_hours",
+		"tasks[].is_critical_path",
+		"tasks[].tags",
+		"tasks[].assigned_workers",
+		"tasks[].parent_task_id",
+		"tasks[].creator_id",
+		"tasks[].created_date",
+		"tasks[].completed_date",
+		"tasks[].comments",
+		"tasks[].attachments",
+		"tasks[].dependencies",
+		"categories",
+		"workers"
+	]
+}

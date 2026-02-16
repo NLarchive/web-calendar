@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Appointment System</title>
+    <link rel="stylesheet" href="./public/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header id="navbar"></header>
+      <main class="layout">
+        <section class="panel form-panel">
+          <h3>Upcoming</h3>
+          <div id="appointment-list"></div>
+        </section>
+        <section class="panel calendar-panel">
+          <div class="panel-header">
+            <h2>Calendar</h2>
+            <div id="current-datetime" aria-live="polite"></div>
+          </div>
+          <div id="calendar"></div>
+        </section>
+      </main>
+      <aside id="info-panel" class="info-panel hidden"></aside>
+      <div id="appointment-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="appointment-modal-title">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h2 id="appointment-modal-title">New Appointment</h2>
+            <button id="close-appointment-modal" aria-label="Close new appointment popup">✕</button>
+          </div>
+          <div id="appointment-form"></div>
+        </div>
+      </div>
+      <div id="appointment-details-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="appointment-details-modal-title">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h2 id="appointment-details-modal-title">Appointment Details</h2>
+            <button id="close-appointment-details-modal" aria-label="Close appointment details popup">✕</button>
+          </div>
+          <div id="appointment-details-content"></div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+import { describe, expect, it } from 'vitest';
+import { expandRecurringAppointments, normalizeAppointment, sortAppointments } from '../../src/core/schedulerEngine.js';
+import { SORT_MODES } from '../../src/core/constants.js';
+
+describe('schedulerEngine', () => {
+  it('normalizes appointment fields', () => {
+    const normalized = normalizeAppointment({
+      date: '15/02/2026',
+      title: 'Dog vaccines',
+      description: 'Annual dog vaccines',
+      contact: 'myvet.com,12345',
+      tags: 'dog,vaccine',
+      priority: 9,
+    });
+
+    expect(normalized.title).toBe('Dog vaccines');
+    expect(normalized.contact).toEqual(['myvet.com', '12345']);
+    expect(normalized.tags).toEqual(['dog', 'vaccine']);
+  });
+
+  it('expands yearly recurring appointments in range', () => {
+    const item = normalizeAppointment({
+      date: '15/02/2025',
+      recurrence: 'yearly',
+      title: 'Vaccines',
+      priority: 8,
+    });
+
+    const result = expandRecurringAppointments(
+      [item],
+      new Date('2026-01-01T00:00:00Z'),
+      new Date('2026-12-31T23:59:59Z'),
+    );
+
+    expect(result.length).toBe(1);
+    expect(new Date(result[0].occurrenceDate).getFullYear()).toBe(2026);
+  });
+
+  it('sorts by priority when selected', () => {
+    const sorted = sortAppointments(
+      [
+        { title: 'A', priority: 2, date: '2026-02-10T10:00:00.000Z' },
+        { title: 'B', priority: 9, date: '2026-02-11T10:00:00.000Z' },
+      ],
+      SORT_MODES.PRIORITY,
+    );
+
+    expect(sorted[0].title).toBe('B');
+  });
+});

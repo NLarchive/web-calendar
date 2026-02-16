@@ -1,0 +1,103 @@
+{
+  "appointments": [
+    {
+      "id": "dog-vax-annual",
+      "date": "2026-03-01T09:00:00.000Z",
+      "recurrence": "yearly",
+      "title": "Dog annual vaccine booster",
+      "description": "Refuerzo anual polivalente + rabia para perro adulto.",
+      "contact": ["https://myvet.com"],
+      "category": "dog",
+      "tags": ["vaccine", "dog", "annual"],
+      "priority": 9,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "cat-vax-annual",
+      "date": "2026-04-01T09:00:00.000Z",
+      "recurrence": "yearly",
+      "title": "Cat annual vaccine booster",
+      "description": "Refuerzo anual triple felina + rabia para gato adulto.",
+      "contact": ["https://myvet.com"],
+      "category": "cat",
+      "tags": ["vaccine", "cat", "annual"],
+      "priority": 9,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "dog-deworming-q1",
+      "date": "2026-03-15T08:30:00.000Z",
+      "recurrence": "yearly",
+      "title": "Dog deworming (internal) - Q1",
+      "description": "Desparasitación interna trimestral.",
+      "contact": ["https://myvet.com"],
+      "category": "dog",
+      "tags": ["deworming", "quarterly"],
+      "priority": 8,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "cat-deworming-q1",
+      "date": "2026-04-15T08:30:00.000Z",
+      "recurrence": "yearly",
+      "title": "Cat deworming (internal) - Q1",
+      "description": "Desparasitación interna trimestral.",
+      "contact": ["https://myvet.com"],
+      "category": "cat",
+      "tags": ["deworming", "quarterly"],
+      "priority": 8,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "dog-ecto-monthly",
+      "date": "2026-03-05T10:00:00.000Z",
+      "recurrence": "monthly",
+      "title": "Dog ectoparasite control (monthly)",
+      "description": "Pipeta/spray mensual.",
+      "contact": ["https://myvet.com"],
+      "category": "dog",
+      "tags": ["ectoparasite", "tick", "flea"],
+      "priority": 7,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "cat-ecto-monthly",
+      "date": "2026-04-05T10:00:00.000Z",
+      "recurrence": "monthly",
+      "title": "Cat ectoparasite control (monthly)",
+      "description": "Pipeta/spray mensual.",
+      "contact": ["https://myvet.com"],
+      "category": "cat",
+      "tags": ["ectoparasite", "tick", "flea"],
+      "priority": 7,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "dog-collar-6m",
+      "date": "2026-03-10T10:00:00.000Z",
+      "recurrence": "monthly",
+      "title": "Dog antiparasitic collar check",
+      "description": "Revisión para reemplazo semestral.",
+      "contact": ["https://myvet.com"],
+      "category": "dog",
+      "tags": ["ectoparasite", "collar", "6-month"],
+      "priority": 6,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "cat-collar-6m",
+      "date": "2026-04-10T10:00:00.000Z",
+      "recurrence": "monthly",
+      "title": "Cat antiparasitic collar check",
+      "description": "Revisión para reemplazo semestral.",
+      "contact": ["https://myvet.com"],
+      "category": "cat",
+      "tags": ["ectoparasite", "collar", "6-month"],
+      "priority": 6,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    }
+  ],
+  "viewMode": "month",
+  "sortMode": "priority",
+  "focusDate": "2026-03-01T00:00:00.000Z"
+}
