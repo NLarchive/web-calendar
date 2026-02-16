@@ -1149,6 +1149,79 @@
 					"Run npm test"
 				]
 			}
+		},
+		{
+			"task_id": 18,
+			"task_name": "Create GitHub Repository and Publish Main Branch",
+			"description": "Create repository web-calendar, set origin remote, commit release baseline, and push main branch to GitHub.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 1,
+			"actual_hours": 1,
+			"is_critical_path": true,
+			"tags": [
+				"github",
+				"git",
+				"release"
+			],
+			"category_name": "Deployment",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-15T21:45:00Z",
+			"completed_date": "2026-02-15T21:47:00Z",
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-15T21:47:00Z",
+					"text": "Created GitHub repo NLarchive/web-calendar and pushed main branch successfully."
+				}
+			],
+			"attachments": [
+				{
+					"filename": "repository-url.txt",
+					"url": "https://github.com/NLarchive/web-calendar",
+					"uploaded_by": "architect-1",
+					"uploaded_date": "2026-02-15T21:47:00Z"
+				}
+			],
+			"dependencies": [
+				{
+					"predecessor_task_id": 17,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Git",
+				"GitHub CLI"
+			],
+			"requisites": [
+				"Authenticated GitHub CLI session"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Repository exists on GitHub",
+					"Main branch pushed",
+					"Origin remote configured"
+				],
+				"verification_steps": [
+					"Check git remote -v",
+					"Open repository URL",
+					"Confirm branch tracking"
+				]
+			}
 		}
 	],
 	"required_fields": [
