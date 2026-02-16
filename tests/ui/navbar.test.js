@@ -5,6 +5,7 @@ describe('navbar grouped controls', () => {
   function buildHandlers() {
     return {
       onOpenNewAppointment: vi.fn(),
+      onOpenCalculator: vi.fn(),
       onOpenSyncApp: vi.fn(),
       onPrev: vi.fn(),
       onToday: vi.fn(),

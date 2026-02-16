@@ -2228,6 +2228,74 @@
 			"dependencies": []
 		},
 		{
+			"task_id": 43,
+			"task_name": "Build Extensible Calendar Calculator Page + Plugin Integration",
+			"description": "Create a complementary calendar-calculator page with a reusable template-based calculator engine, externalize veterinary and pregnancy lifecycle definitions into JSON files under /data/calendar-template, and integrate generated reminders with the main calendar through plugin-driven queued import.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 4,
+			"is_critical_path": false,
+			"tags": ["calculator", "plugin", "templates", "integration", "health"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				},
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T13:20:00Z",
+			"completed_date": "2026-02-16T13:35:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T13:35:00Z",
+					"text": "Added /calendar-calculator page, generic calculator engine, data-driven vet and pregnancy lifecycle templates loaded from /data/calendar-template, queue-based import plugin, navbar entrypoint, and validation tests."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 41,
+					"type": "FS",
+					"lag_days": 0
+				},
+				{
+					"predecessor_task_id": 33,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Calculator page exists under /calendar-calculator",
+					"Engine supports reusable templates with dynamic forms",
+					"Vet and pregnancy examples generate future reminders",
+					"Queued import is auto-consumed by main app via plugin",
+					"Automated tests pass"
+				],
+				"verification_steps": [
+					"Run npm test",
+					"Generate reminders in calculator page",
+					"Open main app and confirm queued import applied"
+				]
+			}
+		},
+		{
 			"task_id": 34,
 			"task_name": "Add Drag-and-Drop Reschedule",
 			"description": "Implement drag/drop rescheduling and keyboard fallback interactions in calendar views.",

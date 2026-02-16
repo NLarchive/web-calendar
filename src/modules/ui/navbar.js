@@ -22,6 +22,7 @@ export function renderNavbar(root, state, handlers) {
       <details class="navbar-group" data-group="actions">
         <summary>Actions</summary>
         <div class="navbar-group-panel">
+          <button data-action="open-calculator">Calendar Calculator</button>
           <button data-action="open-sync-app">Sync App</button>
           <button data-action="toggle-sort">Sort: ${state.sortMode === SORT_MODES.PRIORITY ? 'Priority' : 'Date/Time'}</button>
           <button data-action="save-state">Save State</button>
@@ -60,6 +61,7 @@ export function renderNavbar(root, state, handlers) {
 
   root.querySelector('[data-action="prev"]').addEventListener('click', handlers.onPrev);
   root.querySelector('[data-action="open-new-appointment"]').addEventListener('click', handlers.onOpenNewAppointment);
+  root.querySelector('[data-action="open-calculator"]').addEventListener('click', handlers.onOpenCalculator);
   root.querySelector('[data-action="today"]').addEventListener('click', handlers.onToday);
   root.querySelector('[data-action="next"]').addEventListener('click', handlers.onNext);
   root.querySelector('[data-action="open-sync-app"]').addEventListener('click', handlers.onOpenSyncApp);

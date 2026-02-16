@@ -2,6 +2,11 @@ workspace project structure of web-appoinment:"""
 D:\web\web-appoinment\.github
 D:\web\web-appoinment\.vscode
 D:\web\web-appoinment\data
+D:\web\web-appoinment\data\calendar-template
+D:\web\web-appoinment\data\calendar-template\pregnancy
+D:\web\web-appoinment\data\calendar-template\pregnancy\pregnancy-calendar.json
+D:\web\web-appoinment\data\calendar-template\vet
+D:\web\web-appoinment\data\calendar-template\vet\vet-calendar.json
 D:\web\web-appoinment\data\cat-vet-care-state.json
 D:\web\web-appoinment\data\combined-vet-care-state.json
 D:\web\web-appoinment\data\dog-vet-care-state.json
@@ -10,6 +15,10 @@ D:\web\web-appoinment\data\vaccination-calendars.html
 D:\web\web-appoinment\node_modules
 D:\web\web-appoinment\public
 D:\web\web-appoinment\public\styles.css
+D:\web\web-appoinment\calendar-calculator
+D:\web\web-appoinment\calendar-calculator\index.html
+D:\web\web-appoinment\calendar-calculator\main.js
+D:\web\web-appoinment\calendar-calculator\styles.css
 D:\web\web-appoinment\src
 D:\web\web-appoinment\src\app
 D:\web\web-appoinment\src\app\App.js
@@ -21,6 +30,7 @@ D:\web\web-appoinment\src\connectors\githubTaskManagerConnector.js
 D:\web\web-appoinment\src\connectors\mcpTaskConnector.js
 D:\web\web-appoinment\src\core
 D:\web\web-appoinment\src\core\cacheMemory.js
+D:\web\web-appoinment\src\core\calendarCalculatorEngine.js
 D:\web\web-appoinment\src\core\constants.js
 D:\web\web-appoinment\src\core\dateUtils.js
 D:\web\web-appoinment\src\core\eventBus.js
@@ -38,6 +48,8 @@ D:\web\web-appoinment\src\modules\calendar\views\monthView.js
 D:\web\web-appoinment\src\modules\calendar\views\weekView.js
 D:\web\web-appoinment\src\modules\calendar\views\yearView.js
 D:\web\web-appoinment\src\modules\calendar\calendarController.js
+D:\web\web-appoinment\src\modules\calculator
+D:\web\web-appoinment\src\modules\calculator\calculatorTemplates.js
 D:\web\web-appoinment\src\modules\sync
 D:\web\web-appoinment\src\modules\sync\calendarSyncFormats.js
 D:\web\web-appoinment\src\modules\ui
@@ -45,11 +57,14 @@ D:\web\web-appoinment\src\modules\ui\appointmentDetailsPopup.js
 D:\web\web-appoinment\src\modules\ui\infoPanel.js
 D:\web\web-appoinment\src\modules\ui\navbar.js
 D:\web\web-appoinment\src\plugins
+D:\web\web-appoinment\src\plugins\calendarCalculatorPlugin.js
 D:\web\web-appoinment\src\plugins\pluginManager.js
 D:\web\web-appoinment\src\main.js
 D:\web\web-appoinment\tests
 D:\web\web-appoinment\tests\engine
 D:\web\web-appoinment\tests\engine\cacheMemory.test.js
+D:\web\web-appoinment\tests\engine\calendarCalculatorEngine.test.js
+D:\web\web-appoinment\tests\engine\calendarCalculatorPlugin.test.js
 D:\web\web-appoinment\tests\engine\calendarSyncConnector.test.js
 D:\web\web-appoinment\tests\engine\calendarSyncFormats.test.js
 D:\web\web-appoinment\tests\engine\connectorRegistry.test.js

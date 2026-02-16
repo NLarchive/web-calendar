@@ -1,0 +1,207 @@
+{
+  "id": "vet-care",
+  "title": "Veterinary Care Calendar Calculator",
+  "description": "Data-driven lifecycle schedule for dogs and cats from newborn stage through 18 years.",
+  "disclaimer": "General preventive schedule guidance only. Always confirm care timing with your veterinarian.",
+  "fields": [
+    { "name": "petName", "label": "Pet name", "type": "text", "required": false, "placeholder": "Luna" },
+    {
+      "name": "species",
+      "label": "Species",
+      "type": "select",
+      "required": true,
+      "defaultValue": "dog",
+      "options": [
+        { "value": "dog", "label": "Dog" },
+        { "value": "cat", "label": "Cat" }
+      ]
+    },
+    { "name": "birthDate", "label": "Birth date (optional if age provided)", "type": "date", "required": false },
+    { "name": "ageYears", "label": "Age (years)", "type": "number", "required": true, "min": 0, "max": 18 },
+    { "name": "lastVaccine", "label": "Last core vaccine date", "type": "date", "required": true },
+    { "name": "lastDeworming", "label": "Last internal deworming date", "type": "date", "required": true },
+    { "name": "lastEctoparasite", "label": "Last ectoparasite treatment date", "type": "date", "required": true },
+    { "name": "lastCheckup", "label": "Last clinical control date", "type": "date", "required": true },
+    {
+      "name": "environment",
+      "label": "Living environment",
+      "type": "select",
+      "required": true,
+      "defaultValue": "indoor",
+      "options": [
+        { "value": "indoor", "label": "Indoor" },
+        { "value": "mixed", "label": "Mixed indoor/outdoor" },
+        { "value": "outdoor", "label": "Outdoor" }
+      ]
+    }
+  ],
+  "derivedDates": [
+    { "name": "birthDateDerived", "fromField": "birthDate", "fallbackFromAgeYearsField": "ageYears" },
+    { "name": "endOfLifeDate", "fromDerived": "birthDateDerived", "addDays": 6574 }
+  ],
+  "calculationWindow": {
+    "startAnchor": "birthDateDerived",
+    "endAnchor": "endOfLifeDate",
+    "futureOnly": true
+  },
+  "events": [
+    {
+      "id": "newborn-registration",
+      "titleTemplate": "{speciesLabel} newborn registration{entitySuffix}",
+      "description": "Initial newborn veterinary registration and baseline exam.",
+      "category": "health",
+      "tags": ["vet", "newborn"],
+      "priority": 6,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 0 }
+    },
+    {
+      "id": "early-check-6w",
+      "titleTemplate": "{speciesLabel} early-life check (6 weeks){entitySuffix}",
+      "description": "Early development and preventive care check.",
+      "category": "health",
+      "tags": ["vet", "checkup", "newborn"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 42 }
+    },
+    {
+      "id": "core-vaccine-primary-8w",
+      "titleTemplate": "{speciesLabel} primary core vaccine (8 weeks){entitySuffix}",
+      "description": "Primary vaccine dose in early life.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "primary"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 56 }
+    },
+    {
+      "id": "core-vaccine-booster-12w",
+      "titleTemplate": "{speciesLabel} core vaccine booster (12 weeks){entitySuffix}",
+      "description": "Early-life booster dose.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "booster"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 84 }
+    },
+    {
+      "id": "core-vaccine-booster-16w",
+      "titleTemplate": "{speciesLabel} core vaccine booster (16 weeks){entitySuffix}",
+      "description": "Final primary-series booster milestone.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "booster"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 112 }
+    },
+    {
+      "id": "spay-neuter-window",
+      "titleTemplate": "{speciesLabel} sterilization planning window{entitySuffix}",
+      "description": "Discuss sterilization timing and pre-op checks.",
+      "category": "health",
+      "tags": ["vet", "surgery", "planning"],
+      "priority": 7,
+      "reminderMinutes": 2880,
+      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 180 }
+    },
+    {
+      "id": "annual-vaccine-series",
+      "titleTemplate": "{speciesLabel} annual core vaccine booster{entitySuffix}",
+      "description": "Annual core booster reminder through lifecycle end.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "annual"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 365,
+        "maxOccurrences": 40
+      }
+    },
+    {
+      "id": "deworming-quarterly-series",
+      "titleTemplate": "{speciesLabel} internal deworming follow-up{entitySuffix}",
+      "description": "Quarterly internal parasite control cycle.",
+      "category": "health",
+      "tags": ["vet", "deworming", "quarterly"],
+      "priority": 8,
+      "reminderMinutes": 60,
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastDeworming",
+        "intervalDays": 90,
+        "maxOccurrences": 80
+      }
+    },
+    {
+      "id": "ectoparasite-monthly-series",
+      "titleTemplate": "{speciesLabel} ectoparasite prevention cycle{entitySuffix}",
+      "description": "Monthly external parasite control cycle.",
+      "category": "health",
+      "tags": ["vet", "ectoparasite", "monthly"],
+      "priority": 7,
+      "reminderMinutes": 60,
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastEctoparasite",
+        "intervalDays": 30,
+        "maxOccurrences": 220
+      }
+    },
+    {
+      "id": "clinical-control-series",
+      "titleTemplate": "{speciesLabel} routine clinical control{entitySuffix}",
+      "description": "Semiannual wellness check for ongoing preventive follow-up.",
+      "category": "health",
+      "tags": ["vet", "checkup", "wellness"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastCheckup",
+        "intervalDays": 180,
+        "maxOccurrences": 60
+      }
+    },
+    {
+      "id": "cat-felv-assessment",
+      "titleTemplate": "Cat FeLV risk reassessment{entitySuffix}",
+      "description": "Lifestyle-based FeLV risk review for outdoor/mixed environment.",
+      "category": "health",
+      "tags": ["vet", "cat", "felv"],
+      "priority": 6,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["cat"] },
+        { "field": "environment", "in": ["mixed", "outdoor"] }
+      ],
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastCheckup",
+        "intervalDays": 365,
+        "maxOccurrences": 25
+      }
+    },
+    {
+      "id": "dog-vector-screening",
+      "titleTemplate": "Dog vector-borne disease screening{entitySuffix}",
+      "description": "Risk-based vector disease screening in outdoor/mixed environment.",
+      "category": "health",
+      "tags": ["vet", "dog", "screening"],
+      "priority": 6,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["dog"] },
+        { "field": "environment", "in": ["mixed", "outdoor"] }
+      ],
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastCheckup",
+        "intervalDays": 120,
+        "maxOccurrences": 60
+      }
+    }
+  ]
+}

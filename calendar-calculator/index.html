@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Calendar calculator templates for veterinary and pregnancy care plans." />
+    <title>Calendar Calculator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>Calendar Calculator</h1>
+        <p>Generate future reminders from structured inputs and import them into the main calendar.</p>
+        <a class="link" href="../index.html">Open Main Calendar</a>
+      </header>
+
+      <section class="panel">
+        <label for="calculator-template">Calculator template</label>
+        <select id="calculator-template"></select>
+        <p id="template-description" class="muted"></p>
+        <p id="template-disclaimer" class="disclaimer"></p>
+      </section>
+
+      <section class="panel">
+        <h2>Input data</h2>
+        <form id="calculator-form" class="form-grid"></form>
+        <div class="actions">
+          <button id="calculate-button" class="primary" type="button">Calculate Plan</button>
+          <button id="import-button" type="button" disabled>Queue Import To Main Calendar</button>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel">
+        <h2>Calculated appointments</h2>
+        <div id="results" class="results">
+          <p class="muted">No reminders calculated yet.</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

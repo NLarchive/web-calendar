@@ -11,6 +11,7 @@ import { renderAppointmentList } from '../modules/appointments/appointmentList.j
 import { CalendarController } from '../modules/calendar/calendarController.js';
 import { createDefaultConnectorRegistry } from '../connectors/connectorRegistry.js';
 import { PluginManager } from '../plugins/pluginManager.js';
+import { CalendarCalculatorPlugin } from '../plugins/calendarCalculatorPlugin.js';
 import { getPreferredFormatForTargetApp, parseCalendarStateFile } from '../modules/sync/calendarSyncFormats.js';
 
 
@@ -48,6 +49,7 @@ export class App {
     this.eventBus = new EventBus();
     this.calendarController = new CalendarController();
     this.pluginManager = new PluginManager();
+    this.pluginManager.register(new CalendarCalculatorPlugin());
     this.connectorRegistry = createDefaultConnectorRegistry();
 
     const persisted = loadFromLocalStorage();
@@ -86,6 +88,7 @@ export class App {
     renderInfoPanel(this.roots.infoRoot, {
       onClose: () => closeInfoPanel(this.roots.infoRoot),
     });
+    this.pluginManager.emit('onAppReady', { app: this });
 
     this.startReminderLoop();
 
@@ -575,6 +578,9 @@ export class App {
   render() {
     renderNavbar(this.roots.navbarRoot, this.state, {
       onOpenNewAppointment: () => this.openAppointmentModal(),
+      onOpenCalculator: () => {
+        window.location.href = './calendar-calculator/index.html';
+      },
       onOpenSyncApp: () => this.openSyncModal('sync'),
       onPrev: () => this.shiftFocusDate(-1),
       onToday: () => {

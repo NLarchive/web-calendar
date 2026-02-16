@@ -27,6 +27,7 @@ This project provides a client-side engine to create, view and manage appointmen
 ## Key features ✨
 
 - Calendar views: Day, Week, Month, Year
+- Complementary calculator page at `calendar-calculator/index.html` for domain-specific reminder generation
 - Timeline visualization with compact layout for conflicting/overlapping items
 - Default sorting by **priority** with toggle to sort by **date/time**
 - Recurrence support (basic/yearly example) and future-datetime management
@@ -81,6 +82,9 @@ Each appointment contains the following fields:
 - `src/modules/calendar` → calendar controller and dedicated `day/week/month/year` views
 - `src/modules/appointments` → appointment form + upcoming list components
 - `src/modules/ui` → shared navbar and info/help panel
+- `src/modules/calculator` → extensible calendar-calculator templates (vet and pregnancy examples)
+- `data/calendar-template/vet/vet-calendar.json` → full vet lifecycle template (newborn to 18 years)
+- `data/calendar-template/pregnancy/pregnancy-calendar.json` → pregnancy lifecycle template (week 0 to postpartum)
 - `src/plugins` → plugin hooks manager for extension points
 - `src/connectors` → open connector registry + MCP and GitHub-task-manager compatibility stubs
 - `data` → ready-to-load sample state files for vet care calendars
@@ -99,6 +103,14 @@ Each appointment contains the following fields:
    - `data/dog-vet-care-state.json`
    - `data/cat-vet-care-state.json`
    - `data/combined-vet-care-state.json`
+
+### Calendar Calculator page
+
+- Open `calendar-calculator/index.html`.
+- Choose a template (Veterinary Care or Pregnancy Care).
+- Fill the input form and click **Calculate Plan**.
+- Click **Queue Import To Main Calendar**.
+- Open the main app (`index.html`): queued reminders are auto-imported by the calculator plugin.
 
 ### Included veterinary samples
 

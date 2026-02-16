@@ -1,0 +1,159 @@
+{
+  "id": "pregnancy-care",
+  "title": "Pregnancy Care Calendar Calculator",
+  "description": "Data-driven pregnancy timeline from conception (week 0) through postpartum follow-up.",
+  "disclaimer": "Educational schedule template only. Clinical timing must be personalized by your OB/GYN or healthcare team.",
+  "fields": [
+    { "name": "personName", "label": "Person name", "type": "text", "required": false, "placeholder": "Ana" },
+    { "name": "conceptionDate", "label": "Conception date", "type": "date", "required": true },
+    {
+      "name": "highRisk",
+      "label": "Risk profile",
+      "type": "select",
+      "required": true,
+      "defaultValue": "standard",
+      "options": [
+        { "value": "standard", "label": "Standard" },
+        { "value": "high", "label": "High-risk follow-up" }
+      ]
+    },
+    { "name": "lastTdapDate", "label": "Last Tdap date (optional)", "type": "date", "required": false }
+  ],
+  "derivedDates": [
+    { "name": "dueDate", "fromField": "conceptionDate", "addDays": 280 },
+    { "name": "postpartumDate", "fromDerived": "dueDate", "addDays": 42 }
+  ],
+  "calculationWindow": {
+    "startAnchor": "conceptionDate",
+    "endAnchor": "postpartumDate",
+    "futureOnly": true
+  },
+  "events": [
+    {
+      "id": "prenatal-initial",
+      "titleTemplate": "First prenatal consultation{entitySuffix}",
+      "description": "Initial prenatal evaluation and baseline care plan.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "prenatal", "consultation"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 8 }
+    },
+    {
+      "id": "dating-ultrasound",
+      "titleTemplate": "Dating ultrasound window opens{entitySuffix}",
+      "description": "Schedule dating ultrasound in the first trimester.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "ultrasound"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 10 }
+    },
+    {
+      "id": "nuchal-translucency",
+      "titleTemplate": "Nuchal translucency / first trimester screening{entitySuffix}",
+      "description": "First trimester screening milestone.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "screening"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 12 }
+    },
+    {
+      "id": "anatomy-ultrasound",
+      "titleTemplate": "Anatomy ultrasound{entitySuffix}",
+      "description": "Detailed anatomy scan around mid-pregnancy.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "ultrasound", "anatomy"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 20 }
+    },
+    {
+      "id": "gdm-screening",
+      "titleTemplate": "Gestational diabetes screening{entitySuffix}",
+      "description": "Typical oral glucose screening milestone.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "lab", "gdm"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 26 }
+    },
+    {
+      "id": "routine-control-30w",
+      "titleTemplate": "Routine blood pressure and growth control{entitySuffix}",
+      "description": "Prenatal control follow-up in third trimester.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 30 }
+    },
+    {
+      "id": "tdap-planning",
+      "titleTemplate": "Tdap vaccine planning{entitySuffix}",
+      "description": "Typical planning window between weeks 27-36.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "vaccine", "tdap"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 30 },
+      "conditions": [
+        { "kind": "dateOlderThanDaysBeforeAnchor", "field": "lastTdapDate", "anchor": "dueDate", "days": 365 }
+      ]
+    },
+    {
+      "id": "gbs-screening",
+      "titleTemplate": "Group B strep screening{entitySuffix}",
+      "description": "Typical GBS screening around weeks 35-37.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "lab", "gbs"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 36 }
+    },
+    {
+      "id": "birth-plan-review",
+      "titleTemplate": "Birth plan review{entitySuffix}",
+      "description": "Review warning signs and delivery plan.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "birth-plan"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 38 }
+    },
+    {
+      "id": "weekly-late-controls",
+      "titleTemplate": "Weekly prenatal control (week {week}){entitySuffix}",
+      "description": "Late-pregnancy weekly control milestone.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "weekly"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "rangeWeeks", "anchor": "conceptionDate", "startWeek": 36, "endWeek": 40, "stepWeeks": 1 }
+    },
+    {
+      "id": "high-risk-monitoring",
+      "titleTemplate": "High-risk monitoring control (week {week}){entitySuffix}",
+      "description": "Additional high-risk follow-up control.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "high-risk", "control"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "highRisk", "equals": "high" }
+      ],
+      "schedule": { "mode": "rangeWeeks", "anchor": "conceptionDate", "startWeek": 24, "endWeek": 36, "stepWeeks": 2 }
+    },
+    {
+      "id": "postpartum-6w",
+      "titleTemplate": "Postpartum control (6 weeks){entitySuffix}",
+      "description": "Postpartum recovery and health follow-up.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "postpartum"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "schedule": { "mode": "single", "anchor": "postpartumDate", "offsetDays": 0 }
+    }
+  ]
+}
