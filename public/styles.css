@@ -176,12 +176,23 @@ button.active {
 }
 
 .info-panel {
+  /* behave as a centered modal overlay */
   position: fixed;
-  right: 16px;
-  top: 56px;
-  width: 340px;
-  max-height: calc(100vh - 72px);
-  overflow: auto;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 64px 16px 16px;
+  z-index: 1000;
+}
+
+/* inner card for the info content (keeps same visual style as other modals) */
+.info-panel-card {
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
