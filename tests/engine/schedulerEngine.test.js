@@ -6,8 +6,13 @@ describe('schedulerEngine', () => {
   it('normalizes appointment fields', () => {
     const normalized = normalizeAppointment({
       date: '15/02/2026',
+      endDate: '15/02/2026',
       title: 'Dog vaccines',
       description: 'Annual dog vaccines',
+      location: 'Vet Clinic',
+      url: 'https://myvet.com',
+      status: 'confirmed',
+      attendees: 'owner@example.com,vet@example.com',
       contact: 'myvet.com,12345',
       tags: 'dog,vaccine',
       priority: 9,
@@ -16,6 +21,9 @@ describe('schedulerEngine', () => {
     expect(normalized.title).toBe('Dog vaccines');
     expect(normalized.contact).toEqual(['myvet.com', '12345']);
     expect(normalized.tags).toEqual(['dog', 'vaccine']);
+    expect(normalized.location).toBe('Vet Clinic');
+    expect(normalized.url).toBe('https://myvet.com');
+    expect(normalized.attendees).toEqual(['owner@example.com', 'vet@example.com']);
   });
 
   it('expands yearly recurring appointments in range', () => {

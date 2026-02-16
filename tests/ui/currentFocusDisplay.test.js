@@ -22,6 +22,18 @@ function createAppDom() {
         <div id="appointment-details-content"></div>
       </div>
     </div>
+    <div id="sync-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sync-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="sync-modal-title">Sync Calendar</h2>
+          <button id="close-sync-modal" aria-label="Close sync popup">✕</button>
+        </div>
+        <form id="sync-form"></form>
+        <input id="sync-action-label" />
+        <select id="sync-format"><option value="json">json</option><option value="ics">ics</option></select>
+        <select id="sync-target-app"><option value="download">download</option></select>
+      </div>
+    </div>
     <div id="appointment-list"></div>
     <section class="panel calendar-panel">
       <div class="panel-header">
@@ -42,6 +54,12 @@ function createAppDom() {
     detailsModalRoot: document.getElementById('appointment-details-modal'),
     closeDetailsModalButton: document.getElementById('close-appointment-details-modal'),
     detailsContentRoot: document.getElementById('appointment-details-content'),
+    syncModalRoot: document.getElementById('sync-modal'),
+    closeSyncModalButton: document.getElementById('close-sync-modal'),
+    syncFormRoot: document.getElementById('sync-form'),
+    syncActionLabelRoot: document.getElementById('sync-action-label'),
+    syncFormatRoot: document.getElementById('sync-format'),
+    syncTargetAppRoot: document.getElementById('sync-target-app'),
     listRoot: document.getElementById('appointment-list'),
     calendarRoot: document.getElementById('calendar'),
     infoRoot: document.getElementById('info-panel'),

@@ -18,6 +18,7 @@ describe('appointment modal', () => {
       <div id="calendar"></div>
       <div id="info-panel" class="info-panel hidden"></div>
       <div id="appointment-details-modal" class="modal hidden"><div id="appointment-details-content"></div><button id="close-appointment-details-modal">x</button></div>
+      <div id="sync-modal" class="modal hidden"><form id="sync-form"></form><button id="close-sync-modal">x</button><input id="sync-action-label" /><select id="sync-format"><option value="json">json</option></select><select id="sync-target-app"><option value="download">download</option></select></div>
       <div id="current-datetime"></div>
     `;
 
@@ -29,6 +30,12 @@ describe('appointment modal', () => {
       detailsModalRoot: document.getElementById('appointment-details-modal'),
       closeDetailsModalButton: document.getElementById('close-appointment-details-modal'),
       detailsContentRoot: document.getElementById('appointment-details-content'),
+      syncModalRoot: document.getElementById('sync-modal'),
+      closeSyncModalButton: document.getElementById('close-sync-modal'),
+      syncFormRoot: document.getElementById('sync-form'),
+      syncActionLabelRoot: document.getElementById('sync-action-label'),
+      syncFormatRoot: document.getElementById('sync-format'),
+      syncTargetAppRoot: document.getElementById('sync-target-app'),
       listRoot: document.getElementById('appointment-list'),
       calendarRoot: document.getElementById('calendar'),
       infoRoot: document.getElementById('info-panel'),

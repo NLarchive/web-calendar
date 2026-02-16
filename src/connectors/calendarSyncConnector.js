@@ -22,6 +22,15 @@ export class CalendarSyncConnector extends BaseConnector {
   }
 
   async push(payload) {
+    try {
+      return this._executePush(payload);
+    } catch (err) {
+      console.error('CalendarSyncConnector push failed:', err);
+      return { ok: false, error: err.message };
+    }
+  }
+
+  _executePush(payload) {
     const sourcePayload = payload && typeof payload === 'object' ? payload : {};
     const state = normalizeStateForExport(sourcePayload.state || {});
     const targetApp = (sourcePayload.targetApp || 'download').toLowerCase();

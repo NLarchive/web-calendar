@@ -5,6 +5,12 @@ export function renderMonthView(items, focusDate) {
   const month = focusDate.getMonth();
   const totalDays = new Date(year, month + 1, 0).getDate();
 
+  const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const headers = weekdayLabels.map((d) => `<div class="month-header"><strong>${d}</strong></div>`).join('');
+
+  const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
+  const leadingBlanks = Array.from({ length: firstWeekday }, () => '<div class="month-cell-blank"></div>').join('');
+
   const cells = Array.from({ length: totalDays }, (_, index) => index + 1)
     .map((dayNumber) => {
       const dayItems = items.filter((item) => {
@@ -31,5 +37,5 @@ export function renderMonthView(items, focusDate) {
     })
     .join('');
 
-  return `<div class="calendar-grid" style="grid-template-columns: repeat(7, minmax(0,1fr));">${cells}</div>`;
+  return `<div class="calendar-grid" style="grid-template-columns: repeat(7, minmax(0,1fr));">${headers}${leadingBlanks}${cells}</div>`;
 }

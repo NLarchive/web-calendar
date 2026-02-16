@@ -10,7 +10,11 @@ export class PluginManager {
   async emit(hookName, payload) {
     for (const plugin of this.plugins) {
       if (typeof plugin[hookName] === 'function') {
-        await plugin[hookName](payload);
+        try {
+          await plugin[hookName](payload);
+        } catch (err) {
+          console.error(`Plugin hook "${hookName}" failed:`, err);
+        }
       }
     }
   }

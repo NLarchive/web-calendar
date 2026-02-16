@@ -124,6 +124,18 @@ button.active {
   margin: 0 0 6px;
 }
 
+.month-header {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 0;
+}
+
+.month-cell-blank {
+  border: none;
+  background: transparent;
+}
+
 .calendar-item-trigger,
 .calendar-link {
   border: 0;
@@ -210,6 +222,8 @@ button.active {
 .modal-card {
   width: 100%;
   max-width: 520px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;

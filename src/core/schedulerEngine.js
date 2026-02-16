@@ -35,7 +35,7 @@ export function normalizeAppointment(input) {
     date: date.toISOString(),
     endDate: endDate ? endDate.toISOString() : null,
     recurrence: normalizedRecurrence,
-    title: (input.title || '').trim(),
+    title: (input.title || '').trim() || 'Untitled',
     description: (input.description || '').trim(),
     location: (input.location || '').trim(),
     url: (input.url || '').trim(),
@@ -80,13 +80,17 @@ function shiftByRecurrence(date, recurrence) {
   return shifted;
 }
 
+const MAX_EXPANSION = 1000;
+
 export function expandRecurringAppointments(appointments, rangeStart, rangeEnd) {
   const expanded = [];
 
   appointments.forEach((item) => {
     let occurrence = new Date(item.date);
+    let iterations = 0;
 
-    while (occurrence <= rangeEnd) {
+    while (occurrence <= rangeEnd && iterations < MAX_EXPANSION) {
+      iterations += 1;
       if (occurrence >= rangeStart) {
         expanded.push({
           ...item,

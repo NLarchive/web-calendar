@@ -37,6 +37,10 @@ export function saveStateToFile(state, filename = 'appointment-state.json') {
 }
 
 export async function loadStateFromFile(file) {
-  const text = await file.text();
-  return JSON.parse(text);
+  try {
+    const text = await file.text();
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
 }

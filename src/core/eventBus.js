@@ -21,7 +21,8 @@ export class EventBus {
     listeners.forEach((listener) => {
       try {
         listener(payload);
-      } catch {
+      } catch (err) {
+        console.warn(`EventBus listener for "${eventName}" threw:`, err);
       }
     });
   }

@@ -1227,6 +1227,420 @@
 					"Confirm branch tracking"
 				]
 			}
+		},
+		{
+			"task_id": 19,
+			"task_name": "Implement Pluggable Calendar Sync Module (JSON + ICS)",
+			"description": "Create reusable sync module that parses and exports scheduler state in JSON and iCalendar (.ics) formats, usable across systems.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"sync",
+				"ics",
+				"json",
+				"modular"
+			],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-15T21:50:00Z",
+			"completed_date": "2026-02-15T21:58:00Z",
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-15T21:58:00Z",
+					"text": "Added calendarSyncFormats module and calendar-sync-connector with JSON/ICS export and ICS parsing support."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 18,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Calendar standards",
+				"JavaScript modules"
+			],
+			"requisites": [
+				"Connector registry ready"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Exports state as JSON and ICS",
+					"Parses ICS into scheduler state",
+					"Sync connector registered and callable"
+				],
+				"verification_steps": [
+					"Run calendar sync format tests",
+					"Run connector tests"
+				]
+			}
+		},
+		{
+			"task_id": 20,
+			"task_name": "Wire Sync App and Save State Format Options in UI",
+			"description": "Add Sync App popup with target app and format options, wire Save State to same flow, and validate with full modular tests.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": true,
+			"tags": [
+				"ui",
+				"sync",
+				"save-state",
+				"integration"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T21:52:00Z",
+			"completed_date": "2026-02-15T21:58:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T21:58:00Z",
+					"text": "Added Sync App button + sync modal, Save State format options, and .ics load parsing path. Full test suite: 31 passed."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 19,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"UI integration",
+				"Event-driven architecture"
+			],
+			"requisites": [
+				"Sync module available"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Sync App button triggers sync modal",
+					"JSON/ICS options available",
+					"Save State supports JSON/ICS flow",
+					"All automated tests pass"
+				],
+				"verification_steps": [
+					"Manual sync popup checks",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 21,
+			"task_name": "Add Empty Calendar State Sample",
+			"description": "Create a loadable empty calendar state JSON sample in the data folder for clean-state imports.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Medium",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 1,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": [
+				"sample-data",
+				"json",
+				"empty-state"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T22:00:00Z",
+			"completed_date": "2026-02-15T22:05:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-15T22:05:00Z",
+					"text": "Added /data/empty-calendar-state.json with zero appointments and default calendar view settings."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 20,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Data modeling",
+				"JSON schema consistency"
+			],
+			"requisites": [
+				"State schema available"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Empty state file exists in data folder",
+					"File loads without schema mismatch"
+				],
+				"verification_steps": [
+					"Use Load State to import empty-calendar-state.json",
+					"Confirm no appointments render and app remains stable"
+				]
+			}
+		},
+		{
+			"task_id": 22,
+			"task_name": "Expand Multi-Format Sync UX and Shared Calendar Fields",
+			"description": "Add CSV import/export support, enforce automatic best-format selection for Sync App targets, improve import guidance copy, and extend appointment schema for common shared calendar fields.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"sync",
+				"csv",
+				"ics",
+				"ui",
+				"schema"
+			],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T23:05:00Z",
+			"completed_date": "2026-02-15T23:15:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T23:15:00Z",
+					"text": "Implemented JSON/CSV/ICS support end-to-end, auto-selected best format per target app during sync, and extended appointment fields with endDate/location/url/status/attendees. Full suite passing (34 tests)."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 20,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Calendar interoperability",
+				"UI behavior",
+				"JavaScript"
+			],
+			"requisites": [
+				"Sync module and modal already wired"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Save/Load accepts JSON, CSV, and ICS",
+					"Sync App chooses recommended format automatically for target app",
+					"UI clearly explains import-after-download behavior",
+					"Appointment form captures shared calendar fields"
+				],
+				"verification_steps": [
+					"Run npm test",
+					"Manual sync modal behavior check",
+					"Manual save/load with .json/.csv/.ics"
+				]
+			}
+		},
+		{
+			"task_id": 23,
+			"task_name": "Production Hardening Audit and Security/Data Validation Fixes",
+			"description": "Perform function-level audit across connectors/core/UI modules, harden render paths against XSS, improve appointment input validation, and strengthen local persistence error handling for production deployment readiness.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"production",
+				"security",
+				"xss",
+				"validation",
+				"stability"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-15T23:20:00Z",
+			"completed_date": "2026-02-15T23:32:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-15T23:32:00Z",
+					"text": "Added output sanitization helper and applied it to calendar/list/details renderers, added appointment validation (endDate, recurrence/status normalization, priority clamping), improved localStorage resilience, and tightened external helper-link window security flags."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 22,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Secure frontend rendering",
+				"Input validation",
+				"JavaScript"
+			],
+			"requisites": [
+				"Core UI and sync modules implemented"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"User-supplied content is escaped before HTML injection",
+					"Invalid appointment values are rejected or normalized",
+					"Local persistence failure does not crash flow",
+					"No compile/lint errors introduced"
+				],
+				"verification_steps": [
+					"Run diagnostics (no errors)",
+					"Manual calendar item click-through in all views",
+					"Manual invalid endDate form submission check"
+				]
+			}
+		},
+		{
+			"task_id": 24,
+			"task_name": "Iterative Production Hardening Sweep with Expanded Test Coverage",
+			"description": "Full iterative audit of all source modules for robustness, safety, and UX improvements. Added recurrence expansion safety cap (MAX_EXPANSION=1000), plugin manager error resilience (try-catch per hook), EventBus diagnostic logging, CalendarSyncConnector error boundary, storage loadStateFromFile error safety, empty-title default in normalizeAppointment, month view weekday headers and grid alignment, modal scrollable overflow, meta description tag, and comprehensive new test suites for dateUtils, appointmentList, appointmentDetails, calendarViews, schedulerEngine edge cases, and pluginManager resilience.",
+			"start_date": "2026-02-15",
+			"end_date": "2026-02-15",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": true,
+			"tags": [
+				"production",
+				"hardening",
+				"testing",
+				"safety",
+				"ux",
+				"iteration"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-15T23:55:00Z",
+			"completed_date": "2026-02-16T00:05:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-16T00:05:00Z",
+					"text": "Full iterative sweep completed. Source fixes: recurrence safety cap, plugin/eventBus error resilience, connector error boundary, storage safety, title default, month grid alignment with weekday headers, modal overflow, meta description. New tests: dateUtils (16), schedulerEngineEdgeCases (17), pluginManagerResilience (1), appointmentList (3), appointmentDetails (4), calendarViews (6). Total: 21 files, 84 tests — all passing."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 23,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"skills_required": [
+				"Code auditing",
+				"Test expansion",
+				"Production hardening",
+				"JavaScript"
+			],
+			"requisites": [
+				"All prior modules implemented and tested"
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"No infinite loop risk in recurrence expansion",
+					"Plugin failures isolated (do not block other hooks)",
+					"EventBus errors logged for debugging",
+					"Sync connector push errors do not crash app",
+					"Month view aligned with weekday columns",
+					"Modal content scrollable on overflow",
+					"All 84 tests pass across 21 files",
+					"Zero compile/lint errors"
+				],
+				"verification_steps": [
+					"Run npm test — 84 pass / 0 fail",
+					"Run diagnostics — 0 errors",
+					"Manual month view grid alignment check",
+					"Manual modal scroll with long form"
+				]
+			}
 		}
 	],
 	"required_fields": [
