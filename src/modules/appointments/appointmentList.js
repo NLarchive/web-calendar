@@ -1,6 +1,7 @@
 import { sortAppointments } from '../../core/schedulerEngine.js';
 import { SORT_MODES } from '../../core/constants.js';
 import { formatDateTime } from '../../core/dateUtils.js';
+import { escapeHtml } from '../../core/sanitize.js';
 
 export function renderAppointmentList(root, appointments) {
   const sorted = sortAppointments(appointments, SORT_MODES.PRIORITY).slice(0, 10);
@@ -14,9 +15,9 @@ export function renderAppointmentList(root, appointments) {
     .map(
       (item) => `
         <article class="calendar-item">
-          <h4>${item.title}</h4>
+          <h4>${escapeHtml(item.title)}</h4>
           <div class="small">${formatDateTime(new Date(item.date))}</div>
-          <div class="small">${item.category || 'general'} • Priority ${item.priority}</div>
+          <div class="small">${escapeHtml(item.category || 'general')} • Priority ${item.priority}</div>
         </article>
       `,
     )

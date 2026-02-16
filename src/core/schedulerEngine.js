@@ -14,17 +14,37 @@ import { RECURRENCE, SORT_MODES } from './constants.js';
 export function normalizeAppointment(input) {
   const date = parseInputDate(input.date);
   if (!date) throw new Error('Invalid appointment date');
+  const endDate = parseInputDate(input.endDate);
+  if (endDate && endDate < date) throw new Error('End date must be after start date');
+
+  const normalizedRecurrence = Object.values(RECURRENCE).includes(input.recurrence)
+    ? input.recurrence
+    : RECURRENCE.NONE;
+
+  const normalizedStatus = ['confirmed', 'tentative', 'cancelled'].includes((input.status || '').toLowerCase())
+    ? String(input.status).toLowerCase()
+    : 'confirmed';
+
+  const parsedPriority = Number(input.priority);
+  const normalizedPriority = Number.isFinite(parsedPriority)
+    ? Math.max(1, Math.min(10, Math.round(parsedPriority)))
+    : 1;
 
   return {
     id: input.id ?? crypto.randomUUID(),
     date: date.toISOString(),
-    recurrence: input.recurrence || RECURRENCE.NONE,
+    endDate: endDate ? endDate.toISOString() : null,
+    recurrence: normalizedRecurrence,
     title: (input.title || '').trim(),
     description: (input.description || '').trim(),
+    location: (input.location || '').trim(),
+    url: (input.url || '').trim(),
+    status: normalizedStatus,
+    attendees: Array.isArray(input.attendees) ? input.attendees : splitByComma(input.attendees),
     contact: Array.isArray(input.contact) ? input.contact : splitByComma(input.contact),
     category: (input.category || 'general').trim(),
     tags: Array.isArray(input.tags) ? input.tags : splitByComma(input.tags),
-    priority: Number(input.priority) || 1,
+    priority: normalizedPriority,
     createdAt: input.createdAt || new Date().toISOString(),
   };
 }

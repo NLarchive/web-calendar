@@ -1,8 +1,8 @@
 import { CacheMemory } from '../core/cacheMemory.js';
 import { EventBus } from '../core/eventBus.js';
 import { normalizeAppointment } from '../core/schedulerEngine.js';
-import { loadFromLocalStorage, loadStateFromFile, saveStateToFile, saveToLocalStorage } from '../core/storage.js';
-import { SORT_MODES } from '../core/constants.js';
+import { loadFromLocalStorage, saveToLocalStorage } from '../core/storage.js';
+import { SORT_MODES, VIEW_MODES } from '../core/constants.js';
 import { renderNavbar } from '../modules/ui/navbar.js';
 import { closeInfoPanel, renderInfoPanel, toggleInfoPanel } from '../modules/ui/infoPanel.js';
 import { renderAppointmentDetails } from '../modules/ui/appointmentDetailsPopup.js';
@@ -11,6 +11,7 @@ import { renderAppointmentList } from '../modules/appointments/appointmentList.j
 import { CalendarController } from '../modules/calendar/calendarController.js';
 import { createDefaultConnectorRegistry } from '../connectors/connectorRegistry.js';
 import { PluginManager } from '../plugins/pluginManager.js';
+import { getPreferredFormatForTargetApp, parseCalendarStateFile } from '../modules/sync/calendarSyncFormats.js';
 
 
 
@@ -50,13 +51,18 @@ export class App {
     this.connectorRegistry = createDefaultConnectorRegistry();
 
     const persisted = loadFromLocalStorage();
+    const persistedFocusDate = persisted?.focusDate ? new Date(persisted.focusDate) : null;
+    const hasValidPersistedFocusDate =
+      persistedFocusDate instanceof Date && !Number.isNaN(persistedFocusDate.getTime());
 
     this.state = {
       appointments: persisted?.appointments || [],
       viewMode: persisted?.viewMode || 'month',
       sortMode: persisted?.sortMode || SORT_MODES.PRIORITY,
-      focusDate: persisted?.focusDate ? new Date(persisted.focusDate) : new Date(),
+      focusDate: hasValidPersistedFocusDate ? persistedFocusDate : new Date(),
     };
+
+    this.syncMode = 'sync';
   }
 
   start() {
@@ -71,13 +77,17 @@ export class App {
 
   bindEventListeners() {
     renderAppointmentForm(this.roots.formRoot, async (rawData) => {
-      const appointment = normalizeAppointment(rawData);
-      await this.pluginManager.emit('beforeAppointmentCreate', appointment);
-      this.state.appointments.push(appointment);
-      await this.pluginManager.emit('afterAppointmentCreate', appointment);
-      this.persist();
-      this.render();
-      this.closeAppointmentModal();
+      try {
+        const appointment = normalizeAppointment(rawData);
+        await this.pluginManager.emit('beforeAppointmentCreate', appointment);
+        this.state.appointments.push(appointment);
+        await this.pluginManager.emit('afterAppointmentCreate', appointment);
+        this.persist();
+        this.render();
+        this.closeAppointmentModal();
+      } catch (error) {
+        alert(error?.message || 'Unable to create appointment.');
+      }
     });
 
     this.roots.closeModalButton?.addEventListener('click', () => this.closeAppointmentModal());
@@ -92,6 +102,19 @@ export class App {
       if (event.target === this.roots.detailsModalRoot) {
         this.closeAppointmentDetailsModal();
       }
+    });
+
+    this.roots.closeSyncModalButton?.addEventListener('click', () => this.closeSyncModal());
+    this.roots.syncModalRoot?.addEventListener('click', (event) => {
+      if (event.target === this.roots.syncModalRoot) {
+        this.closeSyncModal();
+      }
+    });
+
+    this.roots.syncFormRoot?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      await this.runSyncFlow();
+      this.closeSyncModal();
     });
 
     this.eventBus.on('state:updated', () => {
@@ -114,11 +137,15 @@ export class App {
 
   async handleStateLoad(file) {
     try {
-      const nextState = await loadStateFromFile(file);
+      const nextState = await parseCalendarStateFile(file);
+      const parsedFocusDate = nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate;
+      const focusDate = Number.isNaN(parsedFocusDate.getTime()) ? this.state.focusDate : parsedFocusDate;
+
       this.state = {
         ...this.state,
         ...nextState,
-        focusDate: nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate,
+        appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
+        focusDate,
       };
       this.eventBus.emit('state:updated');
     } catch {
@@ -133,7 +160,10 @@ export class App {
     };
 
     this.cache.set('state', stateToStore);
-    saveToLocalStorage(stateToStore);
+    const ok = saveToLocalStorage(stateToStore);
+    if (!ok) {
+      alert('Unable to save state to local storage. You can still export state manually.');
+    }
   }
 
   openAppointmentModal() {
@@ -151,6 +181,59 @@ export class App {
 
   closeAppointmentDetailsModal() {
     this.roots.detailsModalRoot?.classList.add('hidden');
+  }
+
+  openSyncModal(mode = 'sync') {
+    this.syncMode = mode;
+    if (this.roots.syncActionLabelRoot) {
+      this.roots.syncActionLabelRoot.value = mode === 'save' ? 'Save State' : 'Sync App';
+    }
+
+    if (this.roots.syncFormatRoot) {
+      if (mode === 'sync') {
+        this.roots.syncFormatRoot.value = 'auto';
+        this.roots.syncFormatRoot.disabled = true;
+      } else {
+        this.roots.syncFormatRoot.disabled = false;
+      }
+    }
+
+    this.roots.syncModalRoot?.classList.remove('hidden');
+  }
+
+  closeSyncModal() {
+    this.roots.syncModalRoot?.classList.add('hidden');
+  }
+
+  async runSyncFlow() {
+    const format = this.syncMode === 'sync' ? 'auto' : this.roots.syncFormatRoot?.value || 'json';
+    const targetApp = this.roots.syncTargetAppRoot?.value || 'download';
+    const resolvedFormat = format === 'auto' ? getPreferredFormatForTargetApp(targetApp) : format;
+    const connector = this.connectorRegistry.get('calendar-sync-connector');
+
+    if (!connector) {
+      alert('Sync connector is not available.');
+      return;
+    }
+
+    const payload = {
+      state: {
+        ...this.state,
+        focusDate: this.state.focusDate.toISOString(),
+      },
+      format,
+      targetApp,
+      filename: `appointment-state.${resolvedFormat}`,
+    };
+
+    try {
+      const result = await connector.push(payload);
+      if (!result?.ok) {
+        alert('Sync failed.');
+      }
+    } catch {
+      alert('Sync failed.');
+    }
   }
 
   navigateHierarchy({ targetView, focusDate }) {
@@ -174,6 +257,7 @@ export class App {
 
     renderNavbar(this.roots.navbarRoot, this.state, {
       onOpenNewAppointment: () => this.openAppointmentModal(),
+      onOpenSyncApp: () => this.openSyncModal('sync'),
       onPrev: () => this.shiftFocusDate(-1),
       onToday: () => {
         this.state.focusDate = new Date();
@@ -181,6 +265,7 @@ export class App {
       },
       onNext: () => this.shiftFocusDate(1),
       onViewChange: (mode) => {
+        if (!VIEW_MODES.includes(mode)) return;
         this.state.viewMode = mode;
         this.eventBus.emit('state:updated');
       },
@@ -189,7 +274,7 @@ export class App {
           this.state.sortMode === SORT_MODES.PRIORITY ? SORT_MODES.DATETIME : SORT_MODES.PRIORITY;
         this.eventBus.emit('state:updated');
       },
-      onSaveState: () => saveStateToFile(this.state),
+      onSaveState: () => this.openSyncModal('save'),
       onLoadState: (file) => this.handleStateLoad(file),
       onToggleInfo: () => toggleInfoPanel(this.roots.infoRoot),
     });

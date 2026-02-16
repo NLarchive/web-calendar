@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../../core/sanitize.js';
+
 export function renderYearView(items, focusDate) {
   const year = focusDate.getFullYear();
 
@@ -17,7 +19,7 @@ export function renderYearView(items, focusDate) {
           .slice(0, 4)
           .map(
             (entry) =>
-              `<div class="small"><button type="button" class="calendar-link" data-appointment-key="${entry.uiKey}">• ${entry.title} (P${entry.priority})</button></div>`,
+              `<div class="small"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">• ${escapeHtml(entry.title)} (P${entry.priority})</button></div>`,
           )
           .join('')}
       </article>`;

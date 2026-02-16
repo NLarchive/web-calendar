@@ -22,4 +22,18 @@ describe('eventBus', () => {
 
     expect(listener).not.toHaveBeenCalled();
   });
+
+  it('continues notifying remaining listeners when one listener throws', () => {
+    const bus = new EventBus();
+    const afterThrow = vi.fn();
+
+    bus.on('state:updated', () => {
+      throw new Error('listener failed');
+    });
+    bus.on('state:updated', afterThrow);
+
+    bus.emit('state:updated', { ok: true });
+
+    expect(afterThrow).toHaveBeenCalledWith({ ok: true });
+  });
 });

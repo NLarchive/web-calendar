@@ -20,4 +20,11 @@ describe('connectorRegistry', () => {
     expect(names).toContain('mcp-task-connector');
     expect(names).toContain('github-task-manager-connector');
   });
+
+  it('rejects invalid connectors without a valid name', () => {
+    const registry = new ConnectorRegistry();
+
+    expect(() => registry.register({})).toThrow('Connector must define a non-empty name');
+    expect(() => registry.register({ name: '   ' })).toThrow('Connector must define a non-empty name');
+  });
 });

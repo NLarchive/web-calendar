@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../../core/sanitize.js';
+
 export function renderWeekView(items, rangeStart) {
   const days = Array.from({ length: 7 }, (_, index) => {
     const date = new Date(rangeStart);
@@ -19,7 +21,7 @@ export function renderWeekView(items, rangeStart) {
             ? `<ul>${dayItems
                 .map(
                   (entry) =>
-                    `<li><button type="button" class="calendar-link" data-appointment-key="${entry.uiKey}">${entry.title} <span class="badge">P${entry.priority}</span></button></li>`,
+                    `<li><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">${escapeHtml(entry.title)} <span class="badge">P${entry.priority}</span></button></li>`,
                 )
                 .join('')}</ul>`
             : '<p class="small">No tasks</p>'

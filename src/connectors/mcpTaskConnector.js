@@ -10,6 +10,9 @@ export class McpTaskConnector extends BaseConnector {
   }
 
   async push(payload) {
-    return { ok: true, items: Array.isArray(payload) ? payload.length : 1 };
+    return {
+      ok: true,
+      items: Array.isArray(payload) ? payload.length : payload ? 1 : 0,
+    };
   }
 }

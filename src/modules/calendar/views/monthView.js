@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../../core/sanitize.js';
+
 export function renderMonthView(items, focusDate) {
   const year = focusDate.getFullYear();
   const month = focusDate.getMonth();
@@ -20,7 +22,7 @@ export function renderMonthView(items, focusDate) {
                 .slice(0, 3)
                 .map(
                   (entry) =>
-                    `<div class="small"><button type="button" class="calendar-link" data-appointment-key="${entry.uiKey}">• ${entry.title} <span class="badge">P${entry.priority}</span></button></div>`,
+                    `<div class="small"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">• ${escapeHtml(entry.title)} <span class="badge">P${entry.priority}</span></button></div>`,
                 )
                 .join('')
             : '<div class="small">No tasks</div>'

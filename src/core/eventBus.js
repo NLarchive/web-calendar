@@ -17,7 +17,12 @@ export class EventBus {
   }
 
   emit(eventName, payload) {
-    const listeners = this.listeners.get(eventName) || [];
-    listeners.forEach((listener) => listener(payload));
+    const listeners = [...(this.listeners.get(eventName) || [])];
+    listeners.forEach((listener) => {
+      try {
+        listener(payload);
+      } catch {
+      }
+    });
   }
 }

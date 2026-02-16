@@ -1,5 +1,6 @@
 import { McpTaskConnector } from './mcpTaskConnector.js';
 import { GitHubTaskManagerConnector } from './githubTaskManagerConnector.js';
+import { CalendarSyncConnector } from './calendarSyncConnector.js';
 
 export class ConnectorRegistry {
   constructor() {
@@ -7,7 +8,11 @@ export class ConnectorRegistry {
   }
 
   register(connector) {
+    if (!connector || typeof connector.name !== 'string' || !connector.name.trim()) {
+      throw new Error('Connector must define a non-empty name');
+    }
     this.connectors.set(connector.name, connector);
+    return connector;
   }
 
   get(name) {
@@ -23,5 +28,6 @@ export function createDefaultConnectorRegistry() {
   const registry = new ConnectorRegistry();
   registry.register(new McpTaskConnector());
   registry.register(new GitHubTaskManagerConnector());
+  registry.register(new CalendarSyncConnector());
   return registry;
 }

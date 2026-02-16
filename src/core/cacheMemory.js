@@ -8,8 +8,8 @@ export class CacheMemory {
   }
 
   get(key) {
-    const value = this.memory.get(key);
-    return value ? structuredClone(value) : null;
+    if (!this.memory.has(key)) return null;
+    return structuredClone(this.memory.get(key));
   }
 
   clear() {

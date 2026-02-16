@@ -98,6 +98,11 @@ button.active {
   padding: 8px;
 }
 
+.form-grid input[readonly] {
+  background: #f8fafc;
+  color: var(--muted);
+}
+
 .calendar-grid {
   display: grid;
   gap: 8px;

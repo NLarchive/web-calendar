@@ -25,9 +25,12 @@ export class CalendarController {
 
     if (typeof onAppointmentClick === 'function' || typeof onHierarchyNavigate === 'function') {
       root.onclick = (event) => {
-        const clickable = event.target.closest('[data-appointment-key]');
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const clickable = target.closest('[data-appointment-key]');
         if (clickable && typeof onAppointmentClick === 'function') {
-          const appointmentKey = clickable.getAttribute('data-appointment-key');
+          const appointmentKey = decodeURIComponent(clickable.getAttribute('data-appointment-key') || '');
           const selected = this.visibleItemsByKey.get(appointmentKey);
           if (selected) {
             onAppointmentClick(selected);
@@ -35,7 +38,7 @@ export class CalendarController {
           }
         }
 
-        const hierarchyCell = event.target.closest('[data-nav-target][data-focus-date]');
+        const hierarchyCell = target.closest('[data-nav-target][data-focus-date]');
         if (hierarchyCell && typeof onHierarchyNavigate === 'function') {
           onHierarchyNavigate({
             targetView: hierarchyCell.getAttribute('data-nav-target'),

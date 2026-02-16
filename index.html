@@ -41,6 +41,40 @@
           <div id="appointment-details-content"></div>
         </div>
       </div>
+      <div id="sync-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sync-modal-title">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h2 id="sync-modal-title">Sync Calendar</h2>
+            <button id="close-sync-modal" aria-label="Close sync popup">✕</button>
+          </div>
+          <form id="sync-form" class="form-grid">
+            <label>Action
+              <input id="sync-action-label" type="text" value="Sync" readonly />
+            </label>
+            <label>Format
+              <select id="sync-format" name="format">
+                <option value="auto">Auto (best for selected app)</option>
+                <option value="json">JSON (.json)</option>
+                <option value="csv">CSV (.csv)</option>
+                <option value="ics">iCalendar (.ics)</option>
+              </select>
+            </label>
+            <label>Target App
+              <select id="sync-target-app" name="targetApp">
+                <option value="download">Download only</option>
+                <option value="google">Google Calendar</option>
+                <option value="outlook">Outlook</option>
+                <option value="ical">iCalendar / Apple Calendar</option>
+              </select>
+            </label>
+            <button class="primary" type="submit">Run Sync</button>
+          </form>
+          <p class="small">After download, you must import the saved file into your calendar app to load appointments.</p>
+          <p class="small">In Sync App mode, format is selected automatically based on the target app.</p>
+          <p class="small">Supported formats: JSON, CSV, and iCalendar (.ics). Load State also accepts .json, .csv, and .ics.</p>
+          <p class="small">Google/Outlook/iCalendar sync uses export/import flow for client-side compatibility.</p>
+        </div>
+      </div>
     </div>
     <script type="module" src="./src/main.js"></script>
   </body>

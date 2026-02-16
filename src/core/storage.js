@@ -1,11 +1,22 @@
 import { STORAGE_KEY } from './constants.js';
 
 export function saveToLocalStorage(state) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function loadFromLocalStorage() {
-  const raw = localStorage.getItem(STORAGE_KEY);
+  let raw;
+  try {
+    raw = localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+
   if (!raw) return null;
 
   try {

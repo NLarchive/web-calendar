@@ -9,17 +9,19 @@ export function renderNavbar(root, state, handlers) {
     <button data-action="today">Today</button>
     <button data-action="next">▶</button>
     ${VIEW_MODES.map((mode) => `<button data-view="${mode}" class="${state.viewMode === mode ? 'active' : ''}">${mode}</button>`).join('')}
+    <button data-action="open-sync-app">Sync App</button>
     <button data-action="toggle-sort">Sort: ${state.sortMode === SORT_MODES.PRIORITY ? 'Priority' : 'Date/Time'}</button>
     <button data-action="save-state">Save State</button>
     <button data-action="load-state">Load State</button>
     <button data-action="toggle-info">Info</button>
-    <input id="state-file-input" type="file" accept="application/json" class="hidden" />
+    <input id="state-file-input" type="file" accept=".json,.csv,.ics,application/json,text/csv,text/calendar" class="hidden" />
   `;
 
   root.querySelector('[data-action="prev"]').addEventListener('click', handlers.onPrev);
   root.querySelector('[data-action="open-new-appointment"]').addEventListener('click', handlers.onOpenNewAppointment);
   root.querySelector('[data-action="today"]').addEventListener('click', handlers.onToday);
   root.querySelector('[data-action="next"]').addEventListener('click', handlers.onNext);
+  root.querySelector('[data-action="open-sync-app"]').addEventListener('click', handlers.onOpenSyncApp);
   root.querySelector('[data-action="toggle-sort"]').addEventListener('click', handlers.onToggleSort);
   root.querySelector('[data-action="save-state"]').addEventListener('click', handlers.onSaveState);
   root.querySelector('[data-action="load-state"]').addEventListener('click', () => root.querySelector('#state-file-input').click());

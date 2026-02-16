@@ -20,4 +20,16 @@ describe('cacheMemory', () => {
 
     expect(cache.get('a')).toBeNull();
   });
+
+  it('returns stored falsy values correctly', () => {
+    const cache = new CacheMemory();
+
+    cache.set('isEnabled', false);
+    cache.set('count', 0);
+    cache.set('label', '');
+
+    expect(cache.get('isEnabled')).toBe(false);
+    expect(cache.get('count')).toBe(0);
+    expect(cache.get('label')).toBe('');
+  });
 });
