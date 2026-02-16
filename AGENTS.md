@@ -71,6 +71,8 @@ D:\web\web-appoinment\tests\ui\calendarViews.test.js
 D:\web\web-appoinment\tests\ui\currentFocusDisplay.test.js
 D:\web\web-appoinment\tests\ui\infoPanel.test.js
 D:\web\web-appoinment\tests\ui\modal.test.js
+D:\web\web-appoinment\tests\ui\navbar.test.js
+D:\web\web-appoinment\tests\ui\sampleLoad.test.js
 D:\web\web-appoinment\tests\setup.js
 D:\web\web-appoinment\.gitignore
 D:\web\web-appoinment\.nojekyll

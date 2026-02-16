@@ -2,7 +2,7 @@ import { CacheMemory } from '../core/cacheMemory.js';
 import { EventBus } from '../core/eventBus.js';
 import { normalizeAppointment } from '../core/schedulerEngine.js';
 import { loadFromLocalStorage, saveToLocalStorage } from '../core/storage.js';
-import { SORT_MODES, VIEW_MODES } from '../core/constants.js';
+import { DEFAULT_CALENDARS, SORT_MODES, VIEW_MODES } from '../core/constants.js';
 import { renderNavbar } from '../modules/ui/navbar.js';
 import { closeInfoPanel, renderInfoPanel, toggleInfoPanel } from '../modules/ui/infoPanel.js';
 import { renderAppointmentDetails } from '../modules/ui/appointmentDetailsPopup.js';
@@ -60,35 +60,40 @@ export class App {
       viewMode: persisted?.viewMode || 'month',
       sortMode: persisted?.sortMode || SORT_MODES.PRIORITY,
       focusDate: hasValidPersistedFocusDate ? persistedFocusDate : new Date(),
+      calendars: Array.isArray(persisted?.calendars) && persisted.calendars.length
+        ? persisted.calendars
+        : DEFAULT_CALENDARS,
+      filters: {
+        query: persisted?.filters?.query || '',
+        status: persisted?.filters?.status || 'all',
+        calendarId: persisted?.filters?.calendarId || 'all',
+        fromDate: persisted?.filters?.fromDate || '',
+        toDate: persisted?.filters?.toDate || '',
+      },
     };
 
     this.syncMode = 'sync';
+    this.editingAppointmentId = null;
+    this.selectedAppointmentId = null;
+    this.reminderTimerId = null;
+    this.triggeredReminderKeys = new Set();
   }
 
   start() {
     this.bindEventListeners();
+    this.bindModalFocusTraps();
     this.render();
     renderInfoPanel(this.roots.infoRoot, {
       onClose: () => closeInfoPanel(this.roots.infoRoot),
     });
 
+    this.startReminderLoop();
+
     // NOTE: `#current-datetime` shows the calendar focus (view + date) — updated in render().
   }
 
   bindEventListeners() {
-    renderAppointmentForm(this.roots.formRoot, async (rawData) => {
-      try {
-        const appointment = normalizeAppointment(rawData);
-        await this.pluginManager.emit('beforeAppointmentCreate', appointment);
-        this.state.appointments.push(appointment);
-        await this.pluginManager.emit('afterAppointmentCreate', appointment);
-        this.persist();
-        this.render();
-        this.closeAppointmentModal();
-      } catch (error) {
-        alert(error?.message || 'Unable to create appointment.');
-      }
-    });
+    this.mountAppointmentForm();
 
     this.roots.closeModalButton?.addEventListener('click', () => this.closeAppointmentModal());
     this.roots.modalRoot?.addEventListener('click', (event) => {
@@ -133,12 +138,91 @@ export class App {
       await this.runStateLoadFlow();
     });
 
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      if (this.roots.detailsModalRoot && !this.roots.detailsModalRoot.classList.contains('hidden')) this.closeAppointmentDetailsModal();
+      else if (this.roots.modalRoot && !this.roots.modalRoot.classList.contains('hidden')) this.closeAppointmentModal();
+      else if (this.roots.syncModalRoot && !this.roots.syncModalRoot.classList.contains('hidden')) this.closeSyncModal();
+      else if (this.roots.stateLoadModalRoot && !this.roots.stateLoadModalRoot.classList.contains('hidden')) this.closeStateLoadModal();
+      else if (this.roots.infoRoot && !this.roots.infoRoot.classList.contains('hidden')) closeInfoPanel(this.roots.infoRoot);
+    });
+
     this.eventBus.on('state:updated', () => {
       this.persist();
       this.render();
     });
 
     this.updateStateLoadSourceUI();
+  }
+
+  bindModalFocusTraps() {
+    const traps = [
+      this.roots.modalRoot,
+      this.roots.detailsModalRoot,
+      this.roots.syncModalRoot,
+      this.roots.stateLoadModalRoot,
+      this.roots.infoRoot,
+    ].filter(Boolean);
+
+    traps.forEach((root) => {
+      root.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab' || root.classList.contains('hidden')) return;
+
+        const focusable = [...root.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+          .filter((entry) => !entry.disabled);
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+    });
+  }
+
+  mountAppointmentForm(appointment = null) {
+    renderAppointmentForm(
+      this.roots.formRoot,
+      async (rawData) => {
+        try {
+          const normalizedInput = {
+            ...rawData,
+            id: this.editingAppointmentId || undefined,
+            createdAt:
+              this.state.appointments.find((item) => item.id === this.editingAppointmentId)?.createdAt || undefined,
+          };
+          const appointmentValue = normalizeAppointment(normalizedInput);
+
+          if (this.editingAppointmentId) {
+            const index = this.state.appointments.findIndex((item) => item.id === this.editingAppointmentId);
+            if (index >= 0) {
+              this.state.appointments.splice(index, 1, appointmentValue);
+            }
+          } else {
+            await this.pluginManager.emit('beforeAppointmentCreate', appointmentValue);
+            this.state.appointments.push(appointmentValue);
+            await this.pluginManager.emit('afterAppointmentCreate', appointmentValue);
+          }
+
+          this.editingAppointmentId = null;
+          this.persist();
+          this.render();
+          this.closeAppointmentModal();
+        } catch (error) {
+          alert(error?.message || 'Unable to save appointment.');
+        }
+      },
+      {
+        mode: appointment ? 'edit' : 'create',
+        appointment,
+        calendarOptions: this.state.calendars,
+      },
+    );
   }
 
   shiftFocusDate(delta) {
@@ -161,6 +245,11 @@ export class App {
       ...this.state,
       ...nextState,
       appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
+      calendars: Array.isArray(nextState.calendars) && nextState.calendars.length ? nextState.calendars : this.state.calendars,
+      filters: {
+        ...this.state.filters,
+        ...(nextState.filters || {}),
+      },
       focusDate,
     };
     this.eventBus.emit('state:updated');
@@ -180,20 +269,49 @@ export class App {
   }
 
   openAppointmentModal() {
+    this.mountAppointmentForm(
+      this.editingAppointmentId
+        ? this.state.appointments.find((item) => item.id === this.editingAppointmentId) || null
+        : null,
+    );
     this.roots.modalRoot?.classList.remove('hidden');
+    const title = document.getElementById('appointment-modal-title');
+    if (title) {
+      title.textContent = this.editingAppointmentId ? 'Edit Appointment' : 'New Appointment';
+    }
+    this.roots.formRoot?.querySelector('input,select,textarea,button')?.focus();
   }
 
   closeAppointmentModal() {
+    this.editingAppointmentId = null;
     this.roots.modalRoot?.classList.add('hidden');
   }
 
   openAppointmentDetailsModal(appointment) {
+    this.selectedAppointmentId = appointment?.sourceId || appointment?.id || null;
     renderAppointmentDetails(this.roots.detailsContentRoot, appointment);
+    this.roots.detailsContentRoot?.querySelector('[data-action="edit-appointment"]')?.addEventListener('click', () => {
+      this.closeAppointmentDetailsModal();
+      if (!this.selectedAppointmentId) return;
+      this.editingAppointmentId = this.selectedAppointmentId;
+      this.openAppointmentModal();
+    });
+    this.roots.detailsContentRoot?.querySelector('[data-action="delete-appointment"]')?.addEventListener('click', () => {
+      if (!this.selectedAppointmentId) return;
+      const confirmed = typeof window.confirm !== 'function' || window.confirm('Delete this appointment?');
+      if (!confirmed) return;
+      this.state.appointments = this.state.appointments.filter((item) => item.id !== this.selectedAppointmentId);
+      this.persist();
+      this.render();
+      this.closeAppointmentDetailsModal();
+    });
     this.roots.detailsModalRoot?.classList.remove('hidden');
+    this.roots.detailsContentRoot?.querySelector('button')?.focus();
   }
 
   closeAppointmentDetailsModal() {
     this.roots.detailsModalRoot?.classList.add('hidden');
+    this.selectedAppointmentId = null;
   }
 
   openSyncModal(mode = 'sync') {
@@ -344,12 +462,117 @@ export class App {
     this.eventBus.emit('state:updated');
   }
 
-  render() {
-    // update the calendar header focus label
+  getCalendarColorMap() {
+    const colorMap = new Map();
+    this.state.calendars.forEach((calendar) => {
+      colorMap.set(calendar.id, calendar.color || '#2563eb');
+    });
+    return colorMap;
+  }
+
+  getFilteredAppointments() {
+    const query = (this.state.filters.query || '').trim().toLowerCase();
+    const status = this.state.filters.status || 'all';
+    const calendarId = this.state.filters.calendarId || 'all';
+    const fromDate = this.state.filters.fromDate ? new Date(`${this.state.filters.fromDate}T00:00:00`) : null;
+    const toDate = this.state.filters.toDate ? new Date(`${this.state.filters.toDate}T23:59:59`) : null;
+
+    return this.state.appointments.filter((item) => {
+      if (status !== 'all' && (item.status || 'confirmed') !== status) return false;
+      if (calendarId !== 'all' && (item.calendarId || 'default') !== calendarId) return false;
+
+      const itemDate = new Date(item.date);
+      if (fromDate && itemDate < fromDate) return false;
+      if (toDate && itemDate > toDate) return false;
+
+      if (!query) return true;
+      const text = [
+        item.title,
+        item.description,
+        item.category,
+        ...(Array.isArray(item.tags) ? item.tags : []),
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+      return text.includes(query);
+    });
+  }
+
+  startReminderLoop() {
+    if (this.reminderTimerId) {
+      clearInterval(this.reminderTimerId);
+    }
+    this.checkReminders();
+    this.reminderTimerId = setInterval(() => this.checkReminders(), 30000);
+  }
+
+  checkReminders() {
+    const now = Date.now();
+
+    this.state.appointments.forEach((appointment) => {
+      const minutes = Number(appointment.reminderMinutes);
+      if (!Number.isFinite(minutes) || minutes < 0) return;
+
+      const eventTime = new Date(appointment.date).getTime();
+      if (!Number.isFinite(eventTime)) return;
+
+      const reminderTime = eventTime - minutes * 60 * 1000;
+      const key = `${appointment.id}:${minutes}`;
+      if (this.triggeredReminderKeys.has(key)) return;
+      if (now < reminderTime || now >= eventTime) return;
+
+      const message = `Reminder: ${appointment.title || 'Appointment'} at ${new Date(appointment.date).toLocaleString()}`;
+      if (typeof Notification !== 'undefined') {
+        if (Notification.permission === 'granted') {
+          new Notification(message);
+        } else if (Notification.permission !== 'denied') {
+          Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+              new Notification(message);
+            } else {
+              console.info(message);
+            }
+          });
+        } else {
+          console.info(message);
+        }
+      } else {
+        console.info(message);
+      }
+
+      this.triggeredReminderKeys.add(key);
+    });
+  }
+
+  /** Re-render list + calendar content without touching the navbar DOM. */
+  renderContent() {
     if (this.roots.datetimeRoot) {
       this.roots.datetimeRoot.textContent = formatFocusLabel(this.state.viewMode, this.state.focusDate);
     }
 
+    const filteredAppointments = this.getFilteredAppointments();
+    renderAppointmentList(
+      this.roots.listRoot,
+      filteredAppointments,
+      this.getCalendarColorMap(),
+      (appointment) => this.openAppointmentDetailsModal(appointment),
+    );
+
+    this.calendarController.render({
+      root: this.roots.calendarRoot,
+      viewMode: this.state.viewMode,
+      focusDate: this.state.focusDate,
+      appointments: filteredAppointments,
+      sortMode: this.state.sortMode,
+      onAppointmentClick: (appointment) => this.openAppointmentDetailsModal(appointment),
+      onHierarchyNavigate: (payload) => this.navigateHierarchy(payload),
+      calendarColorMap: this.getCalendarColorMap(),
+    });
+  }
+
+  render() {
     renderNavbar(this.roots.navbarRoot, this.state, {
       onOpenNewAppointment: () => this.openAppointmentModal(),
       onOpenSyncApp: () => this.openSyncModal('sync'),
@@ -372,18 +595,33 @@ export class App {
       onSaveState: () => this.openSyncModal('save'),
       onOpenLoadState: () => this.openStateLoadModal(),
       onToggleInfo: () => toggleInfoPanel(this.roots.infoRoot),
+      onSearchChange: (value) => {
+        this.state.filters.query = value;
+        this.persist();
+        this.renderContent();
+      },
+      onFilterStatusChange: (value) => {
+        this.state.filters.status = value;
+        this.persist();
+        this.renderContent();
+      },
+      onFilterCalendarChange: (value) => {
+        this.state.filters.calendarId = value;
+        this.persist();
+        this.renderContent();
+      },
+      onFilterFromDateChange: (value) => {
+        this.state.filters.fromDate = value;
+        this.persist();
+        this.renderContent();
+      },
+      onFilterToDateChange: (value) => {
+        this.state.filters.toDate = value;
+        this.persist();
+        this.renderContent();
+      },
     });
 
-    renderAppointmentList(this.roots.listRoot, this.state.appointments);
-
-    this.calendarController.render({
-      root: this.roots.calendarRoot,
-      viewMode: this.state.viewMode,
-      focusDate: this.state.focusDate,
-      appointments: this.state.appointments,
-      sortMode: this.state.sortMode,
-      onAppointmentClick: (appointment) => this.openAppointmentDetailsModal(appointment),
-      onHierarchyNavigate: (payload) => this.navigateHierarchy(payload),
-    });
+    this.renderContent();
   }
 }

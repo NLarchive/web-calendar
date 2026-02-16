@@ -3,131 +3,164 @@
     {
       "id": "dog-vax-annual",
       "date": "2026-03-01T09:00:00.000Z",
+      "endDate": "2026-03-01T10:00:00.000Z",
       "recurrence": "yearly",
       "title": "Dog annual vaccine booster",
       "description": "Refuerzo anual polivalente + rabia para perro adulto.",
-      "contact": [
-        "https://myvet.com",
-        "+34-600-111-222",
-        "contact@myvet.com"
-      ],
+      "location": "MyVet Clinic, Madrid",
+      "url": "https://myvet.com",
+      "status": "confirmed",
+      "attendees": [],
+      "contact": ["https://myvet.com", "+34-600-111-222", "contact@myvet.com"],
       "category": "dog",
-      "tags": [
-        "vaccine",
-        "dog",
-        "annual"
-      ],
+      "tags": ["vaccine", "dog", "annual"],
       "priority": 9,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 1440,
       "createdAt": "2026-02-15T00:00:00.000Z"
     },
     {
       "id": "dog-deworming-q1",
       "date": "2026-03-15T08:30:00.000Z",
+      "endDate": "2026-03-15T09:00:00.000Z",
       "recurrence": "yearly",
       "title": "Dog deworming (internal) - Q1",
       "description": "Dosis trimestral de desparasitación interna.",
-      "contact": [
-        "https://myvet.com"
-      ],
+      "location": "MyVet Clinic, Madrid",
+      "url": "https://myvet.com",
+      "status": "confirmed",
+      "attendees": [],
+      "contact": ["https://myvet.com"],
       "category": "dog",
-      "tags": [
-        "deworming",
-        "dog",
-        "quarterly"
-      ],
+      "tags": ["deworming", "dog", "quarterly"],
       "priority": 8,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 60,
       "createdAt": "2026-02-15T00:00:00.000Z"
     },
     {
       "id": "dog-deworming-q2",
       "date": "2026-06-15T08:30:00.000Z",
+      "endDate": "2026-06-15T09:00:00.000Z",
       "recurrence": "yearly",
       "title": "Dog deworming (internal) - Q2",
       "description": "Dosis trimestral de desparasitación interna.",
-      "contact": [
-        "https://myvet.com"
-      ],
+      "location": "MyVet Clinic, Madrid",
+      "url": "https://myvet.com",
+      "status": "tentative",
+      "attendees": [],
+      "contact": ["https://myvet.com"],
       "category": "dog",
-      "tags": [
-        "deworming",
-        "dog"
-      ],
+      "tags": ["deworming", "dog"],
       "priority": 8,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 60,
       "createdAt": "2026-02-15T00:00:00.000Z"
     },
     {
       "id": "dog-deworming-q3",
       "date": "2026-09-15T08:30:00.000Z",
+      "endDate": "2026-09-15T09:00:00.000Z",
       "recurrence": "yearly",
       "title": "Dog deworming (internal) - Q3",
       "description": "Dosis trimestral de desparasitación interna.",
-      "contact": [
-        "https://myvet.com"
-      ],
+      "location": "MyVet Clinic, Madrid",
+      "url": "",
+      "status": "tentative",
+      "attendees": [],
+      "contact": ["https://myvet.com"],
       "category": "dog",
-      "tags": [
-        "deworming",
-        "dog"
-      ],
+      "tags": ["deworming", "dog"],
       "priority": 8,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 60,
       "createdAt": "2026-02-15T00:00:00.000Z"
     },
     {
       "id": "dog-deworming-q4",
       "date": "2026-12-15T08:30:00.000Z",
+      "endDate": "2026-12-15T09:00:00.000Z",
       "recurrence": "yearly",
       "title": "Dog deworming (internal) - Q4",
       "description": "Dosis trimestral de desparasitación interna.",
-      "contact": [
-        "https://myvet.com"
-      ],
+      "location": "MyVet Clinic, Madrid",
+      "url": "",
+      "status": "tentative",
+      "attendees": [],
+      "contact": ["https://myvet.com"],
       "category": "dog",
-      "tags": [
-        "deworming",
-        "dog"
-      ],
+      "tags": ["deworming", "dog"],
       "priority": 8,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 60,
       "createdAt": "2026-02-15T00:00:00.000Z"
     },
     {
       "id": "dog-ectoparasite-monthly",
       "date": "2026-03-05T10:00:00.000Z",
+      "endDate": null,
       "recurrence": "monthly",
       "title": "Dog ectoparasite control (pour-on/spray)",
       "description": "Control mensual de pulgas y garrapatas con pipeta (pour-on) o spray.",
-      "contact": [
-        "https://myvet.com"
-      ],
+      "location": "Home",
+      "url": "",
+      "status": "confirmed",
+      "attendees": [],
+      "contact": ["https://myvet.com"],
       "category": "dog",
-      "tags": [
-        "ectoparasite",
-        "tick",
-        "flea",
-        "monthly"
-      ],
+      "tags": ["ectoparasite", "tick", "flea", "monthly"],
       "priority": 7,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 30,
       "createdAt": "2026-02-15T00:00:00.000Z"
     },
     {
       "id": "dog-ectoparasite-collar",
       "date": "2026-03-10T10:00:00.000Z",
+      "endDate": null,
       "recurrence": "monthly",
       "title": "Dog ectoparasite collar replacement check",
       "description": "Collar antiparasitario con revisión/reemplazo semestral (cada 6 meses).",
-      "contact": [
-        "https://myvet.com"
-      ],
+      "location": "MyVet Clinic, Madrid",
+      "url": "",
+      "status": "confirmed",
+      "attendees": [],
+      "contact": ["https://myvet.com"],
       "category": "dog",
-      "tags": [
-        "ectoparasite",
-        "collar",
-        "6-month"
-      ],
+      "tags": ["ectoparasite", "collar", "6-month"],
       "priority": 6,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 1440,
       "createdAt": "2026-02-15T00:00:00.000Z"
     }
   ],
+  "calendars": [
+    { "id": "default", "name": "Default", "color": "#2563eb" },
+    { "id": "work", "name": "Work", "color": "#7c3aed" },
+    { "id": "health", "name": "Health", "color": "#059669" }
+  ],
   "viewMode": "month",
   "sortMode": "priority",
-  "focusDate": "2026-03-01T00:00:00.000Z"
+  "focusDate": "2026-03-01T00:00:00.000Z",
+  "filters": {
+    "query": "",
+    "status": "all",
+    "calendarId": "all",
+    "fromDate": "",
+    "toDate": ""
+  }
 }

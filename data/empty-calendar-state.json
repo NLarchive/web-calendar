@@ -1,6 +1,18 @@
 {
   "appointments": [],
+  "calendars": [
+    { "id": "default", "name": "Default", "color": "#2563eb" },
+    { "id": "work", "name": "Work", "color": "#7c3aed" },
+    { "id": "health", "name": "Health", "color": "#059669" }
+  ],
   "viewMode": "month",
   "sortMode": "priority",
-  "focusDate": null
+  "focusDate": null,
+  "filters": {
+    "query": "",
+    "status": "all",
+    "calendarId": "all",
+    "fromDate": "",
+    "toDate": ""
+  }
 }

@@ -77,11 +77,14 @@ describe('current focus display in calendar header', () => {
     expect(header.textContent).toMatch(/\w+ \d{4}/); // e.g. "February 2026"
 
     // switch to year
-    document.querySelector('[data-view="year"]').click();
+    const viewModeSelect = document.querySelector('[data-action="view-mode"]');
+    viewModeSelect.value = 'year';
+    viewModeSelect.dispatchEvent(new Event('change', { bubbles: true }));
     expect(header.textContent).toMatch(/Year:\s*\d{4}/);
 
     // switch to day
-    document.querySelector('[data-view="day"]').click();
+    viewModeSelect.value = 'day';
+    viewModeSelect.dispatchEvent(new Event('change', { bubbles: true }));
     // Example: "Sun, Feb 15, 2026"
     expect(header.textContent).toMatch(/^[A-Za-z]{3},\s[A-Za-z]{3}\s\d{1,2},\s\d{4}$/);
   });

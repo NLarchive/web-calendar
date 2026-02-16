@@ -49,25 +49,25 @@
             <h2 id="sync-modal-title">Sync Calendar</h2>
           </div>
           <form id="sync-form" class="form-grid">
-            <label>Action
-              <input id="sync-action-label" type="text" value="Sync" readonly />
-            </label>
-            <label>Format
-              <select id="sync-format" name="format">
-                <option value="auto">Auto (best for selected app)</option>
-                <option value="json">JSON (.json)</option>
-                <option value="csv">CSV (.csv)</option>
-                <option value="ics">iCalendar (.ics)</option>
-              </select>
-            </label>
-            <label>Target App
-              <select id="sync-target-app" name="targetApp">
-                <option value="download">Download only</option>
-                <option value="google">Google Calendar</option>
-                <option value="outlook">Outlook</option>
-                <option value="ical">iCalendar / Apple Calendar</option>
-              </select>
-            </label>
+            <label for="sync-action-label">Action</label>
+            <input id="sync-action-label" type="text" value="Sync" readonly />
+            
+            <label for="sync-format">Format</label>
+            <select id="sync-format" name="format">
+              <option value="auto">Auto (best for selected app)</option>
+              <option value="json">JSON (.json)</option>
+              <option value="csv">CSV (.csv)</option>
+              <option value="ics">iCalendar (.ics)</option>
+            </select>
+
+            <label for="sync-target-app">Target App</label>
+            <select id="sync-target-app" name="targetApp">
+              <option value="download">Download only</option>
+              <option value="google">Google Calendar</option>
+              <option value="outlook">Outlook</option>
+              <option value="ical">iCalendar / Apple Calendar</option>
+            </select>
+
             <button class="primary" type="submit">Run Sync</button>
           </form>
           <p class="small">After download, you must import the saved file into your calendar app to load appointments.</p>
@@ -83,26 +83,24 @@
             <h2 id="state-load-modal-title">Load State</h2>
           </div>
           <form id="state-load-form" class="form-grid">
-            <label>Source
-              <select id="load-state-source" name="source">
-                <option value="sample">Sample State</option>
-                <option value="custom">Custom State</option>
-                <option value="empty">Empty State</option>
-              </select>
-            </label>
+            <label for="load-state-source">Source</label>
+            <select id="load-state-source" name="source">
+              <option value="sample">Sample State</option>
+              <option value="custom">Custom State</option>
+              <option value="empty">Empty State</option>
+            </select>
+
             <div id="sample-state-fields">
-              <label>Sample
-                <select id="load-state-sample" name="sample">
-                  <option value="dog-vet-care-state.json">Dog Vet Care Schedule</option>
-                  <option value="cat-vet-care-state.json">Cat Vet Care Schedule</option>
-                  <option value="combined-vet-care-state.json">Combined Vet Care Schedule</option>
-                </select>
-              </label>
+              <label for="load-state-sample">Sample</label>
+              <select id="load-state-sample" name="sample">
+                <option value="dog-vet-care-state.json">Dog Vet Care Schedule</option>
+                <option value="cat-vet-care-state.json">Cat Vet Care Schedule</option>
+                <option value="combined-vet-care-state.json">Combined Vet Care Schedule</option>
+              </select>
             </div>
             <div id="custom-state-fields" class="hidden">
-              <label>State File
-                <input id="load-state-file" type="file" accept=".json,.csv,.ics,application/json,text/csv,text/calendar" />
-              </label>
+              <label for="load-state-file">State File</label>
+              <input id="load-state-file" type="file" accept=".json,.csv,.ics,application/json,text/csv,text/calendar" />
             </div>
             <button class="primary" type="submit">Load State</button>
           </form>

@@ -6,8 +6,8 @@
 		"name": "Web Appointment Calendar Scheduler",
 		"description": "Client-side modular appointment system with calendar views, recurrence engine, caching, save/load state, connector stubs, and automated validation tests.",
 		"start_date": "2026-02-15",
-		"end_date": "2026-02-15",
-		"status": "Completed",
+		"end_date": "2026-02-16",
+		"status": "In Progress",
 		"budget": 25000
 	},
 	"categories": [
@@ -1779,6 +1779,781 @@
 					"Check that header titles remain clear",
 					"Click info popup overlay to close",
 					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 27,
+			"task_name": "Add Event Edit Workflow",
+			"description": "Implement client-side event edit flow from details popup into form modal with state persistence and validation.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 3,
+			"is_critical_path": true,
+			"tags": ["crud", "edit", "ui", "client-side"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T10:00:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Implemented edit action from details popup, loaded existing appointment in form modal, and persisted updates."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 26,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"User can edit appointments from details popup",
+					"Edited values persist across reload"
+				],
+				"verification_steps": [
+					"Manual edit flow",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 28,
+			"task_name": "Add Event Delete Workflow",
+			"description": "Implement appointment deletion from details popup with confirmation and persistent state updates.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": true,
+			"tags": ["crud", "delete", "ui", "client-side"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T10:05:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Added delete action and confirmation flow in details popup with immediate rerender and persistence."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 27,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"User can delete appointments with confirmation",
+					"Deleted items are removed from all views"
+				],
+				"verification_steps": [
+					"Manual delete flow",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 29,
+			"task_name": "Implement Search and Local Filters",
+			"description": "Add client-side search and filters (text, status, calendar, date range) for GitHub Pages static deployment.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 3,
+			"is_critical_path": true,
+			"tags": ["search", "filters", "ui", "client-side"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T10:10:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Implemented navbar search + status/calendar/date filters and integrated filtered rendering for list and calendar views."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 28,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Search works across core appointment text fields",
+					"Filters combine correctly with date range"
+				],
+				"verification_steps": [
+					"Manual filter combinations",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 30,
+			"task_name": "Add All-Day and Timezone-Aware Fields",
+			"description": "Extend schema and form with all-day and timezone fields while remaining fully local-first for static hosting.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 7,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": ["time", "timezone", "all-day", "schema"],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-16T10:15:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Added allDay/timezone normalization and form inputs; surfaced values in details popup."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 29,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"All-day and timezone fields persist in state",
+					"Fields are visible in details"
+				],
+				"verification_steps": [
+					"Manual create/edit checks",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 31,
+			"task_name": "Add Browser Reminder Notifications",
+			"description": "Implement optional local reminder timing with Notification API and console fallback for static client-only deployment.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": ["reminders", "notifications", "client-side"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T10:20:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Added reminderMinutes support and periodic local reminder checks with Notification API support."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 30,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Reminder lead-time is stored and evaluated",
+					"Notification fallback behavior is safe"
+				],
+				"verification_steps": [
+					"Manual reminder smoke test",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 32,
+			"task_name": "Add Multi-Calendar Local Model and Color Indicators",
+			"description": "Introduce local calendar metadata and color-coded event indicators across list and calendar views.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 8,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": ["multi-calendar", "colors", "schema", "ui"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T10:25:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Added default local calendars, calendar selector in form/filter, and color rendering in list/day/week/month/year views."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 31,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Calendar metadata persists",
+					"Color indicators are visible in rendered entries"
+				],
+				"verification_steps": [
+					"Manual calendar color checks",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 33,
+			"task_name": "Add Agenda Timeline View",
+			"description": "Implement chronological agenda/list timeline view and integrate into view navigation.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": ["agenda", "timeline", "ui"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T11:41:00Z",
+			"completed_date": "2026-02-16T13:00:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T13:00:00Z",
+					"text": "Implemented Agenda View with chronological grouping by day."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 32,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Agenda view is selectable in navbar",
+					"Items are grouped chronologically",
+					"Items are clickable to open details"
+				],
+				"verification_steps": [
+					"Switch to Agenda view",
+					"Check grouping",
+					"Click item"
+				]
+			}
+		},
+		{
+			"task_id": 41,
+			"task_name": "Form Accessibility and Identity Refactor",
+			"description": "Refactor all appointment and sync forms to use explicit ID/Label pairing and name attributes to satisfy browser autofill audits and accessibility standards.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": ["a11y", "autofill", "forms"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T12:55:00Z",
+			"completed_date": "2026-02-16T13:05:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-16T13:05:00Z",
+					"text": "Refactored appointment form, navbar controls, and static modals in index.html with explicit IDs, labels, and name attributes."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 40,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 42,
+			"task_name": "Advanced Popup Keyboard Navigation",
+			"description": "Implement arrow key navigation and improved focus management within navbar grouped panels and details popups.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-28",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 4,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["a11y", "keyboard", "ux"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T13:10:00Z",
+			"completed_date": null,
+			"comments": [],
+			"attachments": [],
+			"dependencies": []
+		},
+		{
+			"task_id": 34,
+			"task_name": "Add Drag-and-Drop Reschedule",
+			"description": "Implement drag/drop rescheduling and keyboard fallback interactions in calendar views.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-22",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 8,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["drag-drop", "interaction", "ux"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-16T11:41:30Z",
+			"completed_date": null,
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 33,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 35,
+			"task_name": "Upgrade Recurrence Rules (RRULE-Lite)",
+			"description": "Add interval/until/byday/exdate recurrence behavior with safety boundaries in expansion.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-23",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 9,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["recurrence", "rrule", "engine"],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-16T11:42:00Z",
+			"completed_date": null,
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 30,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 36,
+			"task_name": "Accessibility Hardening Pass",
+			"description": "Add modal escape handling, focus trap behavior, and keyboard safety improvements across overlays.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": ["a11y", "keyboard", "modals", "ux"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				},
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-16T10:45:00Z",
+			"completed_date": "2026-02-16T11:40:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-16T11:40:00Z",
+					"text": "Implemented Escape close behavior and focus-trap navigation for modal/info overlays."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 26,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"All modal overlays close with Escape",
+					"Tab key cycles safely within active overlay"
+				],
+				"verification_steps": [
+					"Manual keyboard test",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 37,
+			"task_name": "Performance and Large-State Optimization",
+			"description": "Optimize rendering and filtering for large local datasets in static deployment mode.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-23",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 6,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["performance", "scalability", "client-side"],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-16T11:42:30Z",
+			"completed_date": null,
+			"comments": [],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 35,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 38,
+			"task_name": "Cloud Backend Readiness Layer (Deferred)",
+			"description": "Prepare adapter contracts for future backend integration while keeping GitHub Pages client-only runtime unchanged.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-24",
+			"priority": "Low",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 4,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["deferred", "backend-ready", "architecture"],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-16T11:43:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-16T11:43:00Z",
+					"text": "Deferred by design for static-only GitHub Pages phase."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 37,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 39,
+			"task_name": "Direct Cloud Sync and Collaboration (Deferred)",
+			"description": "Plan OAuth-based direct sync, invites, and shared calendar collaboration for later cloud phase with backend support.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-03-15",
+			"priority": "Low",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 12,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["deferred", "oauth", "collaboration", "backend"],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-16T11:43:30Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-16T11:43:30Z",
+					"text": "Minor priority until cloud backend integration is approved."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 38,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 40,
+			"task_name": "Fix Navbar Filter Re-Render Bug and Add Playwright E2E Tests",
+			"description": "Fixed critical bug where filter/search controls in navbar dropdown panels were broken because every filter change triggered a full navbar innerHTML rebuild (closing the <details> dropdown, destroying input focus). Introduced renderContent() method to re-render list+calendar without touching the navbar DOM. Updated all sample data files (dog/cat/combined/empty) to use the full schema (status, calendarId, allDay, timezone, reminderMinutes, location, url, endDate, filters). Installed Playwright, moved E2E specs into tests/e2e, created playwright.config.js with webServer auto-start, and implemented comprehensive E2E coverage for full user journeys including list/calendar detail opening. Added clickable upcoming appointment items, outside-click close behavior for navbar grouped panels, centered panel positioning, and z-index layering to ensure modal/info popups always render on top.",
+			"start_date": "2026-02-16",
+			"end_date": "2026-02-16",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 4,
+			"is_critical_path": true,
+			"tags": ["bugfix", "filters", "playwright", "e2e", "testing", "sample-data"],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				},
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-16T12:00:00Z",
+			"completed_date": "2026-02-16T12:15:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-16T12:15:00Z",
+					"text": "Root cause: renderNavbar full innerHTML rebuild on every filter change destroyed open <details> state and input focus. Fix: filter handlers now call persist()+renderContent() instead of eventBus.emit('state:updated')."
+				},
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-16T12:35:00Z",
+					"text": "Refined navbar group panel positioning: changed from fixed viewport-centering to absolute positioning anchored at the bottom of the navbar and centered horizontally relative to the navbar width. Added z-index: 3000 to navbar to ensure foreground panels overlap content correctly while remaining below modals (z-index: 4000)."
+				},
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-16T12:55:00Z",
+					"text": "Follow-up fix set completed: Add Appointment submit flow no longer appears unresponsive when title is empty (title is now optional and falls back to Untitled in normalization), month view now highlights the current day with a light-blue style, and recurrence now supports an explicit occurrence limit (recurrenceCount) to prevent unbounded series creation. Validation: 95 Vitest tests passing and 19 Playwright E2E tests passing."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 36,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Search input maintains focus and dropdown stays open while typing",
+					"Status/calendar filter selects apply without closing dropdown",
+					"From/to date filters apply without closing dropdown",
+					"All sample data files use complete schema with new fields",
+					"Playwright E2E tests cover full user journey lifecycle",
+					"Upcoming appointment list items are clickable and open details modal",
+					"Navbar grouped panels close on outside click and are centered",
+					"Modal/info overlays render above navbar group panels",
+					"95 Vitest unit tests pass",
+					"19 Playwright E2E tests pass"
+				],
+				"verification_steps": [
+					"Run npm test (95 pass)",
+					"Run npx playwright test (19 pass)",
+					"Manual filter interaction in browser",
+					"Load each sample state file and verify new fields render"
 				]
 			}
 		}

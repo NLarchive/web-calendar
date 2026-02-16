@@ -54,4 +54,10 @@ describe('calendar views render correctly', () => {
     expect(html).toContain('data-appointment-key');
     expect(html).toContain('Vet Check');
   });
+
+  it('monthView marks current day with today highlight class', () => {
+    const now = new Date();
+    const html = renderMonthView([], now);
+    expect(html).toContain('month-cell-today');
+  });
 });

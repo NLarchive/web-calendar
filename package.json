@@ -8,11 +8,15 @@
   "homepage": "https://nlarchive.github.io/web-calendar/",
   "type": "module",
   "scripts": {
-    "serve": "npx http-server .",
+    "serve": "npx http-server . -p 4200 -c-1",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headed": "npx playwright test --headed",
+    "test:all": "vitest run && npx playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "jsdom": "^26.0.0",
     "vitest": "^3.2.4"
   }

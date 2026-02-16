@@ -3,6 +3,7 @@ import { renderDayView } from './views/dayView.js';
 import { renderWeekView } from './views/weekView.js';
 import { renderMonthView } from './views/monthView.js';
 import { renderYearView } from './views/yearView.js';
+import { renderAgendaView } from './views/agendaView.js';
 
 export class CalendarController {
   constructor() {
@@ -13,12 +14,13 @@ export class CalendarController {
     return `${item.sourceId || item.id}::${item.occurrenceDate || item.date}`;
   }
 
-  render({ root, viewMode, focusDate, appointments, sortMode, onAppointmentClick, onHierarchyNavigate }) {
+  render({ root, viewMode, focusDate, appointments, sortMode, onAppointmentClick, onHierarchyNavigate, calendarColorMap = new Map() }) {
     const [start, end] = getRangeByView(focusDate, viewMode);
     const expanded = expandRecurringAppointments(appointments, start, end);
     const sorted = sortAppointments(expanded, sortMode).map((item) => ({
       ...item,
       uiKey: this.createAppointmentKey(item),
+      calendarColor: calendarColorMap.get(item.calendarId || 'default') || '#2563eb',
     }));
 
     this.visibleItemsByKey = new Map(sorted.map((item) => [item.uiKey, item]));
@@ -62,6 +64,11 @@ export class CalendarController {
 
     if (viewMode === 'year') {
       root.innerHTML = renderYearView(sorted, focusDate);
+      return;
+    }
+
+    if (viewMode === 'agenda') {
+      root.innerHTML = renderAgendaView(sorted, focusDate);
       return;
     }
 

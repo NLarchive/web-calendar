@@ -39,4 +39,27 @@ describe('appointmentList', () => {
     expect(root.innerHTML).not.toContain('<script>');
     expect(root.innerHTML).toContain('&lt;script&gt;');
   });
+
+  it('opens details callback when clicking an upcoming appointment item', () => {
+    const root = document.createElement('div');
+    const calls = [];
+
+    renderAppointmentList(
+      root,
+      [
+        {
+          id: 'appt-1',
+          date: '2026-02-15T10:00:00.000Z',
+          title: 'Clickable Appointment',
+          category: 'test',
+          priority: 5,
+        },
+      ],
+      new Map(),
+      (appointment) => calls.push(appointment.id),
+    );
+
+    root.querySelector('[data-action="open-appointment-details"]').click();
+    expect(calls).toEqual(['appt-1']);
+  });
 });

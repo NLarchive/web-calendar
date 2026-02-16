@@ -4,6 +4,7 @@ export function renderMonthView(items, focusDate) {
   const year = focusDate.getFullYear();
   const month = focusDate.getMonth();
   const totalDays = new Date(year, month + 1, 0).getDate();
+  const now = new Date();
 
   const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const headers = weekdayLabels.map((d) => `<div class="month-header"><strong>${d}</strong></div>`).join('');
@@ -13,6 +14,10 @@ export function renderMonthView(items, focusDate) {
 
   const cells = Array.from({ length: totalDays }, (_, index) => index + 1)
     .map((dayNumber) => {
+      const isToday =
+        now.getFullYear() === year &&
+        now.getMonth() === month &&
+        now.getDate() === dayNumber;
       const dayItems = items.filter((item) => {
         const occurrence = new Date(item.occurrenceDate || item.date);
         return occurrence.getFullYear() === year && occurrence.getMonth() === month && occurrence.getDate() === dayNumber;
@@ -20,7 +25,7 @@ export function renderMonthView(items, focusDate) {
       const cellFocusDate = new Date(year, month, dayNumber, 9, 0, 0, 0).toISOString();
 
       return `
-      <div class="month-cell hierarchy-cell" data-nav-target="week" data-focus-date="${cellFocusDate}" role="button" tabindex="0" aria-label="Open week view for day ${dayNumber}">
+      <div class="month-cell hierarchy-cell ${isToday ? 'month-cell-today' : ''}" data-nav-target="week" data-focus-date="${cellFocusDate}" role="button" tabindex="0" aria-label="Open week view for day ${dayNumber}">
         <h4>${dayNumber}</h4>
         ${
           dayItems.length
@@ -28,7 +33,7 @@ export function renderMonthView(items, focusDate) {
                 .slice(0, 3)
                 .map(
                   (entry) =>
-                    `<div class="small"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">• ${escapeHtml(entry.title)} <span class="badge">P${entry.priority}</span></button></div>`,
+                    `<div class="small" style="border-left: 3px solid ${entry.calendarColor || '#2563eb'}; padding-left: 4px;"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">• ${escapeHtml(entry.title)} <span class="badge">P${entry.priority}</span></button></div>`,
                 )
                 .join('')
             : '<div class="small">No tasks</div>'

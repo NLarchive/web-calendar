@@ -55,4 +55,32 @@ describe('schedulerEngine', () => {
 
     expect(sorted[0].title).toBe('B');
   });
+
+  it('normalizes recurrence count when provided', () => {
+    const normalized = normalizeAppointment({
+      date: '2026-02-15T10:00:00',
+      title: 'Limited recurring appointment',
+      recurrence: 'daily',
+      recurrenceCount: '3',
+    });
+
+    expect(normalized.recurrenceCount).toBe(3);
+  });
+
+  it('limits recurring expansion by recurrence count', () => {
+    const item = normalizeAppointment({
+      date: '2026-02-15T10:00:00',
+      title: 'Limited recurring appointment',
+      recurrence: 'daily',
+      recurrenceCount: 2,
+    });
+
+    const result = expandRecurringAppointments(
+      [item],
+      new Date('2026-02-14T00:00:00Z'),
+      new Date('2026-03-01T23:59:59Z'),
+    );
+
+    expect(result.length).toBe(2);
+  });
 });

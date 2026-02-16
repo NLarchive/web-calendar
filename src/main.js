@@ -28,4 +28,13 @@ const app = new App({
   datetimeRoot: document.getElementById('current-datetime'),
 });
 
+if (typeof window !== 'undefined') {
+  window.__APP__ = app;
+  window.__MCP_ENDPOINTS__ = {
+    listConnectors: () => app.connectorRegistry.list(),
+    pullTasks: () => app.connectorRegistry.get('mcp-task-connector')?.pull(),
+    pushTasks: (payload) => app.connectorRegistry.get('mcp-task-connector')?.push(payload),
+  };
+}
+
 app.start();

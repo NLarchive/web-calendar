@@ -46,12 +46,29 @@ body {
 
 .navbar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   gap: 8px;
-  align-items: center;
+  align-items: flex-start;
   padding: 10px 16px;
   background: var(--panel);
   border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 3000;
+}
+
+.navbar-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.navbar-groups {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .navbar button,
@@ -59,6 +76,106 @@ body {
 .navbar input,
 .navbar textarea {
   font: inherit;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 8px;
+  padding: 8px 10px;
+  transition: all 0.1s ease-in-out;
+}
+
+.navbar button:hover,
+.navbar select:hover,
+.navbar input:hover {
+  border-color: var(--muted);
+  background-color: #fafafa;
+}
+
+.navbar input[data-action="search"] {
+  min-width: 320px;
+}
+
+.navbar-inline-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: -4px;
+}
+
+.navbar-group {
+  /* no position relative here to allow children to center against .navbar */
+}
+
+.navbar-group > summary {
+  list-style: none;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.1s ease-in-out;
+  font-weight: 500;
+}
+
+.navbar-group > summary:hover {
+  border-color: var(--muted);
+  background-color: #fafafa;
+}
+
+.navbar-group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.navbar-group[open] > summary {
+  outline: 2px solid var(--accent);
+}
+
+.navbar-group-panel {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  width: min(92vw, 520px);
+  min-width: 340px;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-top: 1px;
+}
+
+.navbar-group-panel button,
+.navbar-group-panel select,
+.navbar-group-panel input {
+  width: 100%;
+}
+
+.navbar-group-panel button {
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.navbar-group-panel button:hover {
+  background: #f1f5f9;
+  border-color: var(--accent);
+}
+
+#view-mode-select {
+  font-weight: 600;
+  border-color: var(--border);
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#view-mode-select:focus {
+  border-color: var(--accent);
+  background-color: #f8fbff;
 }
 
 button {
@@ -111,6 +228,32 @@ textarea:focus-visible {
   color: var(--muted);
 }
 
+.form-row-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.form-row-check input {
+  width: auto;
+}
+
+.agenda-view {
+  display: grid;
+  gap: 20px;
+}
+
+.agenda-date-header {
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+}
+
 .calendar-grid {
   display: grid;
   gap: 8px;
@@ -142,6 +285,11 @@ textarea:focus-visible {
 .month-cell-blank {
   border: none;
   background: transparent;
+}
+
+.month-cell-today {
+  background: #e5edff;
+  border-color: var(--accent);
 }
 
 .calendar-item-trigger,
@@ -192,7 +340,7 @@ textarea:focus-visible {
   justify-content: center;
   align-items: flex-start;
   padding: 64px 16px 16px;
-  z-index: 1000;
+  z-index: 4000;
 }
 
 /* inner card for the info content (keeps same visual style as other modals) */
@@ -235,7 +383,7 @@ textarea:focus-visible {
   justify-content: center;
   align-items: flex-start;
   padding: 64px 16px 16px;
-  z-index: 1000;
+  z-index: 4000;
 }
 
 .modal-card {
@@ -273,6 +421,12 @@ textarea:focus-visible {
   gap: 8px;
 }
 
+.details-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 /* ensure .hidden hides modal even though .modal sets display:flex */
 .modal.hidden {
   display: none;
@@ -281,5 +435,23 @@ textarea:focus-visible {
 @media (max-width: 1024px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar-groups {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .navbar-group-panel {
+    min-width: min(92vw, 360px);
+  }
+
+  .navbar input[data-action="search"] {
+    min-width: 0;
+    width: 100%;
   }
 }

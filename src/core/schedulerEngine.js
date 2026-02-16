@@ -30,6 +30,27 @@ export function normalizeAppointment(input) {
     ? Math.max(1, Math.min(10, Math.round(parsedPriority)))
     : 1;
 
+  const parsedReminder = Number(input.reminderMinutes);
+  const normalizedReminderMinutes = Number.isFinite(parsedReminder) && parsedReminder >= 0
+    ? Math.round(parsedReminder)
+    : null;
+
+  const parsedRecurrenceCount = Number(input.recurrenceCount);
+  const normalizedRecurrenceCount = Number.isFinite(parsedRecurrenceCount) && parsedRecurrenceCount > 0
+    ? Math.round(parsedRecurrenceCount)
+    : null;
+
+  const timezone = String(
+    input.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+  ).trim();
+
+  const allDay =
+    input.allDay === true ||
+    input.allDay === 'true' ||
+    input.allDay === 'on' ||
+    input.allDay === 1 ||
+    input.allDay === '1';
+
   return {
     id: input.id ?? crypto.randomUUID(),
     date: date.toISOString(),
@@ -45,6 +66,11 @@ export function normalizeAppointment(input) {
     category: (input.category || 'general').trim(),
     tags: Array.isArray(input.tags) ? input.tags : splitByComma(input.tags),
     priority: normalizedPriority,
+    allDay,
+    timezone,
+    calendarId: String(input.calendarId || 'default').trim() || 'default',
+    reminderMinutes: normalizedReminderMinutes,
+    recurrenceCount: normalizedRecurrenceCount,
     createdAt: input.createdAt || new Date().toISOString(),
   };
 }
@@ -88,15 +114,24 @@ export function expandRecurringAppointments(appointments, rangeStart, rangeEnd) 
   appointments.forEach((item) => {
     let occurrence = new Date(item.date);
     let iterations = 0;
+    let emittedOccurrences = 0;
+    const recurrenceCountLimit = Number(item.recurrenceCount);
+    const hasRecurrenceCountLimit = Number.isFinite(recurrenceCountLimit) && recurrenceCountLimit > 0;
 
     while (occurrence <= rangeEnd && iterations < MAX_EXPANSION) {
       iterations += 1;
+
+      if (hasRecurrenceCountLimit && emittedOccurrences >= recurrenceCountLimit) {
+        break;
+      }
+
       if (occurrence >= rangeStart) {
         expanded.push({
           ...item,
           occurrenceDate: occurrence.toISOString(),
           sourceId: item.id,
         });
+        emittedOccurrences += 1;
       }
 
       if (!item.recurrence || item.recurrence === RECURRENCE.NONE) break;
