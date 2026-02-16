@@ -111,10 +111,23 @@ export class App {
       }
     });
 
+    this.roots.closeSampleModalButton?.addEventListener('click', () => this.closeSampleModal());
+    this.roots.sampleModalRoot?.addEventListener('click', (event) => {
+      if (event.target === this.roots.sampleModalRoot) {
+        this.closeSampleModal();
+      }
+    });
+
     this.roots.syncFormRoot?.addEventListener('submit', async (event) => {
       event.preventDefault();
       await this.runSyncFlow();
       this.closeSyncModal();
+    });
+
+    this.roots.sampleFormRoot?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      await this.loadSample();
+      this.closeSampleModal();
     });
 
     this.eventBus.on('state:updated', () => {
@@ -205,6 +218,43 @@ export class App {
     this.roots.syncModalRoot?.classList.add('hidden');
   }
 
+  openSampleModal() {
+    this.roots.sampleModalRoot?.classList.remove('hidden');
+  }
+
+  closeSampleModal() {
+    this.roots.sampleModalRoot?.classList.add('hidden');
+  }
+
+  async loadSample() {
+    const sampleName = this.roots.sampleSelectRoot?.value;
+    if (!sampleName) return;
+
+    try {
+      const isGitHubPages = window.location.hostname === 'nlarchive.github.io';
+      const baseUrl = isGitHubPages
+        ? 'https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/'
+        : './data/';
+
+      const response = await fetch(`${baseUrl}${sampleName}`);
+      if (!response.ok) throw new Error('Failed to load sample');
+
+      const nextState = await response.json();
+      const parsedFocusDate = nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate;
+      const focusDate = Number.isNaN(parsedFocusDate.getTime()) ? this.state.focusDate : parsedFocusDate;
+
+      this.state = {
+        ...this.state,
+        ...nextState,
+        appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
+        focusDate,
+      };
+      this.eventBus.emit('state:updated');
+    } catch (error) {
+      alert(`Failed to load sample: ${error.message}`);
+    }
+  }
+
   async runSyncFlow() {
     const format = this.syncMode === 'sync' ? 'auto' : this.roots.syncFormatRoot?.value || 'json';
     const targetApp = this.roots.syncTargetAppRoot?.value || 'download';
@@ -276,6 +326,7 @@ export class App {
       },
       onSaveState: () => this.openSyncModal('save'),
       onLoadState: (file) => this.handleStateLoad(file),
+      onLoadSample: () => this.openSampleModal(),
       onToggleInfo: () => toggleInfoPanel(this.roots.infoRoot),
     });
 

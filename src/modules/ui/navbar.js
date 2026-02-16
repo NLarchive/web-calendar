@@ -13,6 +13,7 @@ export function renderNavbar(root, state, handlers) {
     <button data-action="toggle-sort">Sort: ${state.sortMode === SORT_MODES.PRIORITY ? 'Priority' : 'Date/Time'}</button>
     <button data-action="save-state">Save State</button>
     <button data-action="load-state">Load State</button>
+    <button data-action="load-sample">Load Sample</button>
     <button data-action="toggle-info">Info</button>
     <input id="state-file-input" type="file" accept=".json,.csv,.ics,application/json,text/csv,text/calendar" class="hidden" />
   `;
@@ -25,6 +26,7 @@ export function renderNavbar(root, state, handlers) {
   root.querySelector('[data-action="toggle-sort"]').addEventListener('click', handlers.onToggleSort);
   root.querySelector('[data-action="save-state"]').addEventListener('click', handlers.onSaveState);
   root.querySelector('[data-action="load-state"]').addEventListener('click', () => root.querySelector('#state-file-input').click());
+  root.querySelector('[data-action="load-sample"]').addEventListener('click', handlers.onLoadSample);
   root.querySelector('[data-action="toggle-info"]').addEventListener('click', handlers.onToggleInfo);
 
   root.querySelectorAll('[data-view]').forEach((button) => {
