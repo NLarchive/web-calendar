@@ -1,4 +1,5 @@
 import { App } from './app/App.js';
+import { createRepoUpdateMonitor } from './core/repoUpdateMonitor.js';
 
 const app = new App({
   navbarRoot: document.getElementById('navbar'),
@@ -38,3 +39,31 @@ if (typeof window !== 'undefined') {
 }
 
 app.start();
+
+const repoUpdateMonitor = createRepoUpdateMonitor({
+  intervalMs: 45000,
+  onRepoUpdate: ({ nextVersion }) => {
+    try {
+      app.persist();
+    } catch {
+      // keep update flow resilient
+    }
+
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('appVersion', String(nextVersion || Date.now()));
+    window.location.replace(currentUrl.toString());
+  },
+  onCheckError: (error) => {
+    console.warn('Repo update check failed:', error?.message || error);
+  },
+});
+
+repoUpdateMonitor.start();
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      repoUpdateMonitor.checkForUpdates();
+    }
+  });
+}

@@ -142,6 +142,10 @@ function parseDescription(description) {
     url: '',
     status: 'confirmed',
     attendees: [],
+    timezone: 'UTC',
+    allDay: false,
+    calendarId: 'default',
+    reminderMinutes: null,
   };
 
   for (const line of lines) {
@@ -157,6 +161,15 @@ function parseDescription(description) {
         .split(',')
         .map((v) => v.trim())
         .filter(Boolean);
+    }
+    else if (line.startsWith('TIMEZONE:')) details.timezone = line.replace('TIMEZONE:', '').trim() || 'UTC';
+    else if (line.startsWith('ALLDAY:')) details.allDay = line.replace('ALLDAY:', '').trim().toLowerCase() === 'true';
+    else if (line.startsWith('CALENDARID:')) details.calendarId = line.replace('CALENDARID:', '').trim() || 'default';
+    else if (line.startsWith('REMINDERMINUTES:')) {
+      const parsedReminder = Number(line.replace('REMINDERMINUTES:', '').trim());
+      details.reminderMinutes = Number.isFinite(parsedReminder) && parsedReminder >= 0
+        ? Math.round(parsedReminder)
+        : null;
     }
     else if (line.startsWith('DETAIL:')) details.description = line.replace('DETAIL:', '').trim();
   }
@@ -177,7 +190,12 @@ export function stateToCSV(state) {
     'id',
     'date',
     'endDate',
+    'timezone',
+    'allDay',
     'recurrence',
+    'calendarId',
+    'reminderMinutes',
+    'recurrenceCount',
     'title',
     'description',
     'location',
@@ -195,7 +213,12 @@ export function stateToCSV(state) {
     id: item.id || '',
     date: item.date || '',
     endDate: item.endDate || '',
+    timezone: item.timezone || 'UTC',
+    allDay: item.allDay ? 'true' : 'false',
     recurrence: item.recurrence || 'none',
+    calendarId: item.calendarId || 'default',
+    reminderMinutes: item.reminderMinutes != null ? Number(item.reminderMinutes) : '',
+    recurrenceCount: item.recurrenceCount != null ? Number(item.recurrenceCount) : '',
     title: item.title || '',
     description: item.description || '',
     location: item.location || '',
@@ -227,6 +250,10 @@ export function stateToICS(state, options = {}) {
       `CATEGORY:${item.category || 'general'}`,
       `TAGS:${(item.tags || []).join(',')}`,
       `CONTACT:${(item.contact || []).join(',')}`,
+      `TIMEZONE:${item.timezone || 'UTC'}`,
+      `ALLDAY:${item.allDay ? 'true' : 'false'}`,
+      `CALENDARID:${item.calendarId || 'default'}`,
+      `REMINDERMINUTES:${item.reminderMinutes != null ? item.reminderMinutes : ''}`,
       `LOCATION:${item.location || ''}`,
       `URL:${item.url || ''}`,
       `STATUS:${item.status || 'confirmed'}`,
@@ -239,6 +266,8 @@ export function stateToICS(state, options = {}) {
       `DTSTAMP:${toICSDateTime(new Date().toISOString())}`,
       `DTSTART:${dtStart}`,
       item.endDate ? `DTEND:${toICSDateTime(item.endDate)}` : null,
+      `X-WEBAPPT-TIMEZONE:${escapeICS(item.timezone || 'UTC')}`,
+      `X-WEBAPPT-ALLDAY:${item.allDay ? 'TRUE' : 'FALSE'}`,
       `SUMMARY:${escapeICS(item.title || 'Untitled Appointment')}`,
       `DESCRIPTION:${escapeICS(descriptionLines)}`,
       item.location ? `LOCATION:${escapeICS(item.location)}` : null,
@@ -307,6 +336,10 @@ export function parseStateFromICS(icsText) {
           attendees: current.ATTENDEE?.length
             ? current.ATTENDEE.map((attendee) => unescapeICS(attendee))
             : details.attendees,
+          timezone: unescapeICS(current['X-WEBAPPT-TIMEZONE'] || details.timezone || 'UTC'),
+          allDay: unescapeICS(current['X-WEBAPPT-ALLDAY'] || '').toLowerCase() === 'true' || details.allDay,
+          calendarId: details.calendarId || 'default',
+          reminderMinutes: details.reminderMinutes,
           category: details.category,
           tags: details.tags,
           priority: Number(current.PRIORITY) || 1,
@@ -363,6 +396,11 @@ export function parseStateFromCSV(csvText) {
       date: row.date || new Date().toISOString(),
       endDate: row.endDate || null,
       recurrence: row.recurrence || 'none',
+      timezone: row.timezone || 'UTC',
+      allDay: String(row.allDay || '').toLowerCase() === 'true',
+      calendarId: row.calendarId || 'default',
+      reminderMinutes: row.reminderMinutes === '' ? null : Number(row.reminderMinutes),
+      recurrenceCount: row.recurrenceCount === '' ? null : Number(row.recurrenceCount),
       title: row.title || 'Untitled Appointment',
       description: row.description || '',
       location: row.location || '',

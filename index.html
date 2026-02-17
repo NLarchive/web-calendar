@@ -109,6 +109,36 @@
         </div>
       </div>
     </div>
-    <script type="module" src="./src/main.js"></script>
+    <script type="module">
+      async function loadAppEntrypoint() {
+        let version = String(Date.now());
+
+        try {
+          const response = await fetch(`./version.json?bootstrapTs=${Date.now()}`, {
+            cache: 'no-store',
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+            },
+          });
+
+          if (response.ok) {
+            const manifest = await response.json();
+            if (manifest?.version) {
+              version = String(manifest.version);
+            }
+            if (typeof window !== 'undefined') {
+              window.__APP_BUILD_INFO__ = manifest;
+            }
+          }
+        } catch {
+          // fallback to timestamp version to bypass stale JS cache
+        }
+
+        await import(`./src/main.js?v=${encodeURIComponent(version)}`);
+      }
+
+      loadAppEntrypoint();
+    </script>
   </body>
 </html>

@@ -5,22 +5,26 @@ import {
   endOfWeek,
   endOfYear,
   formatDateTime,
+  getDateKeyInTimeZone,
+  getDetectedTimeZone,
+  normalizeTimeZone,
   parseInputDate,
   startOfDay,
   startOfMonth,
   startOfWeek,
   startOfYear,
+  toDateTimeInputInTimeZone,
   toLocalDateTimeInput,
 } from '../../src/core/dateUtils.js';
 
 describe('dateUtils', () => {
   describe('parseInputDate', () => {
     it('parses DD/MM/YYYY format', () => {
-      const result = parseInputDate('15/02/2026');
+      const result = parseInputDate('15/02/2026', { timeZone: 'UTC' });
       expect(result).toBeInstanceOf(Date);
-      expect(result.getFullYear()).toBe(2026);
-      expect(result.getMonth()).toBe(1); // February
-      expect(result.getDate()).toBe(15);
+      expect(result.getUTCFullYear()).toBe(2026);
+      expect(result.getUTCMonth()).toBe(1); // February
+      expect(result.getUTCDate()).toBe(15);
     });
 
     it('parses ISO 8601 format', () => {
@@ -41,6 +45,14 @@ describe('dateUtils', () => {
 
     it('returns null for malformed DD/MM/YYYY', () => {
       expect(parseInputDate('00/00/0000')).toBeNull();
+    });
+
+    it('parses datetime-local values against selected timezone deterministically', () => {
+      const madrid = parseInputDate('2026-02-15T10:00', { timeZone: 'Europe/Madrid' });
+      const tokyo = parseInputDate('2026-02-15T10:00', { timeZone: 'Asia/Tokyo' });
+
+      expect(madrid?.toISOString()).toBe('2026-02-15T09:00:00.000Z');
+      expect(tokyo?.toISOString()).toBe('2026-02-15T01:00:00.000Z');
     });
   });
 
@@ -64,6 +76,29 @@ describe('dateUtils', () => {
       const result = formatDateTime(date);
       expect(typeof result).toBe('string');
       expect(result.length).toBeGreaterThan(5);
+    });
+
+    it('formats with provided timezone and optional timezone label', () => {
+      const date = new Date('2026-02-15T09:00:00.000Z');
+      const result = formatDateTime(date, { timeZone: 'Europe/Madrid', includeTimeZone: true });
+      expect(result).toContain('Europe/Madrid');
+    });
+  });
+
+  describe('timezone helpers', () => {
+    it('normalizes invalid timezone to detected timezone', () => {
+      const normalized = normalizeTimeZone('not/a-real-zone');
+      expect(normalized).toBe(getDetectedTimeZone());
+    });
+
+    it('builds timezone-specific datetime-local value', () => {
+      const value = toDateTimeInputInTimeZone(new Date('2026-02-15T09:00:00.000Z'), 'Europe/Madrid');
+      expect(value).toBe('2026-02-15T10:00');
+    });
+
+    it('creates stable date keys per timezone', () => {
+      const key = getDateKeyInTimeZone(new Date('2026-02-15T23:30:00.000Z'), 'Asia/Tokyo');
+      expect(key).toBe('2026-02-16');
     });
   });
 

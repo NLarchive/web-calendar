@@ -35,4 +35,15 @@ describe('appointment form', () => {
     expect(onSubmit.mock.calls[0][0].title).toBe('');
     expect(onSubmit.mock.calls[0][0].recurrenceCount).toBe('4');
   });
+
+  it('renders timezone dropdown and preselects detected timezone', () => {
+    const root = document.createElement('div');
+    const onSubmit = vi.fn();
+
+    renderAppointmentForm(root, onSubmit);
+
+    const timezoneField = root.querySelector('select[name="timezone"]');
+    expect(timezoneField).toBeTruthy();
+    expect(timezoneField.value).toBe(Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+  });
 });

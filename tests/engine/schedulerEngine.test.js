@@ -83,4 +83,17 @@ describe('schedulerEngine', () => {
 
     expect(result.length).toBe(2);
   });
+
+  it('normalizes datetime-local values using selected timezone instead of browser timezone', () => {
+    const normalized = normalizeAppointment({
+      date: '2026-02-15T10:00',
+      endDate: '2026-02-15T11:00',
+      timezone: 'Europe/Madrid',
+      title: 'Timezone aware appointment',
+    });
+
+    expect(normalized.date).toBe('2026-02-15T09:00:00.000Z');
+    expect(normalized.endDate).toBe('2026-02-15T10:00:00.000Z');
+    expect(normalized.timezone).toBe('Europe/Madrid');
+  });
 });

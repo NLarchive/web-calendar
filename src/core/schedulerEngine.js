@@ -3,6 +3,8 @@ import {
   endOfMonth,
   endOfWeek,
   endOfYear,
+  getDetectedTimeZone,
+  normalizeTimeZone,
   parseInputDate,
   startOfDay,
   startOfMonth,
@@ -12,9 +14,10 @@ import {
 import { RECURRENCE, SORT_MODES } from './constants.js';
 
 export function normalizeAppointment(input) {
-  const date = parseInputDate(input.date);
+  const timezone = normalizeTimeZone(input.timezone || getDetectedTimeZone());
+  const date = parseInputDate(input.date, { timeZone: timezone });
   if (!date) throw new Error('Invalid appointment date');
-  const endDate = parseInputDate(input.endDate);
+  const endDate = parseInputDate(input.endDate, { timeZone: timezone });
   if (endDate && endDate < date) throw new Error('End date must be after start date');
 
   const normalizedRecurrence = Object.values(RECURRENCE).includes(input.recurrence)
@@ -39,10 +42,6 @@ export function normalizeAppointment(input) {
   const normalizedRecurrenceCount = Number.isFinite(parsedRecurrenceCount) && parsedRecurrenceCount > 0
     ? Math.round(parsedRecurrenceCount)
     : null;
-
-  const timezone = String(
-    input.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
-  ).trim();
 
   const allDay =
     input.allDay === true ||
@@ -88,16 +87,16 @@ function shiftByRecurrence(date, recurrence) {
 
   switch (recurrence) {
     case RECURRENCE.DAILY:
-      shifted.setDate(shifted.getDate() + 1);
+      shifted.setUTCDate(shifted.getUTCDate() + 1);
       break;
     case RECURRENCE.WEEKLY:
-      shifted.setDate(shifted.getDate() + 7);
+      shifted.setUTCDate(shifted.getUTCDate() + 7);
       break;
     case RECURRENCE.MONTHLY:
-      shifted.setMonth(shifted.getMonth() + 1);
+      shifted.setUTCMonth(shifted.getUTCMonth() + 1);
       break;
     case RECURRENCE.YEARLY:
-      shifted.setFullYear(shifted.getFullYear() + 1);
+      shifted.setUTCFullYear(shifted.getUTCFullYear() + 1);
       break;
     default:
       shifted.setFullYear(3000);

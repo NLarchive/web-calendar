@@ -4,6 +4,16 @@ function parseDate(value) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
+function normalizeTimeZone(value) {
+  const candidate = String(value || '').trim();
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: candidate }).format(new Date());
+    return candidate;
+  } catch {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  }
+}
+
 function addDays(baseDate, days) {
   const next = new Date(baseDate);
   next.setDate(next.getDate() + days);
@@ -138,7 +148,7 @@ export function createCalendarCalculatorEngine(templates = []) {
           recurrence: item.recurrence || 'none',
           status: item.status || 'confirmed',
           calendarId: item.calendarId || 'health',
-          timezone: item.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+          timezone: normalizeTimeZone(item.timezone),
           allDay: Boolean(item.allDay),
           tags: ensureArray(item.tags),
           attendees: ensureArray(item.attendees),

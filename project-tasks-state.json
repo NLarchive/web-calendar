@@ -2624,6 +2624,117 @@
 					"Load each sample state file and verify new fields render"
 				]
 			}
+		},
+		{
+			"task_id": 41,
+			"task_name": "Implement Repo Update Detection and Safe Client Auto-Refresh",
+			"description": "Implemented GitHub Pages-friendly version-manifest update strategy: deploy pipeline generates version.json from commit SHA, client bootstraps UI/engine imports with version query params, and runtime monitor checks only version.json for lightweight auto-refresh. Persisted state before reload to preserve user calendar data across updates.",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": true,
+			"tags": ["cache", "auto-update", "repo-sync", "state-persistence"],
+			"category_name": "Deployment",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-17T09:10:00Z",
+			"completed_date": "2026-02-17T09:32:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-17T09:32:00Z",
+					"text": "Implemented version-manifest monitor with no-store checks, visibility-aware polling and abort control, versioned dynamic module loading from index bootstrap, deploy workflow manifest generation, and unit tests for update detection lifecycle."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 40,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Open clients detect repo code updates automatically",
+					"Client refresh preserves local appointment/calendar data",
+					"Update checks do not crash UI when network errors occur"
+				],
+				"verification_steps": [
+					"Run npm test and confirm repo update monitor tests pass",
+					"Manual: keep page open, change monitored asset, verify auto-refresh",
+					"Manual: confirm saved calendar data remains after refresh"
+				]
+			}
+		},
+		{
+			"task_id": 42,
+			"task_name": "Timezone and DateTime Hardening for Travel/VPN Stability",
+			"description": "Performed full timezone/date-time audit and implemented timezone-safe scheduling model: validated IANA timezone dropdown in appointment form, timezone-aware normalization of datetime-local inputs, timezone-aware rendering/grouping in list/calendar/details/agenda, UTC-safe recurrence shifts, and timezone field preservation in CSV/ICS sync formats.",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 4,
+			"is_critical_path": true,
+			"tags": ["timezone", "datetime", "data-integrity", "production-hardening"],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-17T10:10:00Z",
+			"completed_date": "2026-02-17T11:05:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-17T11:05:00Z",
+					"text": "Added timezone utility layer, converted free-text timezone to validated dropdown, normalized datetime-local inputs against selected timezone, preserved timezone fields in sync formats, and added regression tests for timezone parsing/formatting behavior."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 41,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Travel/VPN/browser timezone changes do not alter appointment intended local time",
+					"Timezone entry is constrained to valid IANA values",
+					"Calendar/list/details render with appointment timezone context",
+					"Timezone metadata survives import/export roundtrips"
+				],
+				"verification_steps": [
+					"Run npm test and confirm timezone tests pass",
+					"Manual: create same datetime in two different timezones and verify stable display",
+					"Manual: export/import CSV/ICS and verify timezone fields remain intact"
+				]
+			}
 		}
 	],
 	"required_fields": [

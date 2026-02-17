@@ -1,4 +1,12 @@
 import { escapeHtml } from '../../../core/sanitize.js';
+import { getDateKeyInTimeZone } from '../../../core/dateUtils.js';
+
+function toLocalDayKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 export function renderWeekView(items, rangeStart) {
   const now = new Date();
@@ -12,9 +20,12 @@ export function renderWeekView(items, rangeStart) {
 
   const html = days
     .map((day) => {
-      const dayKey = day.toDateString();
-      const isToday = dayKey === todayKey;
-      const dayItems = items.filter((item) => new Date(item.occurrenceDate || item.date).toDateString() === dayKey);
+      const dayKey = toLocalDayKey(day);
+      const isToday = day.toDateString() === todayKey;
+      const dayItems = items.filter((item) => {
+        const occurrence = new Date(item.occurrenceDate || item.date);
+        return getDateKeyInTimeZone(occurrence, item.timezone) === dayKey;
+      });
       const focusIso = day.toISOString();
 
       return `

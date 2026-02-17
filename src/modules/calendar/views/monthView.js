@@ -1,4 +1,9 @@
 import { escapeHtml } from '../../../core/sanitize.js';
+import { getDateKeyInTimeZone } from '../../../core/dateUtils.js';
+
+function toMonthDayKey(year, month, day) {
+  return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
 
 export function renderMonthView(items, focusDate) {
   const year = focusDate.getFullYear();
@@ -20,7 +25,7 @@ export function renderMonthView(items, focusDate) {
         now.getDate() === dayNumber;
       const dayItems = items.filter((item) => {
         const occurrence = new Date(item.occurrenceDate || item.date);
-        return occurrence.getFullYear() === year && occurrence.getMonth() === month && occurrence.getDate() === dayNumber;
+        return getDateKeyInTimeZone(occurrence, item.timezone) === toMonthDayKey(year, month, dayNumber);
       });
       const cellFocusDate = new Date(year, month, dayNumber, 9, 0, 0, 0).toISOString();
 

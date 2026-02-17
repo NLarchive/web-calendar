@@ -1,4 +1,5 @@
 import { escapeHtml } from '../../../core/sanitize.js';
+import { getDateKeyInTimeZone } from '../../../core/dateUtils.js';
 
 export function renderYearView(items, focusDate) {
   const year = focusDate.getFullYear();
@@ -10,7 +11,8 @@ export function renderYearView(items, focusDate) {
       const isCurrentMonth = monthIndex === currentMonthIndex;
       const monthItems = items.filter((item) => {
         const occurrence = new Date(item.occurrenceDate || item.date);
-        return occurrence.getFullYear() === year && occurrence.getMonth() === monthIndex;
+        const dateKey = getDateKeyInTimeZone(occurrence, item.timezone);
+        return dateKey.startsWith(`${year}-${String(monthIndex + 1).padStart(2, '0')}-`);
       });
       const monthFocusDate = new Date(year, monthIndex, 1, 9, 0, 0, 0).toISOString();
 

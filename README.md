@@ -32,6 +32,8 @@ This project provides a client-side engine to create, view and manage appointmen
 - Default sorting by **priority** with toggle to sort by **date/time**
 - Recurrence support (basic/yearly example) and future-datetime management
 - Save / Load state (export/import JSON file) and in-memory caching
+- Automatic repo-update detection with safe client reload while preserving local calendar data
+- Timezone-safe scheduling with IANA timezone dropdown (auto-detected default, user-changeable)
 - Current date/time display and navigation controls
 - Info/help overlay and shared navbar for consistent UX
 - Pure client-side (no backend required)
@@ -74,6 +76,8 @@ Each appointment contains the following fields:
 - Default sort: **priority** (descending). Use the toggle to sort by **date/time**.
 - Save State button: downloads current state as JSON.
 - Load State button: uploads a JSON file to restore state.
+- Appointment timezone uses a validated dropdown (IANA zones); avoids invalid manual timezone strings.
+- Date/time rendering uses appointment timezone so travel/VPN/location changes do not shift scheduled local appointment time.
 - Info button: explains UI features and usage tips.
 
 ## Project structure 🧩
@@ -141,10 +145,14 @@ Each appointment contains the following fields:
 - Deployment workflow is included at `.github/workflows/deploy-pages.yml`.
 - Ensure Pages is enabled in repository settings with **GitHub Actions** as source.
 - Public URL target: `https://nlarchive.github.io/web-calendar/`
+- Deploy workflow generates `version.json` (commit-based version manifest).
+- The app bootstraps `src/main.js` with a version query (`?v=<version>`) to force fresh UI/engine code after deploy.
+- Calendar data remains in localStorage, so client refresh updates code without losing appointments.
 
 ## Production readiness ✅
 
 - Modular architecture (core, UI, calendar views, connectors, plugins)
+- Automatic update monitor checks key repo assets and reloads stale clients without clearing localStorage state
 - Automated test suite with reusable modular tests
 - Open-source license included (`MIT`)
 - GitHub Pages deployment workflow included

@@ -1,10 +1,15 @@
 import { RECURRENCE } from '../../core/constants.js';
-import { toLocalDateTimeInput } from '../../core/dateUtils.js';
+import {
+  getDetectedTimeZone,
+  getSupportedTimeZones,
+  normalizeTimeZone,
+  toDateTimeInputInTimeZone,
+} from '../../core/dateUtils.js';
 
-function toDateInputValue(value) {
+function toDateInputValue(value, timeZone) {
   if (!value) return '';
   const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? '' : toLocalDateTimeInput(parsed);
+  return Number.isNaN(parsed.getTime()) ? '' : toDateTimeInputInTimeZone(parsed, timeZone);
 }
 
 export function renderAppointmentForm(root, onSubmit, options = {}) {
@@ -13,16 +18,18 @@ export function renderAppointmentForm(root, onSubmit, options = {}) {
   const mode = options.mode === 'edit' ? 'edit' : 'create';
   const submitLabel = mode === 'edit' ? 'Save Appointment' : 'Add Appointment';
 
-  const defaultTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  const defaultTimezone = normalizeTimeZone(getDetectedTimeZone());
+  const selectedTimezone = normalizeTimeZone(appointment?.timezone || defaultTimezone, defaultTimezone);
+  const timezoneOptions = getSupportedTimeZones(defaultTimezone);
   const selectedCalendarId = appointment?.calendarId || 'default';
 
   root.innerHTML = `
     <form id="appointment-create-form" class="form-grid">
       <label for="f-date">Date & time</label>
-      <input id="f-date" name="date" type="datetime-local" required value="${toDateInputValue(appointment?.date) || toLocalDateTimeInput(new Date())}" />
+      <input id="f-date" name="date" type="datetime-local" required value="${toDateInputValue(appointment?.date, selectedTimezone) || toDateTimeInputInTimeZone(new Date(), selectedTimezone)}" />
       
       <label for="f-endDate">End date & time</label>
-      <input id="f-endDate" name="endDate" type="datetime-local" value="${toDateInputValue(appointment?.endDate)}" />
+      <input id="f-endDate" name="endDate" type="datetime-local" value="${toDateInputValue(appointment?.endDate, selectedTimezone)}" />
       
       <div class="form-row-check">
         <input id="f-allDay" name="allDay" type="checkbox" ${appointment?.allDay ? 'checked' : ''} />
@@ -30,7 +37,11 @@ export function renderAppointmentForm(root, onSubmit, options = {}) {
       </div>
 
       <label for="f-timezone">Timezone</label>
-      <input id="f-timezone" name="timezone" value="${appointment?.timezone || defaultTimezone}" placeholder="UTC" />
+      <select id="f-timezone" name="timezone">
+        ${timezoneOptions
+          .map((timeZone) => `<option value="${timeZone}" ${timeZone === selectedTimezone ? 'selected' : ''}>${timeZone}</option>`)
+          .join('')}
+      </select>
 
       <label for="f-recurrence">Recurrence</label>
       <select id="f-recurrence" name="recurrence">
@@ -105,12 +116,12 @@ export function renderAppointmentForm(root, onSubmit, options = {}) {
 
     if (mode === 'create') {
       form.reset();
-      form.elements.date.value = toLocalDateTimeInput(new Date());
+      form.elements.timezone.value = defaultTimezone;
+      form.elements.date.value = toDateTimeInputInTimeZone(new Date(), form.elements.timezone.value);
       form.elements.endDate.value = '';
       form.elements.priority.value = '5';
       form.elements.recurrence.value = RECURRENCE.NONE;
       form.elements.status.value = 'confirmed';
-      form.elements.timezone.value = defaultTimezone;
     }
   });
 }

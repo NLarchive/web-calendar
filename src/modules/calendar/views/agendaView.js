@@ -1,5 +1,5 @@
 import { escapeHtml } from '../../../core/sanitize.js';
-import { formatDateTime } from '../../../core/dateUtils.js';
+import { formatDateTime, getDateKeyInTimeZone } from '../../../core/dateUtils.js';
 
 export function renderAgendaView(items, focusDate) {
   if (!items.length) {
@@ -12,15 +12,15 @@ export function renderAgendaView(items, focusDate) {
 
   // Group items by day
   const groups = new Map();
-  items.forEach(item => {
+  items.forEach((item) => {
     const d = new Date(item.occurrenceDate || item.date);
-    const key = d.toDateString();
+    const key = getDateKeyInTimeZone(d, item.timezone);
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(item);
   });
 
-  const sortedKeys = Array.from(groups.keys()).sort((a, b) => new Date(a) - new Date(b));
-  const todayKey = new Date().toDateString();
+  const sortedKeys = Array.from(groups.keys()).sort((a, b) => a.localeCompare(b));
+  const todayKey = getDateKeyInTimeZone(new Date());
 
   const content = sortedKeys.map(key => {
     const dayItems = groups.get(key);
@@ -39,7 +39,7 @@ export function renderAgendaView(items, focusDate) {
                 aria-label="Open details for ${escapeHtml(item.title)}"
               >
                 <h4>${escapeHtml(item.title)}</h4>
-                <div class="small">${formatDateTime(new Date(item.occurrenceDate || item.date))}</div>
+                <div class="small">${formatDateTime(new Date(item.occurrenceDate || item.date), { timeZone: item.timezone, includeTimeZone: true })}</div>
                 <div class="small">${escapeHtml(item.category || 'general')} • P${item.priority}</div>
               </button>
             </article>

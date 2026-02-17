@@ -24,6 +24,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Generate build version manifest
+        run: |
+          cat > version.json << 'JSON'
+          {
+            "version": "${{ github.sha }}",
+            "sha": "${{ github.sha }}",
+            "buildId": "${{ github.run_id }}",
+            "runNumber": "${{ github.run_number }}",
+            "generatedAt": "${{ github.event.head_commit.timestamp || github.run_id }}"
+          }
+          JSON
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:

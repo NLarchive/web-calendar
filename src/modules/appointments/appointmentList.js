@@ -22,7 +22,7 @@ export function renderAppointmentList(root, appointments, calendarColorMap = new
             aria-label="Open appointment details"
           >
             <h4>${escapeHtml(item.title)}</h4>
-            <div class="small">${formatDateTime(new Date(item.date))}</div>
+            <div class="small">${formatDateTime(new Date(item.date), { timeZone: item.timezone, includeTimeZone: true })}</div>
             <div class="small">${escapeHtml(item.category || 'general')} • Priority ${item.priority} • ${escapeHtml(item.calendarId || 'default')}</div>
           </button>
         </article>

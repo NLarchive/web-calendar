@@ -16,14 +16,14 @@ export function renderAppointmentDetails(root, appointment) {
   root.innerHTML = `
     <div class="details-grid">
       <div><strong>Title:</strong> ${escapeHtml(appointment.title || 'Untitled')}</div>
-      <div><strong>Date/Time:</strong> ${formatDateTime(occurrence)}</div>
+      <div><strong>Date/Time:</strong> ${formatDateTime(occurrence, { timeZone: appointment.timezone, includeTimeZone: true })}</div>
       <div><strong>Recurrence:</strong> ${escapeHtml(appointment.recurrence || 'none')}</div>
       <div><strong>Priority:</strong> ${appointment.priority}</div>
       <div><strong>All Day:</strong> ${appointment.allDay ? 'Yes' : 'No'}</div>
       <div><strong>Timezone:</strong> ${escapeHtml(appointment.timezone || 'Local')}</div>
       <div><strong>Calendar:</strong> ${escapeHtml(appointment.calendarId || 'default')}</div>
       <div><strong>Reminder:</strong> ${appointment.reminderMinutes != null ? `${appointment.reminderMinutes} min before` : 'Off'}</div>
-      <div><strong>End Date/Time:</strong> ${appointment.endDate ? formatDateTime(new Date(appointment.endDate)) : 'Not set'}</div>
+      <div><strong>End Date/Time:</strong> ${appointment.endDate ? formatDateTime(new Date(appointment.endDate), { timeZone: appointment.timezone, includeTimeZone: true }) : 'Not set'}</div>
       <div><strong>Location:</strong> ${escapeHtml(appointment.location || 'Not set')}</div>
       <div><strong>Event URL:</strong> ${escapeHtml(appointment.url || 'Not set')}</div>
       <div><strong>Status:</strong> ${escapeHtml(appointment.status || 'confirmed')}</div>

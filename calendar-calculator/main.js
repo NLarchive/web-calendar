@@ -1,5 +1,6 @@
 import { DEFAULT_CALENDARS } from '../src/core/constants.js';
 import { createCalendarCalculatorEngine } from '../src/core/calendarCalculatorEngine.js';
+import { formatDateTime } from '../src/core/dateUtils.js';
 import { queueCalendarCalculatorImport } from '../src/plugins/calendarCalculatorPlugin.js';
 import { loadCalculatorTemplates } from '../src/modules/calculator/calculatorTemplates.js';
 
@@ -83,7 +84,7 @@ function renderResults(appointments) {
 
   resultsRoot.innerHTML = sorted
     .map((item) => {
-      const when = new Date(item.date).toLocaleString();
+      const when = formatDateTime(new Date(item.date), { timeZone: item.timezone, includeTimeZone: true });
       return `
         <article class="result-item">
           <h3>${item.title}</h3>
