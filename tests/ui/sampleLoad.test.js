@@ -12,8 +12,15 @@ function setupLoadStateDom() {
           <option value="empty">Empty State</option>
         </select>
         <div id="sample-state-fields">
+          <select id="load-state-sample-folder">
+            <option value="vet">Veterinary Care</option>
+          </select>
           <select id="load-state-sample">
             <option value="dog-vet-care-state.json">Dog</option>
+          </select>
+          <select id="load-state-sample-country">
+            <option value="global">Global (WHO/NICE/ACOG)</option>
+            <option value="chile">Chile (MINSAL/Local Guidance)</option>
           </select>
         </div>
         <div id="custom-state-fields" class="hidden">
@@ -36,7 +43,9 @@ function setupLoadStateDom() {
     closeStateLoadModalButton: document.getElementById('close-state-load-modal'),
     stateLoadFormRoot: document.getElementById('state-load-form'),
     stateLoadSourceRoot: document.getElementById('load-state-source'),
+    stateLoadSampleFolderRoot: document.getElementById('load-state-sample-folder'),
     stateLoadSampleRoot: document.getElementById('load-state-sample'),
+    stateLoadSampleCountryRoot: document.getElementById('load-state-sample-country'),
     stateLoadFileRoot: document.getElementById('load-state-file'),
     sampleStateFieldsRoot: document.getElementById('sample-state-fields'),
     customStateFieldsRoot: document.getElementById('custom-state-fields'),
@@ -54,6 +63,7 @@ describe('state loading', () => {
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({
+          sampleMeta: { country: 'chile' },
           appointments: [{ id: 'sample', title: 'Sample Apt', date: '2026-02-15T10:00:00.000Z' }],
           viewMode: 'month',
           sortMode: 'priority',
@@ -79,9 +89,10 @@ describe('state loading', () => {
     await new Promise((r) => setTimeout(r, 0));
 
     expect(window.confirm).toHaveBeenCalled();
-    expect(mockFetch).toHaveBeenCalledWith('./data/dog-vet-care-state.json');
+    expect(mockFetch).toHaveBeenCalledWith('./data/calendar-template/vet/dog-vet-care-state.json');
     expect(app.state.appointments.length).toBe(1);
     expect(app.state.appointments[0].title).toBe('Sample Apt');
+    expect(document.getElementById('load-state-sample-country').value).toBe('chile');
   });
 
   it('loads sample from GitHub when on GitHub Pages', async () => {
@@ -89,6 +100,7 @@ describe('state loading', () => {
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({
+          sampleMeta: { country: 'chile' },
           appointments: [],
           viewMode: 'month',
           sortMode: 'priority',
@@ -113,7 +125,7 @@ describe('state loading', () => {
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     await new Promise((r) => setTimeout(r, 0));
 
-    expect(mockFetch).toHaveBeenCalledWith('https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/dog-vet-care-state.json');
+    expect(mockFetch).toHaveBeenCalledWith('https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/calendar-template/vet/dog-vet-care-state.json');
   });
 
   it('does not replace state when user cancels warning prompt', async () => {
@@ -123,6 +135,9 @@ describe('state loading', () => {
 
     const app = setupLoadStateDom();
     app.bindEventListeners();
+
+    // Ignore background metadata lookup performed when sample dropdown initializes.
+    mockFetch.mockClear();
 
     const form = document.getElementById('state-load-form');
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
