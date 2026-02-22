@@ -16,6 +16,31 @@ import { getPreferredFormatForTargetApp, parseCalendarStateFile } from '../modul
 
 
 
+const SAMPLE_FILES = {
+  vet: [
+    { value: 'dog-vet-care-state.json', label: 'Dog Vet Care Schedule' },
+    { value: 'cat-vet-care-state.json', label: 'Cat Vet Care Schedule' }
+  ],
+  pregnancy: [
+    { value: 'pregnancy-care-state.json', label: 'Pregnancy Care Schedule' }
+  ]
+};
+
+const COUNTRY_LABELS = {
+  global: 'Global (WHO/NICE/ACOG)',
+  chile: 'Chile (MINSAL/Local Guidance)',
+};
+
+function getDetectedCountry() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz === 'America/Santiago') return 'chile';
+    const lang = (typeof navigator !== 'undefined' ? navigator.language : '') || '';
+    if (lang.startsWith('es-CL')) return 'chile';
+  } catch { /* ignore */ }
+  return 'global';
+}
+
 function formatFocusLabel(viewMode, focusDate) {
   // concise label for the calendar header (used in #current-datetime)
   if (!focusDate || !(focusDate instanceof Date)) return '';
@@ -134,6 +159,14 @@ export class App {
 
     this.roots.stateLoadSourceRoot?.addEventListener('change', () => {
       this.updateStateLoadSourceUI();
+    });
+
+    this.roots.stateLoadSampleFolderRoot?.addEventListener('change', () => {
+      this.updateSampleDropdown();
+    });
+
+    this.roots.stateLoadSampleRoot?.addEventListener('change', () => {
+      this.updateSampleCountryPreview();
     });
 
     this.roots.stateLoadFormRoot?.addEventListener('submit', async (event) => {
@@ -341,6 +374,10 @@ export class App {
 
   openStateLoadModal() {
     this.roots.stateLoadModalRoot?.classList.remove('hidden');
+    const countryRoot = this.roots.stateLoadSampleCountryRoot;
+    if (countryRoot?.tagName === 'SELECT') {
+      countryRoot.value = getDetectedCountry();
+    }
     this.updateStateLoadSourceUI();
   }
 
@@ -352,9 +389,72 @@ export class App {
     const source = this.roots.stateLoadSourceRoot?.value || 'sample';
     if (this.roots.sampleStateFieldsRoot) {
       this.roots.sampleStateFieldsRoot.classList.toggle('hidden', source !== 'sample');
+      if (source === 'sample') {
+        this.updateSampleDropdown();
+      }
     }
     if (this.roots.customStateFieldsRoot) {
       this.roots.customStateFieldsRoot.classList.toggle('hidden', source !== 'custom');
+    }
+  }
+
+  updateSampleDropdown() {
+    const folder = this.roots.stateLoadSampleFolderRoot?.value || 'vet';
+    const sampleSelect = this.roots.stateLoadSampleRoot;
+    if (!sampleSelect) return;
+
+    sampleSelect.innerHTML = '';
+    const options = SAMPLE_FILES[folder] || [];
+    options.forEach((opt) => {
+      const optionEl = document.createElement('option');
+      optionEl.value = opt.value;
+      optionEl.textContent = opt.label;
+      sampleSelect.appendChild(optionEl);
+    });
+
+    this.updateSampleCountryPreview();
+  }
+
+  getSampleBaseUrl() {
+    const isGitHubPages = window.location.hostname === 'nlarchive.github.io';
+    return isGitHubPages
+      ? 'https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/calendar-template/'
+      : './data/calendar-template/';
+  }
+
+  getSampleUrl(sampleFolder, sampleName) {
+    return `${this.getSampleBaseUrl()}${sampleFolder}/${sampleName}`;
+  }
+
+  async updateSampleCountryPreview() {
+    const countryRoot = this.roots.stateLoadSampleCountryRoot;
+    if (!countryRoot) return;
+
+    const sampleFolder = this.roots.stateLoadSampleFolderRoot?.value || 'vet';
+    const sampleName = this.roots.stateLoadSampleRoot?.value;
+    if (!sampleName) {
+      if (countryRoot.tagName === 'SELECT') countryRoot.value = getDetectedCountry();
+      else countryRoot.value = '-';
+      return;
+    }
+
+    try {
+      const response = await fetch(this.getSampleUrl(sampleFolder, sampleName));
+      if (!response.ok) throw new Error('Failed to load sample metadata');
+      const sampleState = await response.json();
+      const countryKey = sampleState?.sampleMeta?.country || sampleState?.country || 'global';
+      if (countryRoot.tagName === 'SELECT') {
+        countryRoot.value = countryKey;
+        if (!countryRoot.value) countryRoot.value = 'global';
+      } else {
+        countryRoot.value = COUNTRY_LABELS[countryKey] || String(countryKey);
+      }
+    } catch {
+      if (countryRoot.tagName === 'SELECT') {
+        countryRoot.value = getDetectedCountry();
+      } else {
+        countryRoot.value = 'Unknown';
+      }
     }
   }
 
@@ -395,17 +495,13 @@ export class App {
       }
 
       const sampleName = this.roots.stateLoadSampleRoot?.value;
+      const sampleFolder = this.roots.stateLoadSampleFolderRoot?.value || 'vet';
       if (!sampleName) {
         alert('Please select a sample state.');
         return;
       }
 
-      const isGitHubPages = window.location.hostname === 'nlarchive.github.io';
-      const baseUrl = isGitHubPages
-        ? 'https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/'
-        : './data/';
-
-      const response = await fetch(`${baseUrl}${sampleName}`);
+      const response = await fetch(this.getSampleUrl(sampleFolder, sampleName));
       if (!response.ok) throw new Error('Failed to load sample state');
 
       const nextState = await response.json();

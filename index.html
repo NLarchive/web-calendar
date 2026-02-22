@@ -91,11 +91,21 @@
             </select>
 
             <div id="sample-state-fields">
+              <label for="load-state-sample-folder">Category</label>
+              <select id="load-state-sample-folder" name="sampleFolder">
+                <option value="vet">Veterinary Care</option>
+                <option value="pregnancy">Pregnancy Care</option>
+              </select>
+
               <label for="load-state-sample">Sample</label>
               <select id="load-state-sample" name="sample">
-                <option value="dog-vet-care-state.json">Dog Vet Care Schedule</option>
-                <option value="cat-vet-care-state.json">Cat Vet Care Schedule</option>
-                <option value="combined-vet-care-state.json">Combined Vet Care Schedule</option>
+                <!-- Options populated dynamically based on folder -->
+              </select>
+
+              <label for="load-state-sample-country">Country Profile</label>
+              <select id="load-state-sample-country" name="sampleCountry">
+                <option value="global">Global (WHO/NICE/ACOG)</option>
+                <option value="chile">Chile (MINSAL/Local Guidance)</option>
               </select>
             </div>
             <div id="custom-state-fields" class="hidden">

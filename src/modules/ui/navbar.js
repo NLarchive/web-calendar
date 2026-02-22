@@ -1,4 +1,5 @@
 import { VIEW_MODES, SORT_MODES } from '../../core/constants.js';
+import { getSupportedTimeZones, normalizeTimeZone, getDetectedTimeZone } from '../../core/dateUtils.js';
 
 export function renderNavbar(root, state, handlers) {
   const calendars = Array.isArray(state.calendars) ? state.calendars : [];
@@ -7,18 +8,25 @@ export function renderNavbar(root, state, handlers) {
   root.className = 'navbar';
   root.innerHTML = `
     <div class="navbar-main">
-      <strong>Appointment Scheduler</strong>
-      <button class="primary" data-action="open-new-appointment">+ New Appointment</button>
-      <button data-action="prev" aria-label="Previous period">◀</button>
-      <button data-action="today">Today</button>
-      <button data-action="next" aria-label="Next period">▶</button>
-      <label class="navbar-inline-label" for="view-mode-select">View</label>
-      <select id="view-mode-select" data-action="view-mode" aria-label="Select calendar view" name="viewMode">
-        ${VIEW_MODES.map((mode) => `<option value="${mode}" ${state.viewMode === mode ? 'selected' : ''}>${mode[0].toUpperCase() + mode.slice(1)}</option>`).join('')}
-      </select>
+      <div class="navbar-section">
+        <button data-action="prev" aria-label="Previous period">◀</button>
+        <button data-action="today">Today</button>
+        <button data-action="next" aria-label="Next period">▶</button>
+      </div>
+
+      <div class="navbar-section">
+        <label class="navbar-inline-label" for="view-mode-select">View</label>
+        <select id="view-mode-select" data-action="view-mode" aria-label="Select calendar view" name="viewMode">
+          ${VIEW_MODES.map((mode) => `<option value="${mode}" ${state.viewMode === mode ? 'selected' : ''}>${mode[0].toUpperCase() + mode.slice(1)}</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="navbar-clock" aria-live="polite" title="Current Time"></div>
     </div>
 
     <div class="navbar-groups">
+      <button class="primary" data-action="open-new-appointment">+ New Appointment</button>
+
       <details class="navbar-group" data-group="actions">
         <summary>Actions</summary>
         <div class="navbar-group-panel">
@@ -28,6 +36,15 @@ export function renderNavbar(root, state, handlers) {
           <button data-action="save-state">Save State</button>
           <button data-action="load-state">Load State</button>
           <button data-action="toggle-info">Info</button>
+          <div class="navbar-inline-label">Timezone
+            <select id="navbar-timezone-select" name="timezone" aria-label="Select timezone">
+              ${(() => {
+                const defaultTZ = normalizeTimeZone(getDetectedTimeZone());
+                const opts = getSupportedTimeZones(defaultTZ);
+                return opts.map((t) => `<option value="${t}" ${t === defaultTZ ? 'selected' : ''}>${t}</option>`).join('');
+              })()}
+            </select>
+          </div>
         </div>
       </details>
 
@@ -121,8 +138,86 @@ export function renderNavbar(root, state, handlers) {
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKeydown);
 
+  // navbar timezone + clock control (select inside actions dropdown)
+  const tzStorageKey = 'web-appointment-timezone';
+  const clockEl = root.querySelector('.navbar-clock');
+  const tzSelect = root.querySelector('#navbar-timezone-select');
+
+  function getSelectedTimeZone() {
+    return (
+      (tzSelect && tzSelect.value) ||
+      window.localStorage.getItem(tzStorageKey) ||
+      normalizeTimeZone(getDetectedTimeZone())
+    );
+  }
+
+  function setSelectedTimeZone(value) {
+    if (!value) return;
+    const safe = normalizeTimeZone(value);
+    if (tzSelect) tzSelect.value = safe;
+    try {
+      window.localStorage.setItem(tzStorageKey, safe);
+    } catch {}
+  }
+
+  function updateClock() {
+    try {
+      const now = new Date();
+      const tz = getSelectedTimeZone();
+      const formatter = new Intl.DateTimeFormat('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: tz,
+        hour12: false,
+      });
+      const parts = formatter.formatToParts(now);
+      const hour = parts.find((p) => p.type === 'hour')?.value || '00';
+      const minute = parts.find((p) => p.type === 'minute')?.value || '00';
+      const day = parts.find((p) => p.type === 'day')?.value || '01';
+      const month = parts.find((p) => p.type === 'month')?.value || '01';
+      const year = parts.find((p) => p.type === 'year')?.value || '2026';
+      // Hide timezone on phones
+      const isPhone = window.matchMedia('(max-width: 768px)').matches;
+      if (clockEl) {
+        clockEl.textContent = isPhone
+          ? `${hour}:${minute}, ${day}/${month}/${year}`
+          : `${hour}:${minute}, ${day}/${month}/${year}, ${tz}`;
+      }
+    } catch (err) {
+      // no-op
+    }
+  }
+
+  setSelectedTimeZone(window.localStorage.getItem(tzStorageKey) || normalizeTimeZone(getDetectedTimeZone()));
+  updateClock();
+
+  // align interval to minute boundary for smooth UX
+  const nowForClock = new Date();
+  const msToNextMinute = (60 - nowForClock.getSeconds()) * 1000 - nowForClock.getMilliseconds();
+  root.__navbarClockTimeout = setTimeout(() => {
+    updateClock();
+    root.__navbarClockInterval = setInterval(updateClock, 60 * 1000);
+  }, msToNextMinute);
+
+  tzSelect?.addEventListener('change', (e) => {
+    setSelectedTimeZone(e.target.value);
+    updateClock();
+    // No group to close, just update
+  });
+
   root.__navbarCleanup = () => {
     document.removeEventListener('click', onDocumentClick);
     document.removeEventListener('keydown', onDocumentKeydown);
+    if (root.__navbarClockInterval) {
+      clearInterval(root.__navbarClockInterval);
+      root.__navbarClockInterval = null;
+    }
+    if (root.__navbarClockTimeout) {
+      clearTimeout(root.__navbarClockTimeout);
+      root.__navbarClockTimeout = null;
+    }
   };
 }

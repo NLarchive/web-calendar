@@ -171,19 +171,25 @@ export function formatDateTime(date, options = {}) {
   if (Number.isNaN(safeDate.getTime())) return 'Invalid date';
 
   const timeZone = options.timeZone ? normalizeTimeZone(options.timeZone) : undefined;
-  const formatter = new Intl.DateTimeFormat(undefined, {
+  const formatter = new Intl.DateTimeFormat('en-GB', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
+    hour12: false,
     ...(timeZone ? { timeZone } : {}),
   });
 
-  const value = formatter.format(safeDate);
-  return timeZone && options.includeTimeZone
-    ? `${value} (${timeZone})`
-    : value;
+  const parts = formatter.formatToParts(safeDate);
+  const hour = parts.find((p) => p.type === 'hour')?.value || '00';
+  const minute = parts.find((p) => p.type === 'minute')?.value || '00';
+  const day = parts.find((p) => p.type === 'day')?.value || '01';
+  const month = parts.find((p) => p.type === 'month')?.value || '01';
+  const year = parts.find((p) => p.type === 'year')?.value || '2026';
+
+  const timeStr = `${hour}:${minute}, ${day}/${month}/${year}`;
+  return timeZone && options.includeTimeZone ? `${timeStr}, ${timeZone}` : timeStr;
 }
 
 export function getDateKeyInTimeZone(date, timeZone = getDetectedTimeZone()) {
