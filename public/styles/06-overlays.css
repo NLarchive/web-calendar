@@ -1,0 +1,70 @@
+.info-panel,
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 64px 16px 16px;
+  z-index: 4000;
+}
+
+.info-panel-card,
+.modal-card {
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.info-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-panel h3,
+.info-panel h4 {
+  margin-top: 0;
+}
+
+.modal-close-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin-left: auto;
+  display: block;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.details-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.details-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* keep hidden class stronger than overlay display rules */
+.modal.hidden,
+.info-panel.hidden {
+  display: none;
+}

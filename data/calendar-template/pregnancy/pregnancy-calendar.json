@@ -17,6 +17,17 @@
         { "value": "high", "label": "High-risk follow-up" }
       ]
     },
+    {
+      "name": "country",
+      "label": "Country / Region Guidelines",
+      "type": "select",
+      "required": true,
+      "defaultValue": "global",
+      "options": [
+        { "value": "global", "label": "Global (WHO/NICE/ACOG)" },
+        { "value": "chile", "label": "Chile (MINSAL public schedule)" }
+      ]
+    },
     { "name": "lastTdapDate", "label": "Last Tdap date (optional)", "type": "date", "required": false }
   ],
   "derivedDates": [
@@ -41,13 +52,29 @@
     },
     {
       "id": "dating-ultrasound",
-      "titleTemplate": "Dating ultrasound window opens{entitySuffix}",
-      "description": "Schedule dating ultrasound in the first trimester.",
+      "titleTemplate": "Dating ultrasound (11-14 weeks){entitySuffix}",
+      "description": "Global recommendation: dating scan in late first trimester with optional combined screening.",
       "category": "pregnancy",
       "tags": ["pregnancy", "ultrasound"],
       "priority": 8,
       "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["global"] }
+      ],
       "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 10 }
+    },
+    {
+      "id": "dating-ultrasound-chile",
+      "titleTemplate": "Early ultrasound (Chile pathway){entitySuffix}",
+      "description": "Chile pathway: perform early pregnancy ultrasound before week 20, ideally first trimester when available.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "ultrasound", "chile"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 12 }
     },
     {
       "id": "nuchal-translucency",
@@ -61,13 +88,29 @@
     },
     {
       "id": "anatomy-ultrasound",
-      "titleTemplate": "Anatomy ultrasound{entitySuffix}",
-      "description": "Detailed anatomy scan around mid-pregnancy.",
+      "titleTemplate": "Anatomy ultrasound (18-22 weeks){entitySuffix}",
+      "description": "Global recommendation: detailed anomaly scan around 18-22 weeks.",
       "category": "pregnancy",
       "tags": ["pregnancy", "ultrasound", "anatomy"],
       "priority": 9,
       "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["global"] }
+      ],
       "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 20 }
+    },
+    {
+      "id": "anatomy-ultrasound-chile",
+      "titleTemplate": "Anatomy ultrasound (Chile 20-24 weeks){entitySuffix}",
+      "description": "Chile pathway: structural anatomy scan around 20-24 weeks.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "ultrasound", "anatomy", "chile"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 22 }
     },
     {
       "id": "gdm-screening",
@@ -88,6 +131,97 @@
       "priority": 7,
       "reminderMinutes": 1440,
       "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 30 }
+    },
+    {
+      "id": "who-contact-20w",
+      "titleTemplate": "WHO ANC contact (20 weeks){entitySuffix}",
+      "description": "Global model contact point aligned to WHO 8-contact recommendation.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "global", "who"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 20 }
+    },
+    {
+      "id": "who-contact-26w",
+      "titleTemplate": "WHO ANC contact (26 weeks){entitySuffix}",
+      "description": "Global model contact point aligned to WHO 8-contact recommendation.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "global", "who"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 26 }
+    },
+    {
+      "id": "who-contact-34w",
+      "titleTemplate": "WHO ANC contact (34 weeks){entitySuffix}",
+      "description": "Global model contact point aligned to WHO 8-contact recommendation.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "global", "who"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "single", "anchor": "conceptionDate", "offsetWeeks": 34 }
+    },
+    {
+      "id": "who-late-contacts",
+      "titleTemplate": "WHO late ANC contact (week {week}){entitySuffix}",
+      "description": "Global model late contacts near term (36, 38, 40 weeks).",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "global", "who"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "rangeWeeks", "anchor": "conceptionDate", "startWeek": 36, "endWeek": 40, "stepWeeks": 2 }
+    },
+    {
+      "id": "chile-controls-4w",
+      "titleTemplate": "Chile prenatal control (every 4 weeks, week {week}){entitySuffix}",
+      "description": "Chile low-risk schedule: controls every 4 weeks up to week 28.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "chile", "minsal"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "rangeWeeks", "anchor": "conceptionDate", "startWeek": 16, "endWeek": 28, "stepWeeks": 4 }
+    },
+    {
+      "id": "chile-controls-2w",
+      "titleTemplate": "Chile prenatal control (every 2 weeks, week {week}){entitySuffix}",
+      "description": "Chile low-risk schedule: controls every 2 weeks from week 30 to 36.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "chile", "minsal"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "rangeWeeks", "anchor": "conceptionDate", "startWeek": 30, "endWeek": 36, "stepWeeks": 2 }
+    },
+    {
+      "id": "chile-controls-weekly",
+      "titleTemplate": "Chile weekly prenatal control (week {week}){entitySuffix}",
+      "description": "Chile low-risk schedule: weekly controls from week 37 until due date.",
+      "category": "pregnancy",
+      "tags": ["pregnancy", "control", "chile", "minsal"],
+      "priority": 7,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "rangeWeeks", "anchor": "conceptionDate", "startWeek": 37, "endWeek": 40, "stepWeeks": 1 }
     },
     {
       "id": "tdap-planning",

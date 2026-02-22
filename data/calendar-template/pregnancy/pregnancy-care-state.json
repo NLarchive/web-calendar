@@ -1,0 +1,66 @@
+{
+  "sampleMeta": {
+    "topic": "pregnancy",
+    "country": "global",
+    "guidelineProfile": "global"
+  },
+  "appointments": [
+    {
+      "id": "preg-prenatal-initial",
+      "date": "2026-03-01T09:00:00.000Z",
+      "endDate": "2026-03-01T10:00:00.000Z",
+      "recurrence": "none",
+      "title": "First prenatal consultation",
+      "description": "Initial prenatal evaluation and baseline care plan.",
+      "location": "Maternity Clinic",
+      "url": "",
+      "status": "confirmed",
+      "attendees": [],
+      "contact": [],
+      "category": "pregnancy",
+      "tags": ["pregnancy", "prenatal", "consultation"],
+      "priority": 9,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 1440,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    },
+    {
+      "id": "preg-dating-ultrasound",
+      "date": "2026-03-15T10:00:00.000Z",
+      "endDate": "2026-03-15T11:00:00.000Z",
+      "recurrence": "none",
+      "title": "Dating ultrasound",
+      "description": "Schedule dating ultrasound in the first trimester.",
+      "location": "Maternity Clinic",
+      "url": "",
+      "status": "confirmed",
+      "attendees": [],
+      "contact": [],
+      "category": "pregnancy",
+      "tags": ["pregnancy", "ultrasound"],
+      "priority": 8,
+      "allDay": false,
+      "timezone": "Europe/Madrid",
+      "calendarId": "health",
+      "reminderMinutes": 1440,
+      "createdAt": "2026-02-15T00:00:00.000Z"
+    }
+  ],
+  "calendars": [
+    { "id": "default", "name": "Default", "color": "#2563eb" },
+    { "id": "work", "name": "Work", "color": "#7c3aed" },
+    { "id": "health", "name": "Health", "color": "#059669" }
+  ],
+  "viewMode": "month",
+  "sortMode": "priority",
+  "focusDate": "2026-03-01T00:00:00.000Z",
+  "filters": {
+    "query": "",
+    "status": "all",
+    "calendarId": "all",
+    "fromDate": "",
+    "toDate": ""
+  }
+}

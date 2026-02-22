@@ -1,0 +1,154 @@
+/* Tablet and below */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar-groups {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .navbar-group-panel {
+    min-width: min(92vw, 380px);
+  }
+
+  .navbar input[data-action="search"] {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* Phone portrait */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 0;
+    gap: 0;
+  }
+
+  .panel {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 8px 0;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .navbar {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .navbar-main {
+    min-width: 100%;
+    order: 1;
+    gap: 6px;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .navbar-section {
+    flex: 0 0 auto;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .navbar-clock {
+    display: inline-block;
+    order: unset;
+    margin-left: 6px;
+    width: auto;
+    font-size: 11px;
+    padding: 2px 5px;
+  }
+
+  .navbar-groups {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  .navbar button,
+  .navbar select {
+    padding: 7px 9px;
+    font-size: 13px;
+    height: 36px;
+  }
+
+  .navbar-group-panel {
+    min-width: min(92vw, 300px);
+    width: min(92vw, 340px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .modal,
+  .info-panel {
+    padding: 52px 10px 10px;
+  }
+
+  .modal-card,
+  .info-panel-card {
+    padding: 10px;
+    max-height: calc(100svh - 68px);
+  }
+}
+
+/* Tiny phones */
+@media (max-width: 420px) {
+  .layout {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .navbar [data-action="open-new-appointment"] {
+    font-size: 12px;
+    padding: 7px 8px;
+  }
+
+  .navbar-group > summary {
+    padding: 7px 8px;
+    font-size: 13px;
+  }
+
+  .navbar-groups {
+    gap: 4px;
+  }
+
+  .panel {
+    padding: 4px 0;
+  }
+}
+
+/* Landscape phones: recover vertical room */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar-clock {
+    display: none;
+  }
+
+  .layout {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .modal,
+  .info-panel {
+    padding: 6px;
+    align-items: flex-start;
+  }
+
+  .modal-card,
+  .info-panel-card {
+    max-width: min(98vw, 520px);
+    max-height: calc(100svh - 12px);
+  }
+}

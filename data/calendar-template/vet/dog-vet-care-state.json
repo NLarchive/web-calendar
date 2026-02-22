@@ -1,19 +1,24 @@
 {
+  "sampleMeta": {
+    "topic": "vet",
+    "country": "chile",
+    "guidelineProfile": "chile"
+  },
   "appointments": [
     {
-      "id": "dog-vax-annual",
+      "id": "dog-vaccine-annual-chile",
       "date": "2026-03-01T09:00:00.000Z",
       "endDate": "2026-03-01T10:00:00.000Z",
       "recurrence": "yearly",
-      "title": "Dog annual vaccine booster",
-      "description": "Refuerzo anual polivalente + rabia para perro adulto.",
+      "title": "Dog annual vaccine (Óctuple/Séxtuple + Rabies)",
+      "description": "Annual booster for core vaccines, leptospirosis, and mandatory rabies according to Chilean regulations.",
       "location": "MyVet Clinic, Madrid",
       "url": "https://myvet.com",
       "status": "confirmed",
       "attendees": [],
       "contact": ["https://myvet.com", "+34-600-111-222", "contact@myvet.com"],
       "category": "dog",
-      "tags": ["vaccine", "dog", "annual"],
+      "tags": ["vaccine", "dog", "annual", "chile"],
       "priority": 9,
       "allDay": false,
       "timezone": "Europe/Madrid",

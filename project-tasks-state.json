@@ -1794,7 +1794,12 @@
 			"estimated_hours": 5,
 			"actual_hours": 3,
 			"is_critical_path": true,
-			"tags": ["crud", "edit", "ui", "client-side"],
+			"tags": [
+				"crud",
+				"edit",
+				"ui",
+				"client-side"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -1847,7 +1852,12 @@
 			"estimated_hours": 3,
 			"actual_hours": 2,
 			"is_critical_path": true,
-			"tags": ["crud", "delete", "ui", "client-side"],
+			"tags": [
+				"crud",
+				"delete",
+				"ui",
+				"client-side"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -1900,7 +1910,12 @@
 			"estimated_hours": 6,
 			"actual_hours": 3,
 			"is_critical_path": true,
-			"tags": ["search", "filters", "ui", "client-side"],
+			"tags": [
+				"search",
+				"filters",
+				"ui",
+				"client-side"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -1953,7 +1968,12 @@
 			"estimated_hours": 7,
 			"actual_hours": 3,
 			"is_critical_path": false,
-			"tags": ["time", "timezone", "all-day", "schema"],
+			"tags": [
+				"time",
+				"timezone",
+				"all-day",
+				"schema"
+			],
 			"category_name": "Core Engine",
 			"assigned_workers": [
 				{
@@ -2006,7 +2026,11 @@
 			"estimated_hours": 6,
 			"actual_hours": 2,
 			"is_critical_path": false,
-			"tags": ["reminders", "notifications", "client-side"],
+			"tags": [
+				"reminders",
+				"notifications",
+				"client-side"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2059,7 +2083,12 @@
 			"estimated_hours": 8,
 			"actual_hours": 3,
 			"is_critical_path": false,
-			"tags": ["multi-calendar", "colors", "schema", "ui"],
+			"tags": [
+				"multi-calendar",
+				"colors",
+				"schema",
+				"ui"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2112,7 +2141,11 @@
 			"estimated_hours": 4,
 			"actual_hours": 2,
 			"is_critical_path": false,
-			"tags": ["agenda", "timeline", "ui"],
+			"tags": [
+				"agenda",
+				"timeline",
+				"ui"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2167,7 +2200,11 @@
 			"estimated_hours": 2,
 			"actual_hours": 1,
 			"is_critical_path": false,
-			"tags": ["a11y", "autofill", "forms"],
+			"tags": [
+				"a11y",
+				"autofill",
+				"forms"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2209,7 +2246,11 @@
 			"estimated_hours": 4,
 			"actual_hours": 0,
 			"is_critical_path": false,
-			"tags": ["a11y", "keyboard", "ux"],
+			"tags": [
+				"a11y",
+				"keyboard",
+				"ux"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2239,7 +2280,13 @@
 			"estimated_hours": 6,
 			"actual_hours": 4,
 			"is_critical_path": false,
-			"tags": ["calculator", "plugin", "templates", "integration", "health"],
+			"tags": [
+				"calculator",
+				"plugin",
+				"templates",
+				"integration",
+				"health"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2307,7 +2354,11 @@
 			"estimated_hours": 8,
 			"actual_hours": 0,
 			"is_critical_path": false,
-			"tags": ["drag-drop", "interaction", "ux"],
+			"tags": [
+				"drag-drop",
+				"interaction",
+				"ux"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2343,7 +2394,11 @@
 			"estimated_hours": 9,
 			"actual_hours": 0,
 			"is_critical_path": false,
-			"tags": ["recurrence", "rrule", "engine"],
+			"tags": [
+				"recurrence",
+				"rrule",
+				"engine"
+			],
 			"category_name": "Core Engine",
 			"assigned_workers": [
 				{
@@ -2379,7 +2434,12 @@
 			"estimated_hours": 5,
 			"actual_hours": 2,
 			"is_critical_path": false,
-			"tags": ["a11y", "keyboard", "modals", "ux"],
+			"tags": [
+				"a11y",
+				"keyboard",
+				"modals",
+				"ux"
+			],
 			"category_name": "UI & Calendar",
 			"assigned_workers": [
 				{
@@ -2438,7 +2498,11 @@
 			"estimated_hours": 6,
 			"actual_hours": 0,
 			"is_critical_path": false,
-			"tags": ["performance", "scalability", "client-side"],
+			"tags": [
+				"performance",
+				"scalability",
+				"client-side"
+			],
 			"category_name": "Core Engine",
 			"assigned_workers": [
 				{
@@ -2474,7 +2538,11 @@
 			"estimated_hours": 4,
 			"actual_hours": 0,
 			"is_critical_path": false,
-			"tags": ["deferred", "backend-ready", "architecture"],
+			"tags": [
+				"deferred",
+				"backend-ready",
+				"architecture"
+			],
 			"category_name": "Connectors & Extensibility",
 			"assigned_workers": [
 				{
@@ -2516,7 +2584,12 @@
 			"estimated_hours": 12,
 			"actual_hours": 0,
 			"is_critical_path": false,
-			"tags": ["deferred", "oauth", "collaboration", "backend"],
+			"tags": [
+				"deferred",
+				"oauth",
+				"collaboration",
+				"backend"
+			],
 			"category_name": "Connectors & Extensibility",
 			"assigned_workers": [
 				{
@@ -2558,7 +2631,14 @@
 			"estimated_hours": 6,
 			"actual_hours": 4,
 			"is_critical_path": true,
-			"tags": ["bugfix", "filters", "playwright", "e2e", "testing", "sample-data"],
+			"tags": [
+				"bugfix",
+				"filters",
+				"playwright",
+				"e2e",
+				"testing",
+				"sample-data"
+			],
 			"category_name": "Testing & Validation",
 			"assigned_workers": [
 				{
@@ -2626,7 +2706,7 @@
 			}
 		},
 		{
-			"task_id": 41,
+			"task_id": 44,
 			"task_name": "Implement Repo Update Detection and Safe Client Auto-Refresh",
 			"description": "Implemented GitHub Pages-friendly version-manifest update strategy: deploy pipeline generates version.json from commit SHA, client bootstraps UI/engine imports with version query params, and runtime monitor checks only version.json for lightweight auto-refresh. Persisted state before reload to preserve user calendar data across updates.",
 			"start_date": "2026-02-17",
@@ -2637,7 +2717,12 @@
 			"estimated_hours": 3,
 			"actual_hours": 2,
 			"is_critical_path": true,
-			"tags": ["cache", "auto-update", "repo-sync", "state-persistence"],
+			"tags": [
+				"cache",
+				"auto-update",
+				"repo-sync",
+				"state-persistence"
+			],
 			"category_name": "Deployment",
 			"assigned_workers": [
 				{
@@ -2681,7 +2766,7 @@
 			}
 		},
 		{
-			"task_id": 42,
+			"task_id": 45,
 			"task_name": "Timezone and DateTime Hardening for Travel/VPN Stability",
 			"description": "Performed full timezone/date-time audit and implemented timezone-safe scheduling model: validated IANA timezone dropdown in appointment form, timezone-aware normalization of datetime-local inputs, timezone-aware rendering/grouping in list/calendar/details/agenda, UTC-safe recurrence shifts, and timezone field preservation in CSV/ICS sync formats.",
 			"start_date": "2026-02-17",
@@ -2692,7 +2777,12 @@
 			"estimated_hours": 5,
 			"actual_hours": 4,
 			"is_critical_path": true,
-			"tags": ["timezone", "datetime", "data-integrity", "production-hardening"],
+			"tags": [
+				"timezone",
+				"datetime",
+				"data-integrity",
+				"production-hardening"
+			],
 			"category_name": "Core Engine",
 			"assigned_workers": [
 				{
@@ -2716,7 +2806,7 @@
 			"attachments": [],
 			"dependencies": [
 				{
-					"predecessor_task_id": 41,
+					"predecessor_task_id": 44,
 					"type": "FS",
 					"lag_days": 0
 				}
@@ -2733,6 +2823,361 @@
 					"Run npm test and confirm timezone tests pass",
 					"Manual: create same datetime in two different timezones and verify stable display",
 					"Manual: export/import CSV/ICS and verify timezone fields remain intact"
+				]
+			}
+		},
+		{
+			"task_id": 46,
+			"task_name": "Optimize Navbar Layout and visual distribution",
+			"description": "Removed the title 'Appointment Scheduler', moved '+ New Appointment' next to Actions/Filters, grouped navigation and view controls, and updated CSS for better responsiveness on small devices to save vertical space.",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"ui",
+				"ux",
+				"navbar",
+				"responsive"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-17T13:58:00Z",
+			"completed_date": "2026-02-17T14:02:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-17T14:02:00Z",
+					"text": "Cleaned up navbar by removing the redundant title, grouped controls by function on desktop, and improved mobile layout to use 3 logical rows instead of a messy wrap."
+				}
+			],
+			"attachments": [],
+			"dependencies": [],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"No redundant 'Appointment Scheduler' title",
+					"'+ New Appointment' is grouped with Actions",
+					"Timezone button (🌐) is grouped with Actions",
+					"Navbar wraps gracefully on small screens",
+					"All tests pass"
+				],
+				"verification_steps": [
+					"Verify UI on desktop and mobile resolutions",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 47,
+			"task_name": "CSS Architecture Modular Split",
+			"description": "Split monolithic public/styles.css into 7 modular component CSS files with a barrel import entry. Organized styles into: 01-branding-base.css (CSS vars, base resets), 02-layout.css (grid, containers), 03-controls.css (buttons, inputs, selects), 04-navbar.css (navbar shell, groups, clock), 05-calendar-list.css (calendar views, appointment list), 06-overlays.css (modals, info panel, details popup), 07-responsive.css (breakpoints for tablet/phone/landscape). Fixed overlay stuck-on-top bug by adding .info-panel.hidden { display: none; }.",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"css",
+				"architecture",
+				"modular",
+				"refactor"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-17T14:10:00Z",
+			"completed_date": "2026-02-17T14:30:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-17T14:30:00Z",
+					"text": "Split styles.css into 7 component files under public/styles/ with @import barrel. Fixed overlay stuck bug. All 113 unit + 20 E2E tests pass."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 46,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Styles split into 7 logically grouped files",
+					"Barrel import in styles.css loads all component files",
+					"No visual regression in rendered UI",
+					"Overlay stuck-on-top bug fixed"
+				],
+				"verification_steps": [
+					"Run npm test (113 pass)",
+					"Run npx playwright test (20 pass)",
+					"Visual inspection at all responsive breakpoints"
+				]
+			}
+		},
+		{
+			"task_id": 48,
+			"task_name": "Navbar Responsive UX Improvements",
+			"description": "Moved timezone selector from its own navbar group into the Actions dropdown to reduce toolbar clutter. Implemented 24-hour clock format, conditional timezone display that hides on phones (max-width: 768px), and improved responsive breakpoints for tablets, phones, tiny screens, and landscape orientations.",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": [
+				"navbar",
+				"responsive",
+				"ux",
+				"timezone",
+				"clock"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-17T14:35:00Z",
+			"completed_date": "2026-02-17T14:50:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-17T14:50:00Z",
+					"text": "Timezone selector moved into Actions dropdown, clock switched to 24h format, timezone conditionally hidden on phones. Updated navbar.test.js with window.matchMedia mock."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 47,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Timezone selector is inside Actions dropdown",
+					"Clock displays in 24-hour format",
+					"Timezone hides on phone screens",
+					"Tests validate new UI structure"
+				],
+				"verification_steps": [
+					"Run npm test",
+					"Verify timezone in Actions dropdown",
+					"Check clock format on desktop and mobile widths"
+				]
+			}
+		},
+		{
+			"task_id": 49,
+			"task_name": "Legacy Cleanup and Comprehensive Playwright Screenshot Journey",
+			"description": "Removed legacy UI comments referencing old timezone globe button. Verified no stale selectors remain in test files. Created comprehensive 42-step Playwright screenshot journey test that walks through every feature and captures numbered screenshots as both regression tests and visual wireframe documentation. Steps cover: initial state, clock, Actions/Filters dropdowns, appointment CRUD, all calendar views (month/day/week/year/agenda), navigation controls, search/status/date filters, sort toggle, appointment details (list and calendar), info panel, sync modal, sample data loading, hierarchy drilldown, empty state, save state, and dropdown dismiss behavior.",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"playwright",
+				"e2e",
+				"screenshots",
+				"wireframe",
+				"cleanup",
+				"testing"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				},
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "qa-1",
+			"created_date": "2026-02-17T15:00:00Z",
+			"completed_date": "2026-02-17T15:45:00Z",
+			"comments": [
+				{
+					"author": "qa-1",
+					"timestamp": "2026-02-17T15:45:00Z",
+					"text": "Created screenshot-journey.spec.js with 42 steps. Updated playwright.config.js with viewport 1280x800 and outputDir. Added screenshots/ and test-results/ to .gitignore. Fixed dropdown-close step to use Escape key instead of outside click. All 113 unit + 20 E2E tests pass. 42 wireframe screenshots generated."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 48,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"No legacy selectors or comments referencing old UI",
+					"42-step screenshot journey test passes",
+					"42 numbered screenshots generated in tests/e2e/screenshots/",
+					"Screenshots serve as visual wireframe documentation",
+					"All unit and E2E tests pass"
+				],
+				"verification_steps": [
+					"Run npm test (113 pass)",
+					"Run npx playwright test (20 E2E pass)",
+					"Verify 42 screenshots exist in tests/e2e/screenshots/",
+					"grep for legacy selectors returns no matches"
+				]
+			}
+		},
+		{
+			"task_id": 50,
+			"task_name": "Fix Project Task State JSON Structure",
+			"description": "Fixed malformed project-tasks-state.json: resolved duplicate task IDs (41-43 appeared twice), renumbered second set to 44-46, moved misplaced task from optional_fields array into tasks array, fixed dependency references, and added missing task entries for CSS modular split (47), navbar responsive UX (48), and screenshot journey (49).",
+			"start_date": "2026-02-17",
+			"end_date": "2026-02-17",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 1,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": [
+				"project-management",
+				"data-integrity",
+				"json-fix"
+			],
+			"category_name": "Project Setup",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-17T16:00:00Z",
+			"completed_date": "2026-02-17T16:15:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-17T16:15:00Z",
+					"text": "Fixed JSON parse error caused by task object embedded inside optional_fields array. Renumbered duplicate IDs 41→44, 42→45, 43→46. Updated dependency references. Added tasks 47-50 for CSS split, navbar UX, screenshot journey, and this fix."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 49,
+					"type": "FS",
+					"lag_days": 0
+				}
+			]
+		},
+		{
+			"task_id": 51,
+			"task_name": "Add country-aware pregnancy schedule and sample country preview",
+			"description": "Registered global vs Chile pregnancy guidance in template rules, added sample metadata country, and exposed country profile in Load State modal sample selection.",
+			"start_date": "2026-02-22",
+			"end_date": "2026-02-22",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"pregnancy",
+				"country-profile",
+				"load-state",
+				"samples",
+				"guidelines"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-22T12:58:00Z",
+			"completed_date": "2026-02-22T12:59:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-22T12:59:00Z",
+					"text": "Implemented country selector for pregnancy template (global/chile), added country profile preview in Load State modal from sample metadata, and kept full test suite green (113/113)."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 50,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Pregnancy template supports global vs Chile schedule differences",
+					"Load State sample picker shows country profile for selected sample",
+					"All automated tests pass"
+				],
+				"verification_steps": [
+					"Run npm test",
+					"Open Load State modal and verify Country Profile updates by selected sample"
 				]
 			}
 		}

@@ -1,19 +1,24 @@
 {
+  "sampleMeta": {
+    "topic": "vet",
+    "country": "chile",
+    "guidelineProfile": "chile"
+  },
   "appointments": [
     {
-      "id": "cat-vax-annual",
+      "id": "cat-vaccine-annual-chile",
       "date": "2026-04-01T09:00:00.000Z",
       "endDate": "2026-04-01T10:00:00.000Z",
       "recurrence": "yearly",
-      "title": "Cat annual vaccine booster",
-      "description": "Refuerzo anual triple felina + rabia para gato adulto.",
+      "title": "Cat annual vaccine (Triple + Rabies)",
+      "description": "Annual booster for core vaccines and mandatory rabies according to Chilean regulations.",
       "location": "MyVet Clinic, Madrid",
       "url": "https://myvet.com",
       "status": "confirmed",
       "attendees": [],
       "contact": ["https://myvet.com", "+34-600-111-222", "contact@myvet.com"],
       "category": "cat",
-      "tags": ["vaccine", "cat", "annual"],
+      "tags": ["vaccine", "cat", "annual", "chile"],
       "priority": 9,
       "allDay": false,
       "timezone": "Europe/Madrid",

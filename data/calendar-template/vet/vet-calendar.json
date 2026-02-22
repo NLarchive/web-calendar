@@ -33,6 +33,17 @@
         { "value": "mixed", "label": "Mixed indoor/outdoor" },
         { "value": "outdoor", "label": "Outdoor" }
       ]
+    },
+    {
+      "name": "country",
+      "label": "Country / Region Guidelines",
+      "type": "select",
+      "required": true,
+      "defaultValue": "global",
+      "options": [
+        { "value": "global", "label": "Global (WSAVA/ESCCAP)" },
+        { "value": "chile", "label": "Chile (Colmevet/Local Law)" }
+      ]
     }
   ],
   "derivedDates": [
@@ -106,33 +117,139 @@
       "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 180 }
     },
     {
-      "id": "annual-vaccine-series",
-      "titleTemplate": "{speciesLabel} annual core vaccine booster{entitySuffix}",
-      "description": "Annual core booster reminder through lifecycle end.",
+      "id": "dog-vaccine-annual-chile",
+      "titleTemplate": "Dog annual vaccine (Óctuple/Séxtuple + Rabies){entitySuffix}",
+      "description": "Annual booster for core vaccines, leptospirosis, and mandatory rabies according to Chilean regulations.",
       "category": "health",
-      "tags": ["vet", "vaccine", "annual"],
+      "tags": ["vet", "vaccine", "annual", "chile"],
       "priority": 9,
       "reminderMinutes": 1440,
-      "schedule": {
-        "mode": "series",
-        "anchor": "lastVaccine",
-        "intervalDays": 365,
-        "maxOccurrences": 40
-      }
+      "conditions": [
+        { "field": "species", "in": ["dog"] },
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+    },
+    {
+      "id": "cat-vaccine-annual-chile",
+      "titleTemplate": "Cat annual vaccine (Triple + Rabies){entitySuffix}",
+      "description": "Annual booster for core vaccines and mandatory rabies according to Chilean regulations.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "annual", "chile"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["cat"] },
+        { "field": "country", "in": ["chile"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+    },
+    {
+      "id": "dog-core-vaccine-global",
+      "titleTemplate": "Dog core vaccine booster (Triennial){entitySuffix}",
+      "description": "WSAVA guidelines: Core vaccines (CDV, CPV, CAV) every 3 years for adult dogs.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "core", "global"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["dog"] },
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 1095, "maxOccurrences": 15 }
+    },
+    {
+      "id": "dog-noncore-vaccine-global",
+      "titleTemplate": "Dog non-core/rabies vaccine booster{entitySuffix}",
+      "description": "Annual booster for non-core vaccines (e.g., Leptospirosis, KC) if at risk, and Rabies per local law.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "non-core", "global"],
+      "priority": 8,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["dog"] },
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+    },
+    {
+      "id": "cat-core-vaccine-triennial-global",
+      "titleTemplate": "Cat core vaccine booster (Triennial){entitySuffix}",
+      "description": "WSAVA guidelines: Core vaccines (FPV, FHV, FCV) every 3 years for strictly indoor adult cats.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "core", "global"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["cat"] },
+        { "field": "country", "in": ["global"] },
+        { "field": "environment", "in": ["indoor"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 1095, "maxOccurrences": 15 }
+    },
+    {
+      "id": "cat-core-vaccine-annual-global",
+      "titleTemplate": "Cat core vaccine booster (Annual){entitySuffix}",
+      "description": "WSAVA guidelines: Annual core vaccines for cats with outdoor access or high risk.",
+      "category": "health",
+      "tags": ["vet", "vaccine", "core", "global"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["cat"] },
+        { "field": "country", "in": ["global"] },
+        { "field": "environment", "in": ["mixed", "outdoor"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+    },
+    {
+      "id": "cat-rabies-vaccine-global",
+      "titleTemplate": "Cat rabies vaccine booster{entitySuffix}",
+      "description": "Rabies booster according to local law (typically 1-3 years).",
+      "category": "health",
+      "tags": ["vet", "vaccine", "rabies", "global"],
+      "priority": 9,
+      "reminderMinutes": 1440,
+      "conditions": [
+        { "field": "species", "in": ["cat"] },
+        { "field": "country", "in": ["global"] }
+      ],
+      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
     },
     {
       "id": "deworming-quarterly-series",
-      "titleTemplate": "{speciesLabel} internal deworming follow-up{entitySuffix}",
-      "description": "Quarterly internal parasite control cycle.",
+      "titleTemplate": "{speciesLabel} internal deworming follow-up (Quarterly){entitySuffix}",
+      "description": "Quarterly internal parasite control cycle for mixed/outdoor environments.",
       "category": "health",
       "tags": ["vet", "deworming", "quarterly"],
       "priority": 8,
       "reminderMinutes": 60,
+      "conditions": [
+        { "field": "environment", "in": ["mixed", "outdoor"] }
+      ],
       "schedule": {
         "mode": "series",
         "anchor": "lastDeworming",
         "intervalDays": 90,
         "maxOccurrences": 80
+      }
+    },
+    {
+      "id": "deworming-semiannual-series",
+      "titleTemplate": "{speciesLabel} internal deworming / coprology (Semiannual){entitySuffix}",
+      "description": "Semiannual internal parasite control or coprology test for strictly indoor pets.",
+      "category": "health",
+      "tags": ["vet", "deworming", "semiannual"],
+      "priority": 8,
+      "reminderMinutes": 60,
+      "conditions": [
+        { "field": "environment", "in": ["indoor"] }
+      ],
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastDeworming",
+        "intervalDays": 180,
+        "maxOccurrences": 40
       }
     },
     {

@@ -1,5 +1,21 @@
+// Mock window.matchMedia for test environment
+window.matchMedia = window.matchMedia || function(query) {
+  return {
+    matches: query === '(max-width: 768px)' ? false : true,
+    media: query,
+    onchange: null,
+    addListener: function() {},
+    removeListener: function() {},
+    addEventListener: function() {},
+    removeEventListener: function() {},
+    dispatchEvent: function() {},
+  };
+};
+
 import { describe, expect, it, vi } from 'vitest';
 import { renderNavbar } from '../../src/modules/ui/navbar.js';
+
+
 
 describe('navbar grouped controls', () => {
   function buildHandlers() {
@@ -129,5 +145,63 @@ describe('navbar grouped controls', () => {
     filters.open = true;
     document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(filters.open).toBe(false);
+  });
+
+  it('renders a local clock with timezone in the navbar', () => {
+    const root = document.createElement('div');
+    const handlers = buildHandlers();
+
+    renderNavbar(
+      root,
+      {
+        viewMode: 'month',
+        sortMode: 'priority',
+        calendars: [{ id: 'default', name: 'Default', color: '#2563eb' }],
+        filters: { query: '', status: 'all', calendarId: 'all', fromDate: '', toDate: '' },
+      },
+      handlers,
+    );
+
+    const clock = root.querySelector('.navbar-clock');
+    expect(clock).toBeTruthy();
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    // Only check for timezone on desktop
+    expect(clock.textContent).toContain(tz);
+  });
+
+  it('allows selecting timezone inside actions dropdown and persists selection', () => {
+    const root = document.createElement('div');
+    const handlers = buildHandlers();
+
+    renderNavbar(
+      root,
+      {
+        viewMode: 'month',
+        sortMode: 'priority',
+        calendars: [{ id: 'default', name: 'Default', color: '#2563eb' }],
+        filters: { query: '', status: 'all', calendarId: 'all', fromDate: '', toDate: '' },
+      },
+      handlers,
+    );
+
+    const actionsGroup = root.querySelector('details[data-group="actions"]');
+    expect(actionsGroup).toBeTruthy();
+
+    // open actions to access timezone selector
+    expect(actionsGroup.open).toBe(false);
+    actionsGroup.open = true;
+    expect(actionsGroup.open).toBe(true);
+
+    const select = root.querySelector('#navbar-timezone-select');
+    expect(select).toBeTruthy();
+
+    // choose a different timezone (if available)
+    const defaultTz = select.value;
+    const other = Array.from(select.options).find((o) => o.value !== defaultTz);
+    if (other) {
+      select.value = other.value;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      expect(window.localStorage.getItem('web-appointment-timezone')).toBe(other.value);
+    }
   });
 });

@@ -1,0 +1,115 @@
+.form-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.form-grid label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.form-grid input,
+.form-grid textarea,
+.form-grid select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.form-grid input[readonly] {
+  background: #f8fafc;
+  color: var(--muted);
+}
+
+.form-row-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.form-row-check input {
+  width: auto;
+}
+
+.agenda-view {
+  display: grid;
+  gap: 20px;
+}
+
+.agenda-date-header {
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+}
+
+.calendar-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.calendar-day,
+.calendar-item,
+.month-cell,
+.year-month {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+}
+
+.calendar-item h4,
+.month-cell h4,
+.year-month h4 {
+  margin: 0 0 6px;
+}
+
+.month-header {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 0;
+}
+
+.month-cell-blank {
+  border: none;
+  background: transparent;
+}
+
+.month-cell-today {
+  background: #e5edff;
+  border-color: var(--accent);
+}
+
+.calendar-item-trigger,
+.calendar-link {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+}
+
+.calendar-link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.hierarchy-cell {
+  cursor: pointer;
+}
+
+.hierarchy-cell:hover {
+  border-color: var(--accent);
+}

@@ -8,3 +8,5 @@ yarn-error.log*
 pnpm-debug.log*
 *.tmp
 *.log
+tests/e2e/screenshots/
+tests/e2e/test-results/
