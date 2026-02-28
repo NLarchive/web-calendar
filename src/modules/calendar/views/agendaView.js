@@ -1,11 +1,12 @@
 import { escapeHtml } from '../../../core/sanitize.js';
 import { formatDateTime, getDateKeyInTimeZone } from '../../../core/dateUtils.js';
+import { t } from '../../../i18n/index.js';
 
 export function renderAgendaView(items, focusDate) {
   if (!items.length) {
     return `
       <div class="agenda-view empty">
-        <p class="small">No appointments in this period.</p>
+        <p class="small">${t('views.noAppointmentsPeriod')}</p>
       </div>
     `;
   }
@@ -28,7 +29,7 @@ export function renderAgendaView(items, focusDate) {
 
     return `
       <div class="agenda-day">
-        <h3 class="agenda-date-header" style="${isToday ? 'color: var(--accent); border-bottom-color: var(--accent);' : ''}">${key} ${isToday ? '(Today)' : ''}</h3>
+        <h3 class="agenda-date-header" style="${isToday ? 'color: var(--accent); border-bottom-color: var(--accent);' : ''}">${key} ${isToday ? `(${t('views.today')})` : ''}</h3>
         <div class="list">
           ${dayItems.map(item => `
             <article class="calendar-item" style="border-left: 4px solid ${item.calendarColor || '#2563eb'};">
@@ -36,11 +37,11 @@ export function renderAgendaView(items, focusDate) {
                 type="button" 
                 class="calendar-item-trigger" 
                 data-appointment-key="${encodeURIComponent(item.uiKey)}"
-                aria-label="Open details for ${escapeHtml(item.title)}"
+                aria-label="${t('views.openDetailsFor', { title: escapeHtml(item.title) })}"
               >
                 <h4>${escapeHtml(item.title)}</h4>
                 <div class="small">${formatDateTime(new Date(item.occurrenceDate || item.date), { timeZone: item.timezone, includeTimeZone: true })}</div>
-                <div class="small">${escapeHtml(item.category || 'general')} • P${item.priority}</div>
+                <div class="small">${escapeHtml(item.category || t('details.general'))} • P${item.priority}</div>
               </button>
             </article>
           `).join('')}

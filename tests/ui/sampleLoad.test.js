@@ -89,7 +89,14 @@ describe('state loading', () => {
     await new Promise((r) => setTimeout(r, 0));
 
     expect(window.confirm).toHaveBeenCalled();
-    expect(mockFetch).toHaveBeenCalledWith('./data/calendar-template/vet/dog-vet-care-state.json');
+    expect(mockFetch).toHaveBeenCalledWith(
+      './data/calendar-template/vet/dog-vet-care-state.json',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
+    expect(mockFetch).toHaveBeenCalledWith(
+      './data/calendar-template/vet/languages/en/dog-vet-care-state.json',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
     expect(app.state.appointments.length).toBe(1);
     expect(app.state.appointments[0].title).toBe('Sample Apt');
     expect(document.getElementById('load-state-sample-country').value).toBe('chile');
@@ -125,7 +132,14 @@ describe('state loading', () => {
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     await new Promise((r) => setTimeout(r, 0));
 
-    expect(mockFetch).toHaveBeenCalledWith('https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/calendar-template/vet/dog-vet-care-state.json');
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/calendar-template/vet/dog-vet-care-state.json',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://raw.githubusercontent.com/NLarchive/web-calendar/main/data/calendar-template/vet/languages/en/dog-vet-care-state.json',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
   });
 
   it('does not replace state when user cancels warning prompt', async () => {

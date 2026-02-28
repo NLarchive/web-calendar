@@ -113,3 +113,32 @@
 .hierarchy-cell:hover {
   border-color: var(--accent);
 }
+
+/* Rotated month view: days as rows instead of columns */
+.calendar-grid-rotated {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+}
+.calendar-grid-rotated .month-header {
+  display: none;
+}
+.month-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.month-row-label {
+  min-width: 36px;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.month-row .month-cell,
+.month-row .month-cell-blank {
+  flex: 1;
+  min-width: 0;
+}

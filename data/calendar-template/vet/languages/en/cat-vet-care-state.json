@@ -1,0 +1,58 @@
+{
+  "appointments": [
+    {
+      "id": "cat-vaccine-annual-chile",
+      "title": "Cat annual vaccine (Triple + Rabies)",
+      "description": "Annual booster for core vaccines and mandatory rabies according to Chilean regulations."
+    },
+    {
+      "id": "cat-felv-check",
+      "title": "Cat FeLV risk review",
+      "description": "Revisión de leucemia felina para gatos con acceso exterior."
+    },
+    {
+      "id": "cat-deworming-q1",
+      "title": "Cat deworming (internal) - Q1",
+      "description": "Desparasitación interna trimestral para gato adulto."
+    },
+    {
+      "id": "cat-deworming-q2",
+      "title": "Cat deworming (internal) - Q2",
+      "description": "Desparasitación interna trimestral para gato adulto."
+    },
+    {
+      "id": "cat-deworming-q3",
+      "title": "Cat deworming (internal) - Q3",
+      "description": "Desparasitación interna trimestral para gato adulto."
+    },
+    {
+      "id": "cat-deworming-q4",
+      "title": "Cat deworming (internal) - Q4",
+      "description": "Desparasitación interna trimestral para gato adulto."
+    },
+    {
+      "id": "cat-ectoparasite-monthly",
+      "title": "Cat ectoparasite control (pour-on/spray)",
+      "description": "Control mensual de pulgas y garrapatas con pipeta (pour-on) o spray."
+    },
+    {
+      "id": "cat-ectoparasite-collar",
+      "title": "Cat ectoparasite collar replacement check",
+      "description": "Collar antiparasitario con revisión/reemplazo semestral (cada 6 meses)."
+    }
+  ],
+  "calendars": [
+    {
+      "id": "default",
+      "name": "Default"
+    },
+    {
+      "id": "work",
+      "name": "Work"
+    },
+    {
+      "id": "health",
+      "name": "Health"
+    }
+  ]
+}

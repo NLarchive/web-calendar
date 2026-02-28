@@ -1,6 +1,6 @@
 {
   "name": "web-appointment-system",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": false,
   "description": "Client-side modular web appointment calendar scheduler",
   "author": "Nicolas Ivan Larenas Bustamante",
@@ -14,6 +14,9 @@
     "test:e2e": "npx playwright test",
     "test:e2e:headed": "npx playwright test --headed",
     "test:all": "vitest run && npx playwright test"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

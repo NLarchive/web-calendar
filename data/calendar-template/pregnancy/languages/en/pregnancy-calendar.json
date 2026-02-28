@@ -1,0 +1,158 @@
+{
+  "title": "Pregnancy Care Calendar Calculator",
+  "description": "Data-driven pregnancy timeline from conception (week 0) through postpartum follow-up.",
+  "disclaimer": "Educational schedule template only. Clinical timing must be personalized by your OB/GYN or healthcare team.",
+  "fields": [
+    {
+      "name": "personName",
+      "label": "Person name",
+      "placeholder": "Ana",
+      "options": []
+    },
+    {
+      "name": "conceptionDate",
+      "label": "Conception date",
+      "options": []
+    },
+    {
+      "name": "highRisk",
+      "label": "Risk profile",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "high",
+          "label": "High-risk follow-up"
+        }
+      ]
+    },
+    {
+      "name": "country",
+      "label": "Country / Region Guidelines",
+      "options": [
+        {
+          "value": "global",
+          "label": "Global (WHO/NICE/ACOG)"
+        },
+        {
+          "value": "chile",
+          "label": "Chile (MINSAL public schedule)"
+        }
+      ]
+    },
+    {
+      "name": "lastTdapDate",
+      "label": "Last Tdap date (optional)",
+      "options": []
+    }
+  ],
+  "events": [
+    {
+      "id": "prenatal-initial",
+      "titleTemplate": "First prenatal consultation{entitySuffix}",
+      "description": "Initial prenatal evaluation and baseline care plan."
+    },
+    {
+      "id": "dating-ultrasound",
+      "titleTemplate": "Dating ultrasound (11-14 weeks){entitySuffix}",
+      "description": "Global recommendation: dating scan in late first trimester with optional combined screening."
+    },
+    {
+      "id": "dating-ultrasound-chile",
+      "titleTemplate": "Early ultrasound (Chile pathway){entitySuffix}",
+      "description": "Chile pathway: perform early pregnancy ultrasound before week 20, ideally first trimester when available."
+    },
+    {
+      "id": "nuchal-translucency",
+      "titleTemplate": "Nuchal translucency / first trimester screening{entitySuffix}",
+      "description": "First trimester screening milestone."
+    },
+    {
+      "id": "anatomy-ultrasound",
+      "titleTemplate": "Anatomy ultrasound (18-22 weeks){entitySuffix}",
+      "description": "Global recommendation: detailed anomaly scan around 18-22 weeks."
+    },
+    {
+      "id": "anatomy-ultrasound-chile",
+      "titleTemplate": "Anatomy ultrasound (Chile 20-24 weeks){entitySuffix}",
+      "description": "Chile pathway: structural anatomy scan around 20-24 weeks."
+    },
+    {
+      "id": "gdm-screening",
+      "titleTemplate": "Gestational diabetes screening{entitySuffix}",
+      "description": "Typical oral glucose screening milestone."
+    },
+    {
+      "id": "routine-control-30w",
+      "titleTemplate": "Routine blood pressure and growth control{entitySuffix}",
+      "description": "Prenatal control follow-up in third trimester."
+    },
+    {
+      "id": "who-contact-20w",
+      "titleTemplate": "WHO ANC contact (20 weeks){entitySuffix}",
+      "description": "Global model contact point aligned to WHO 8-contact recommendation."
+    },
+    {
+      "id": "who-contact-26w",
+      "titleTemplate": "WHO ANC contact (26 weeks){entitySuffix}",
+      "description": "Global model contact point aligned to WHO 8-contact recommendation."
+    },
+    {
+      "id": "who-contact-34w",
+      "titleTemplate": "WHO ANC contact (34 weeks){entitySuffix}",
+      "description": "Global model contact point aligned to WHO 8-contact recommendation."
+    },
+    {
+      "id": "who-late-contacts",
+      "titleTemplate": "WHO late ANC contact (week {week}){entitySuffix}",
+      "description": "Global model late contacts near term (36, 38, 40 weeks)."
+    },
+    {
+      "id": "chile-controls-4w",
+      "titleTemplate": "Chile prenatal control (every 4 weeks, week {week}){entitySuffix}",
+      "description": "Chile low-risk schedule: controls every 4 weeks up to week 28."
+    },
+    {
+      "id": "chile-controls-2w",
+      "titleTemplate": "Chile prenatal control (every 2 weeks, week {week}){entitySuffix}",
+      "description": "Chile low-risk schedule: controls every 2 weeks from week 30 to 36."
+    },
+    {
+      "id": "chile-controls-weekly",
+      "titleTemplate": "Chile weekly prenatal control (week {week}){entitySuffix}",
+      "description": "Chile low-risk schedule: weekly controls from week 37 until due date."
+    },
+    {
+      "id": "tdap-planning",
+      "titleTemplate": "Tdap vaccine planning{entitySuffix}",
+      "description": "Typical planning window between weeks 27-36."
+    },
+    {
+      "id": "gbs-screening",
+      "titleTemplate": "Group B strep screening{entitySuffix}",
+      "description": "Typical GBS screening around weeks 35-37."
+    },
+    {
+      "id": "birth-plan-review",
+      "titleTemplate": "Birth plan review{entitySuffix}",
+      "description": "Review warning signs and delivery plan."
+    },
+    {
+      "id": "weekly-late-controls",
+      "titleTemplate": "Weekly prenatal control (week {week}){entitySuffix}",
+      "description": "Late-pregnancy weekly control milestone."
+    },
+    {
+      "id": "high-risk-monitoring",
+      "titleTemplate": "High-risk monitoring control (week {week}){entitySuffix}",
+      "description": "Additional high-risk follow-up control."
+    },
+    {
+      "id": "postpartum-6w",
+      "titleTemplate": "Postpartum control (6 weeks){entitySuffix}",
+      "description": "Postpartum recovery and health follow-up."
+    }
+  ]
+}

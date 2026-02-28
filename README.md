@@ -1,4 +1,5 @@
 # Web Appointment System ✅
+Live on: https://nlarchive.github.io/web-calendar/
 
 A lightweight, client-side appointment manager (HTML / JS / CSS) for scheduling services and tracking events with calendar visualization, priority sorting, and state save/load.
 

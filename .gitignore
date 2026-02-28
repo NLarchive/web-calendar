@@ -10,3 +10,4 @@ pnpm-debug.log*
 *.log
 tests/e2e/screenshots/
 tests/e2e/test-results/
+/src/config/professionalDefaults.js

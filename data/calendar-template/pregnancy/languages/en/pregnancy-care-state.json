@@ -1,0 +1,28 @@
+{
+  "appointments": [
+    {
+      "id": "preg-prenatal-initial",
+      "title": "First prenatal consultation",
+      "description": "Initial prenatal evaluation and baseline care plan."
+    },
+    {
+      "id": "preg-dating-ultrasound",
+      "title": "Dating ultrasound",
+      "description": "Schedule dating ultrasound in the first trimester."
+    }
+  ],
+  "calendars": [
+    {
+      "id": "default",
+      "name": "Default"
+    },
+    {
+      "id": "work",
+      "name": "Work"
+    },
+    {
+      "id": "health",
+      "name": "Health"
+    }
+  ]
+}

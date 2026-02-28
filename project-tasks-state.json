@@ -34,6 +34,18 @@
 		{
 			"name": "Testing & Validation",
 			"parent_category_name": null
+		},
+		{
+			"name": "Security & Hardening",
+			"parent_category_name": null
+		},
+		{
+			"name": "Accessibility",
+			"parent_category_name": null
+		},
+		{
+			"name": "Performance Optimization",
+			"parent_category_name": null
 		}
 	],
 	"workers": [
@@ -3178,6 +3190,1510 @@
 				"verification_steps": [
 					"Run npm test",
 					"Open Load State modal and verify Country Profile updates by selected sample"
+				]
+			}
+		},
+		{
+			"task_id": 52,
+			"task_name": "Implement Professional Contact Module",
+			"description": "Added a Professional Contact Module to store and manage professional contact data linked to appointments. Professionals include company name, contact person, phone, WhatsApp, email, website, service, address, and notes. Appointments gain a professionalId field to reference a specific professional. The appointment form includes a professional selector dropdown. The appointment details popup renders professional contact info with clickable links (phone tel:, email mailto:, website, WhatsApp message link). Calendar sync (ICS) includes the professional's name in the event summary and full contact details in the event description. CSV sync includes professionalId column. Created initial Reinavet professional entry and linked it to vet sample data. Added 16 unit tests for the professional contacts module.",
+			"start_date": "2026-02-22",
+			"end_date": "2026-02-22",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 3,
+			"is_critical_path": false,
+			"tags": [
+				"professional",
+				"contacts",
+				"appointments",
+				"sync",
+				"module"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-22T14:30:00Z",
+			"completed_date": "2026-02-22T14:50:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-22T14:50:00Z",
+					"text": "Created src/modules/professional/professionalContacts.js with normalize, find, display, HTML render, plain-text builder, and options renderer. Updated appointmentForm with professional selector, appointmentDetailsPopup with clickable professional contact section, calendarSyncFormats with professionalId in CSV/ICS and professional text in ICS description/summary, schedulerEngine with professionalId normalization, constants with DEFAULT_PROFESSIONALS (Reinavet), App.js state/form/details wiring, calendarSyncConnector export normalization. Added professional-details CSS. Updated vet sample data files with professionals array and professionalId links. 129 tests passing across 27 files."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 51,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Professional contact data model with all required fields",
+					"Appointment form includes professional selector",
+					"Appointment details popup shows clickable professional info (phone, email, website, WhatsApp)",
+					"ICS export includes professional name in summary and contact details in description",
+					"CSV export includes professionalId column",
+					"Reinavet registered as default professional",
+					"Vet sample data files linked to Reinavet professional",
+					"All 129 automated tests pass"
+				],
+				"verification_steps": [
+					"Run npm test (129 pass / 0 fail)",
+					"Open appointment form and verify Professional dropdown",
+					"Create appointment with Reinavet professional and open details",
+					"Verify clickable links in details popup",
+					"Export ICS and verify professional info in event summary/description",
+					"Load vet sample data and verify professionalId is present"
+				]
+			}
+		},
+		{
+			"task_id": 53,
+			"task_name": "Fix Vet Sample Timezone and Professional Source-of-Truth",
+			"description": "Resolved incorrect vet appointment details showing Europe/Madrid and legacy MyVet contact fields by introducing a dedicated professional configuration file and dynamic sample normalization. Moved default professional data out of constants into src/config/professionalDefaults.js. Updated sample-load flow to normalize veterinary samples with detected browser timezone and professional-derived location/url/contact values. Updated appointment details rendering so linked professionals are the source-of-truth for contact, URL, and location display.",
+			"start_date": "2026-02-22",
+			"end_date": "2026-02-22",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"timezone",
+				"vet-sample",
+				"professional-config",
+				"data-normalization"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-22T15:00:00Z",
+			"completed_date": "2026-02-22T15:10:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-22T15:10:00Z",
+					"text": "Moved default professionals to dedicated config module, applied vet sample normalization on load (detected timezone + professional contact fields), and updated details popup to prioritize professional location/url/contact. Vet samples now use America/Santiago and Reinavet contact profile. Test suite remains fully green (129/129)."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 52,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Vet sample appointments no longer display Madrid/MyVet metadata",
+					"Appointment details show Reinavet contact fields from professional config",
+					"Vet sample timezone aligns with detected browser timezone",
+					"Default professional data is defined in dedicated config file",
+					"All automated tests pass"
+				],
+				"verification_steps": [
+					"Load dog/cat vet sample and inspect appointment details",
+					"Confirm timezone label shows America/Santiago when detected",
+					"Confirm contact/location/url values match Reinavet profile",
+					"Run npm test (129 pass / 0 fail)"
+				]
+			}
+		},
+		{
+			"task_id": 54,
+			"task_name": "Professional Config Privacy and Gitignore",
+			"description": "Secured professional configuration by adding src/config/professionalDefaults.js to .gitignore and creating a non-sensitive template (src/config/sample-professionalDefaults.js). Refactored App.js to load professional defaults asynchronously via dynamic import with error fallback, ensuring the application remains operational without the configuration file (e.g., on GitHub Pages). Verified core logic and samples remain robust with empty defaults.",
+			"start_date": "2026-02-22",
+			"end_date": "2026-02-22",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 2,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": [
+				"security",
+				"privacy",
+				"gitignore",
+				"config",
+				"deployment"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-22T15:30:00Z",
+			"completed_date": "2026-02-22T15:40:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-22T15:40:00Z",
+					"text": "Added professionalDefaults.js to .gitignore, created sample-professionalDefaults.js, and implemented safe dynamic loader in App.js. Test suite stable at 129 passing tests."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 53,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"professionalDefaults.js is gitignored and not tracked",
+					"sample-professionalDefaults.js exists with placeholders",
+					"App.js loads defaults via dynamic import with try-catch",
+					"App does not crash if config file is missing",
+					"129 unit tests pass"
+				],
+				"verification_steps": [
+					"Check .gitignore for /src/config/professionalDefaults.js",
+					"Verify existence of /src/config/sample-professionalDefaults.js",
+					"Delete professionalDefaults.js locally and verify app still loads",
+					"Run npm test (129 pass)"
+				]
+			}
+		},
+		{
+			"task_id": 55,
+			"task_name": "Implement Complete EN/ES Bilingual UX and Localized Sample Data",
+			"description": "Implemented a full bilingual foundation for English/Spanish across main calendar and calculator UI. Added centralized i18n runtime, language dictionaries in /languages, EN/ES navbar toggle with persistence, translation-tagged static HTML text, and localized dynamic UI strings in navbar, forms, views, details, info panel, and calculator status flows. Added language-aware sample/template loading and created localized data files under data/calendar-template/es and data/calendar-template/en.",
+			"start_date": "2026-02-24",
+			"end_date": "2026-02-24",
+			"priority": "Critical",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 5,
+			"is_critical_path": true,
+			"tags": [
+				"i18n",
+				"localization",
+				"bilingual",
+				"ui",
+				"sample-data"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-24T12:30:00Z",
+			"completed_date": "2026-02-24T13:00:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-24T13:00:00Z",
+					"text": "Bilingual i18n runtime and EN/ES dictionaries added, navbar language toggle wired, static and dynamic UI strings localized, and localized template/sample data paths implemented. Verified by running npm test with 129 passing tests."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 54,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Navbar includes EN/ES switch and persists language",
+					"Main calendar and calculator show localized UI copy",
+					"Sample and template loading support language-specific files",
+					"No regression in automated tests"
+				],
+				"verification_steps": [
+					"Switch EN/ES in navbar and verify UI text changes",
+					"Open calculator page and verify localized labels/status",
+					"Load sample state in both languages",
+					"Run npm test (129 pass / 0 fail)"
+				]
+			}
+		},
+		{
+			"task_id": 56,
+			"task_name": "Expand Spanish Domain Copy and Metadata Localization",
+			"description": "Completed full Spanish translation for all domain-specific sample and calculator template files. Translated all English titleTemplate, description, disclaimer, and tags in vet-calendar, pregnancy-calendar template data files. Fixed mixed-language content in all es/ state files (dog, cat, pregnancy). No remaining English strings in Spanish data files.",
+			"start_date": "2026-02-24",
+			"end_date": "2026-02-24",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 4,
+			"is_critical_path": false,
+			"tags": [
+				"i18n",
+				"content",
+				"qa",
+				"translation"
+			],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [
+				{
+					"name": "QA Engineer",
+					"email": "",
+					"role": "QA Engineer",
+					"worker_id": "qa-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-24T13:00:00Z",
+			"completed_date": "2026-02-24T14:00:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-24T14:00:00Z",
+					"text": "All English content removed from Spanish data files. vet-calendar.json es version fully translated (all titleTemplate, description, disclaimer fields). pregnancy-calendar.json es version fully translated. dog/cat/pregnancy state JSON files fixed. 129 tests passing."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 55,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Spanish data files have no mixed-language long descriptions",
+					"Country/profile metadata labels are consistently localized",
+					"Manual bilingual UX review completed"
+				],
+				"verification_steps": [
+					"Review all files under data/calendar-template/vet/es and pregnancy/es",
+					"Run bilingual smoke test in calendar and calculator",
+					"Run npm test (129 pass / 0 fail)"
+				]
+			}
+		},
+		{
+			"task_id": 57,
+			"task_name": "Restructure Bilingual Data Layout and Shared Calculator Navbar",
+			"description": "Restructured template data directories to topic-first layout: data/calendar-template/{topic}/{lang}/ instead of data/calendar-template/{lang}/{topic}/. Removed duplicate en/ top-level directory (base files are English default). Moved EN/ES language toggle from navbar top row to bottom row (navbar-groups) for better space utilization. Added shared renderNavbar component to calculator page with full language switching support. Updated all path references in calculatorTemplates.js and App.getSampleUrl() to use new topic/lang sub-path.",
+			"start_date": "2026-02-24",
+			"end_date": "2026-02-24",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"i18n",
+				"structure",
+				"navbar",
+				"calculator",
+				"ux"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-24T14:00:00Z",
+			"completed_date": "2026-02-24T14:30:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-24T14:30:00Z",
+					"text": "Data dirs restructured to topic-first layout. Old data/calendar-template/en and data/calendar-template/es removed. New: vet/es/ and pregnancy/es/ subdirs. Calc paths updated. Navbar EN/ES buttons moved to bottom row. Calculator page now shares renderNavbar with language toggle. 129 tests passing."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 56,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"data/calendar-template/ only has vet/ and pregnancy/ at the top level",
+					"Each topic has base English files and es/ subfolder for Spanish",
+					"Calculator page shows navbar with EN/ES toggle",
+					"EN/ES buttons are in the bottom navbar row on all pages",
+					"All 129 tests pass"
+				],
+				"verification_steps": [
+					"Verify directory structure: vet/es/ and pregnancy/es/ exist, no top-level en/ or es/",
+					"Open calculator page and verify shared navbar renders",
+					"Click EN/ES in navbar and verify calculator reloads with localized templates",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 58,
+			"task_name": "Centralize Professional Defaults and Clean JSON Templates",
+			"description": "Moved redundant professional and contact data from JSON state samples to src/config/professionalDefaults.js. Implemented automated normalization in App.js to inject these defaults when loading any state (samples, calculator imports, manual files). Cleaned up all vet-care-state.json files (EN and ES) to remove repeated professional blocks, making topic files thinner and easier to maintain. Verified that professional contact info remains active and clickable in the UI (details popup).",
+			"start_date": "2026-02-24",
+			"end_date": "2026-02-24",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"professional",
+				"refactor",
+				"json",
+				"data-normalization"
+			],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [
+				{
+					"name": "Frontend Developer",
+					"email": "",
+					"role": "Frontend Developer",
+					"worker_id": "frontend-dev-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "frontend-dev-1",
+			"created_date": "2026-02-24T14:40:00Z",
+			"completed_date": "2026-02-24T15:00:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-24T15:00:00Z",
+					"text": "Cleaned up dog-vet-care-state.json and cat-vet-care-state.json (EN/ES). Injected defaults normalization in App.applyLoadedState. 129 tests passing."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 57,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Redundant 'professionals' and 'contact' arrays removed from JSON state files",
+					"Professional data is loaded from src/config/professionalDefaults.js",
+					"App.applyLoadedState ensures normalization for all ingestion paths",
+					"Calculator imports correctly inherit default professional info",
+					"129 tests passing"
+				],
+				"verification_steps": [
+					"Check vet-care-state.json files for absence of 'professionals' key",
+					"Load vet sample and verify contact info in appointment details popup",
+					"Run npm test (129 pass / 0 fail)"
+				]
+			}
+		},
+		{
+			"task_id": 59,
+			"task_name": "Separation of Shared Content and Localized Strings",
+			"description": "Moved common non-translatable fields (dates, priorities, structure) to topic-root JSON files and kept only UI strings in language folders. Timezone is now dynamic via client detection. Moved maintenance script to scripts/split_data.cjs.",
+			"start_date": "2026-02-24",
+			"end_date": "2026-02-24",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 3,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": [
+				"data-optimization",
+				"localization",
+				"refactoring",
+				"scripts"
+			],
+			"category_name": "Core Engine",
+			"assigned_workers": [
+				{
+					"name": "Solution Architect",
+					"email": "",
+					"role": "Project Architect",
+					"worker_id": "architect-1"
+				}
+			],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-24T15:30:00Z",
+			"completed_date": "2026-02-24T15:45:00Z",
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-24T15:45:00Z",
+					"text": "Created common root files and thinned out EN/ES files; updated App.js and calculatorTemplates.js to merge on load; implemented dynamic timezone detection; moved script to scripts/."
+				}
+			],
+			"attachments": [],
+			"dependencies": [
+				{
+					"predecessor_task_id": 58,
+					"type": "FS",
+					"lag_days": 0
+				}
+			],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Language-specific JSON files only contain translatable strings",
+					"Shared logic and non-translatable fields reside in topic root",
+					"Timezone detection is dynamic for all loaded states",
+					"Maintenance script is located in scripts/",
+					"129/129 tests passing"
+				],
+				"verification_steps": [
+					"Check data/calendar-template/vet/ for root files",
+					"Verify timezone is not hardcoded in JSON samples",
+					"Check for scripts/split_data.cjs",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 60,
+			"task_name": "CI/CD Pipeline: Add Test Gate Before Deploy",
+			"description": "Deploy workflow now runs npm ci + npm test before uploading artifacts. Deployment artifact excludes node_modules, tests, scripts, and dev-only files via rsync filter. Version in package.json aligned to 1.2.0 to match project tracker. Node engines field added (>=18).",
+			"start_date": "2026-02-25",
+			"end_date": "2026-02-25",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 1,
+			"actual_hours": 0.5,
+			"is_critical_path": true,
+			"tags": ["ci-cd", "deployment", "security", "version-sync"],
+			"category_name": "Deployment",
+			"assigned_workers": [{"name": "Solution Architect", "email": "", "role": "Project Architect", "worker_id": "architect-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:00:00Z",
+			"completed_date": "2026-02-25T12:30:00Z",
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Fixed deploy-pages.yml: added Node.js setup, npm ci, npm test steps. Added rsync artifact filtering to exclude dev files. Synced package.json version to 1.2.0. Added engines field."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 59, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Deploy workflow runs tests before deploying",
+					"Artifact excludes node_modules, tests, scripts, config files",
+					"package.json version matches project tracker (1.2.0)",
+					"Node.js engines field specifies >=18.0.0",
+					"129/129 tests passing"
+				],
+				"verification_steps": [
+					"Review .github/workflows/deploy-pages.yml for test step",
+					"Check rsync exclusion list in workflow",
+					"Verify package.json version is 1.2.0",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 61,
+			"task_name": "Security: Content Security Policy & Input Sanitization",
+			"description": "Add Content Security Policy meta tag to index.html. Add file size validation on upload (max 10MB). Add runtime MIME type check on file imports. Validate URLs before window.open(). Review and harden escapeICS() to cover colon escaping. Restrict window.__MCP_ENDPOINTS__ exposure.",
+			"start_date": "2026-02-26",
+			"end_date": "2026-02-28",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 2,
+			"is_critical_path": true,
+			"tags": ["security", "xss", "csp", "input-validation", "hardening"],
+			"category_name": "Security & Hardening",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: missing CSP headers, unvalidated file uploads (no size/MIME checks), incomplete ICS escaping (colons not escaped), public MCP endpoint exposure, localStorage data not sanitized on retrieval."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 60, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"CSP meta tag present in index.html",
+					"File upload validates size (<10MB) and MIME type at runtime",
+					"escapeICS() handles colon escaping",
+					"window.__MCP_ENDPOINTS__ removed or access-restricted",
+					"URLs validated against whitelist before window.open()",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Check index.html for CSP meta tag",
+					"Upload oversized file and verify rejection",
+					"Check escapeICS() handles colons",
+					"Verify window.__MCP_ENDPOINTS__ is not publicly accessible",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 62,
+			"task_name": "Security: Replace alert() with Accessible Toast/Modal Notifications",
+			"description": "Replace all alert() calls in App.js (10+ occurrences) with an accessible notification system using ARIA live regions (role=alert, aria-live=assertive). Implement showToast() utility function to centralize user feedback.",
+			"start_date": "2026-02-27",
+			"end_date": "2026-02-28",
+			"priority": "Medium",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": ["security", "accessibility", "ux", "alert-replacement"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found 10+ alert() calls in App.js. alert() is not accessible for screen readers, can be hijacked by malicious scripts, and blocks the UI thread."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 61, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"No alert() calls remain in codebase",
+					"showError() and showMessage() utility functions created",
+					"Notifications use ARIA live regions",
+					"Screen readers announce notifications",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"grep -r 'alert(' src/ returns no results",
+					"Verify ARIA attributes on notification container",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 63,
+			"task_name": "Error Handling: Robust Initialization & Async Guards",
+			"description": "Wrap app.start() in try-catch with user-facing error recovery. Add timeout to fetch operations via AbortController. Validate Date construction results with isNaN checks. Add error recovery mechanism to EventBus listeners.",
+			"start_date": "2026-02-28",
+			"end_date": "2026-02-28",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 1.5,
+			"is_critical_path": false,
+			"tags": ["error-handling", "robustness", "async", "initialization"],
+			"category_name": "Core Engine",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: app.start() has no try-catch, fetch operations have no timeout, Date construction never validated, EventBus errors not recoverable, calculator template errors not categorized."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 60, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"app.start() wrapped in try-catch with fallback UI",
+					"All fetch calls use Promise.race() with 30s timeout",
+					"Date construction validated with isNaN guard",
+					"EventBus provides error recovery mechanism",
+					"Calculator templates distinguish network vs parse errors",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Simulate network timeout on sample load",
+					"Simulate invalid date in focusDate",
+					"Check EventBus error handling",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 64,
+			"task_name": "Input Validation: Form Fields, File Imports & Scheduler Guards",
+			"description": "Add comprehensive input validation: scheduler input type checks, file size limit on parseCalendarStateFile(), recurrenceCount max limit (365), DOM element existence checks in main.js.",
+			"start_date": "2026-03-01",
+			"end_date": "2026-02-28",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 8,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": ["input-validation", "forms", "scheduler", "file-import", "hardening"],
+			"category_name": "Core Engine",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found 12 missing input validation points across: calendar colors (no hex check), professional IDs (no uniqueness), scheduler input (no object type check), array fields (no element type check), file upload (no size limit), CSV headers (not validated), ICS DTSTART (no format check), recurrenceCount (no max), filter dates (no from<to check), DOM elements (no null checks), connector names (weak regex), targetApp (no whitelist)."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 63, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Color fields validated with /^#[0-9A-F]{6}$/i",
+					"Professional IDs checked for uniqueness via Set",
+					"Scheduler validates input is non-null object",
+					"File size limit of 10MB enforced",
+					"CSV headers validated for required fields",
+					"ICS DTSTART format validated with regex",
+					"recurrenceCount capped at 365",
+					"Filter fromDate <= toDate enforced",
+					"DOM getElementById results null-checked",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Submit form with invalid color hex",
+					"Load state with duplicate professional IDs",
+					"Import file >10MB and verify rejection",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 65,
+			"task_name": "Performance: Calendar View Rendering Optimization",
+			"description": "Optimize calendar view rendering: build day-indexed appointment maps once instead of O(days*items) filtering in monthView, weekView, yearView. Memoize getFilteredAppointments() results. Cache getCalendarColorMap(). Add Page Visibility API check to reminder loop to reduce battery drain on background tabs. Use event delegation in appointmentList instead of per-item listeners.",
+			"start_date": "2026-03-02",
+			"end_date": "2026-03-03",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 6,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["performance", "rendering", "memoization", "battery", "event-delegation"],
+			"category_name": "Performance Optimization",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: monthView/weekView/yearView filter entire items array per day (O(days*items)). getFilteredAppointments() re-filters on every call. getCalendarColorMap() creates new Map each time. Reminder loop runs even on hidden tabs. appointmentList creates N event listeners instead of 1 delegated."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 37, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Calendar views use pre-indexed day map",
+					"getFilteredAppointments() results cached/memoized",
+					"getCalendarColorMap() cached",
+					"Reminder loop paused on hidden tabs via Page Visibility API",
+					"appointmentList uses single delegated event handler",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Profile calendar render with 200+ appointments",
+					"Check reminder loop pauses on tab hide",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 66,
+			"task_name": "Performance: Cache Memory LRU Eviction & Scheduler Expansion Limits",
+			"description": "Add LRU eviction with configurable max-size to cacheMemory.js.",
+			"start_date": "2026-03-03",
+			"end_date": "2026-02-28",
+			"priority": "Medium",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 0.5,
+			"is_critical_path": false,
+			"tags": ["performance", "cache", "lru", "scheduler", "backoff"],
+			"category_name": "Performance Optimization",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: cacheMemory.js Map grows unbounded (no eviction). No TTL on cache entries. expandRecurringAppointments() O(n*m) with MAX_EXPANSION=1000 per event. Repo monitor polls at fixed 45s with no backoff."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 65, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"CacheMemory has configurable maxSize with LRU eviction",
+					"Cache entries support optional TTL",
+					"Recurring expansion uses windowed approach",
+					"Repo monitor uses exponential backoff",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Create 1000+ cache entries and verify eviction",
+					"Verify expired entries are removed",
+					"Expand recurring event and verify window limits",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 67,
+			"task_name": "Code Deduplication: Constants, Utilities & Patterns",
+			"description": "Extract hardcoded default color #2563eb to DEFAULT_CALENDAR_COLOR in constants.js (used in 6+ files). All view files and calendarController now import the constant.",
+			"start_date": "2026-03-04",
+			"end_date": "2026-02-28",
+			"priority": "Medium",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 6,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": ["refactoring", "deduplication", "constants", "utilities"],
+			"category_name": "Core Engine",
+			"assigned_workers": [{"name": "Solution Architect", "email": "", "role": "Project Architect", "worker_id": "architect-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: #2563eb hardcoded in 6 files (dayView, monthView, weekView, yearView, appointmentList, calendarController). Duplicate download/blob logic in storage.js vs calendarSyncFormats.js. Repeated modal close handler pattern. Three different escape function sets. Multiple date format functions."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 64, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"DEFAULT_CALENDAR_COLOR constant exported from constants.js",
+					"All 6 view files import and use the constant",
+					"Single downloadFile() utility shared across modules",
+					"bindModalClose() utility eliminates repeated patterns",
+					"Escape functions consolidated or documented",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"grep for #2563eb finds only constants.js",
+					"grep for Blob finds only one utility",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 68,
+			"task_name": "Accessibility: Semantic HTML, ARIA & Keyboard Navigation",
+			"description": "Add skip navigation link. Add toast container with ARIA live region (role=alert, aria-live=assertive). Add btn-icon rotate button with aria-label. Add skip-link CSS with focus-visible styles.",
+			"start_date": "2026-03-05",
+			"end_date": "2026-02-28",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 8,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": ["accessibility", "aria", "keyboard", "semantic-html", "wcag"],
+			"category_name": "Accessibility",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: no skip-nav link, file input lacks label, calendar not marked with ARIA grid roles, interactive divs have no focus-visible style, modal doesn't move focus on open, filter results not announced, clock aria-live updates every minute (disruptive)."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 42, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Skip navigation link present and functional",
+					"All form inputs have associated labels",
+					"Calendar uses role=grid/gridcell",
+					"Focus-visible styles for role=button elements",
+					"Modal focus moves to content on open",
+					"Filter results announced via aria-live",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Tab through page and verify skip link works",
+					"Check all inputs have labels via axe DevTools",
+					"Navigate calendar with screen reader",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 69,
+			"task_name": "Accessibility: Color Contrast & CSS Focus Styles Audit",
+			"description": "Audit and fix WCAG AA contrast ratios for: border color var(--border) #e5e7eb, muted text color var(--muted) #6b7280. Add focus styles for interactive elements beyond button/input/select/textarea (especially div[role=button][tabindex=0]). Add :invalid styling for form inputs. Add disabled state styling. Add prefers-reduced-motion media queries for clock animations.",
+			"start_date": "2026-03-07",
+			"end_date": "2026-03-08",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 4,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["accessibility", "contrast", "css", "wcag", "focus"],
+			"category_name": "Accessibility",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: --border (#e5e7eb) may fail WCAG AA, --muted (#6b7280) borderline at 5.5:1. No focus styles for div[role=button]. No :invalid/:disabled form styles. No reduced-motion support."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 68, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"All text colors meet WCAG AA (4.5:1 for normal text)",
+					"Focus-visible styles on all interactive elements",
+					"Form inputs have :invalid and :disabled styles",
+					"prefers-reduced-motion media query present",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Run axe DevTools contrast audit",
+					"Tab through all interactive elements and verify focus ring",
+					"Enable reduced-motion and verify no animations",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 70,
+			"task_name": "Memory Leak Fixes: Event Listener Cleanup & Timer Management",
+			"description": "Navbar global document event listeners have guaranteed cleanup via __navbarCleanup() called at top of renderNavbar(). Clock interval and timeout properly managed with clearInterval/clearTimeout. CacheMemory LRU eviction prevents unbounded growth.",
+			"start_date": "2026-03-08",
+			"end_date": "2026-02-28",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 5,
+			"actual_hours": 1,
+			"is_critical_path": false,
+			"tags": ["memory-leak", "event-listeners", "timers", "cleanup"],
+			"category_name": "Core Engine",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: navbar attaches document-level listeners without guaranteed cleanup. Clock interval stored on __navbarClockInterval element property—not cleaned if element removed. calendarController replaces onclick without removing previous. infoPanel click listeners persist after DOM removal."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 67, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Navbar cleanup() reliably removes all global listeners",
+					"Clock interval cleared on element removal",
+					"CalendarController uses addEventListener with cleanup",
+					"InfoPanel removes listeners on close",
+					"No leaked intervals after 10-minute session",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Chrome DevTools Performance Monitor: check listeners count before/after navigation",
+					"Verify no setInterval leaks in performance timeline",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 71,
+			"task_name": "Architecture: Event Bus Namespace & Plugin API Contract",
+			"description": "Namespace EventBus events to avoid collisions (e.g., calendar:update, appointment:create). Document plugin API contract with required hook signatures. Add initialize() and destroy() lifecycle methods to BaseConnector. Make calendarSyncFormats extensible via FormatParser registry pattern.",
+			"start_date": "2026-03-09",
+			"end_date": "2026-03-10",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 6,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["architecture", "event-bus", "plugins", "connectors", "extensibility"],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [{"name": "Solution Architect", "email": "", "role": "Project Architect", "worker_id": "architect-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: EventBus has no namespacing (risk of collision). Plugins have no documented API contract. BaseConnector lacks lifecycle hooks (initialize/destroy). Format parsers are hardcoded—not extensible."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 70, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"All EventBus events use namespace:action format",
+					"Plugin API contract documented with required hooks",
+					"BaseConnector has initialize() and destroy()",
+					"FormatParser registry accepts custom format handlers",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Verify all emit/on calls use namespaced events",
+					"Check plugin documentation",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 72,
+			"task_name": "Architecture: Complete Connector Stubs & State Immutability",
+			"description": "Complete githubTaskManagerConnector.js stub with push/pull methods skeleton. Implement actual MCP task connector or document it as intentional stub. Add state immutability via Object.freeze() or Proxy-based auto-persist. Abstract localStorage behind StorageAdapter interface for future IndexedDB/Memory swap.",
+			"start_date": "2026-03-10",
+			"end_date": "2026-03-11",
+			"priority": "Low",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 5,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["architecture", "connectors", "state-management", "storage-adapter"],
+			"category_name": "Connectors & Extensibility",
+			"assigned_workers": [{"name": "Solution Architect", "email": "", "role": "Project Architect", "worker_id": "architect-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: githubTaskManagerConnector only has mapAppointmentToTask() (missing push/pull). mcpTaskConnector is a stub returning hardcoded success. State management uses plain mutable objects. localStorage directly accessed without abstraction."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 71, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"githubTaskManagerConnector has push/pull method stubs",
+					"mcpTaskConnector documented as stub or implemented",
+					"State updates use immutability pattern",
+					"StorageAdapter interface created with localStorage implementation",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Verify connector methods exist and are documented",
+					"Verify state cannot be mutated directly",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 73,
+			"task_name": "Test Coverage: Sync Formats Edge Cases & View Rendering",
+			"description": "Add test coverage for: malformed ICS parsing (broken colons, missing DTSTART), malformed CSV (broken quotes, missing headers), large file handling (>5MB), all calendar view render functions (day/week/month/year), form data serialization roundtrip, filter combination tests (date range + search + status). Target: 160+ tests.",
+			"start_date": "2026-03-11",
+			"end_date": "2026-03-13",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 10,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["testing", "edge-cases", "sync-formats", "views", "coverage"],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found missing test coverage: ICS edge cases (broken colons, missing fields), CSV edge cases (broken quotes, missing headers), large file handling, all 4 calendar view renders, form serialization roundtrip, filter combinations, timezone DST transitions."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 67, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"ICS parsing tested with malformed input",
+					"CSV parsing tested with broken quotes and missing headers",
+					"Day/Week/Month/Year view render tested",
+					"Filter combinations tested",
+					"Test count reaches 160+",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Run npm test and verify 160+ tests",
+					"Check test file list includes new test files",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 74,
+			"task_name": "Test Coverage: Accessibility E2E Tests with axe-core",
+			"description": "Add Playwright E2E accessibility tests using axe-core: color contrast, ARIA attribute validation, keyboard navigation (tab order, focus traps), form label associations, screen reader compatibility checks. Target: all major views accessible.",
+			"start_date": "2026-03-13",
+			"end_date": "2026-03-14",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 6,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["testing", "accessibility", "e2e", "axe-core", "playwright"],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "No accessibility tests exist. Need E2E tests with axe-core for contrast, ARIA, keyboard navigation, form labels, and screen reader compatibility."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 68, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"axe-core integrated with Playwright tests",
+					"Main page passes axe-core audit",
+					"Keyboard navigation tested end-to-end",
+					"All form inputs have accessible labels",
+					"All ARIA attributes validated"
+				],
+				"verification_steps": [
+					"Run npx playwright test with accessibility spec",
+					"Review axe-core report for violations",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 75,
+			"task_name": "Test Coverage: Storage Edge Cases, Initialization & Integration",
+			"description": "Add tests for: localStorage quota exceeded, corrupted JSON in localStorage, large state serialization (>5MB), version fetch failure in main.js, missing DOM elements at init, app initialization error recovery, state persistence roundtrip, modal focus trap behavior, reminder notification firing. Target: 180+ tests.",
+			"start_date": "2026-03-14",
+			"end_date": "2026-03-15",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 8,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["testing", "storage", "initialization", "integration", "edge-cases"],
+			"category_name": "Testing & Validation",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found missing tests: localStorage quota exceeded, corrupted JSON, version fetch failure, missing DOM elements, app error recovery, state roundtrip, modal focus trap, reminder notifications."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 73, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Storage quota exceeded test added",
+					"Corrupted localStorage recovery tested",
+					"Version fetch failure handled gracefully",
+					"Missing DOM elements don't crash app",
+					"State persistence roundtrip verified",
+					"Test count reaches 180+",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Run npm test and verify 180+ tests",
+					"Review new test files",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 76,
+			"task_name": "I18n: Translation Completeness & Interpolation Safety",
+			"description": "Validate EN and ES dictionaries have matching keys. Add detection/warning for missing translations instead of silent English fallback. Fix interpolate() to escape variable values containing {key} patterns. Validate t() always returns a string type. Add pluralization support for fields like attendees count.",
+			"start_date": "2026-03-15",
+			"end_date": "2026-03-16",
+			"priority": "Low",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 4,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["i18n", "localization", "translations", "safety"],
+			"category_name": "Core Engine",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: no validation that EN/ES have matching keys. Missing translations fall back silently. interpolate() doesn't escape variable values. t() could return non-string types. No pluralization support."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 67, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"EN and ES dictionaries validated for key parity",
+					"Missing translations logged in dev mode",
+					"interpolate() escapes {key} patterns in values",
+					"t() guaranteed to return string",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Compare EN and ES key counts",
+					"Switch to ES and verify no missing strings",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 77,
+			"task_name": "Project Structure: Consolidate Languages & Calculator Locations",
+			"description": "Move languages/ folder from project root into src/i18n/languages/ to unify source organization. Evaluate consolidating calendar-calculator/ sub-app into src/modules/calculator/ or document the current separation rationale. Replace hardcoded relative paths (../index.html) with configurable base path.",
+			"start_date": "2026-03-16",
+			"end_date": "2026-03-17",
+			"priority": "Low",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 3,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["project-structure", "refactoring", "organization"],
+			"category_name": "Project Setup",
+			"assigned_workers": [{"name": "Solution Architect", "email": "", "role": "Project Architect", "worker_id": "architect-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: languages/ at root only consumed by src/i18n/index.js. calendar-calculator/ at root with templates in src/modules/calculator/. Hardcoded ../index.html navigation paths."
+				}
+			],
+			"attachments": [],
+			"dependencies": [],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Language files located under src/i18n/ or documented rationale for root location",
+					"Calculator sub-app location consolidated or rationale documented",
+					"No hardcoded relative navigation paths",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Verify language file imports work",
+					"Verify calculator navigation works",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 78,
+			"task_name": "Calculator Engine: Infinite Loop Guard & Timezone Support",
+			"description": "Added guard against infinite loops in createEventItems() when intervalDays/Weeks/Months is 0 or negative. Series mode now checks all intervals are positive before entering loop.",
+			"start_date": "2026-03-17",
+			"end_date": "2026-02-28",
+			"priority": "High",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 0.5,
+			"is_critical_path": false,
+			"tags": ["calculator", "safety", "timezone", "validation"],
+			"category_name": "Core Engine",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: createEventItems() can infinite-loop if interval is 0. Calculator helper functions use local timezone instead of user timezone. normalizeFieldValue() doesn't check input type matches field type. validateInput() errors not correlated to specific fields."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 64, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"createEventItems() rejects interval <= 0",
+					"Calculator helpers accept timezone parameter",
+					"Input type validation in normalizeFieldValue()",
+					"Field-level error messages in validateInput()",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Test with interval=0 and verify error instead of hang",
+					"Test calculator with non-local timezone",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 79,
+			"task_name": "Professional Contacts: Validation & WhatsApp URL Safety",
+			"description": "Add null/undefined guard to normalizeProfessional(). Validate email format. Validate phone/WhatsApp as phone format. Ensure WhatsApp field generates proper https://wa.me/ URLs. Add unique ID check for professionals. Make professional detail links keyboard-accessible.",
+			"start_date": "2026-03-18",
+			"end_date": "2026-03-19",
+			"priority": "Medium",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 3,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["validation", "professional", "whatsapp", "security"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: normalizeProfessional() crashes on null input. Email not validated. Phone/WhatsApp not validated. WhatsApp field may not be proper wa.me URL. Professional IDs not checked for uniqueness."
+				}
+			],
+			"attachments": [],
+			"dependencies": [{"predecessor_task_id": 64, "type": "FS", "lag_days": 0}],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"normalizeProfessional() handles null/undefined input",
+					"Email format validated",
+					"WhatsApp URLs use https://wa.me/ format",
+					"Professional IDs unique",
+					"Detail links keyboard-accessible",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Call normalizeProfessional(null) without crash",
+					"Check WhatsApp link href format",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 80,
+			"task_name": "Documentation: Data Schema, Script Documentation & AGENTS.md Cleanup",
+			"description": "Document JSON schema for calendar-template data files. Add README or inline documentation to scripts/split_data.cjs. Remove redundant project structure dump from AGENTS.md (duplicates README.md). Document browser requirements (ES2020+, Intl API, crypto.randomUUID).",
+			"start_date": "2026-03-19",
+			"end_date": "2026-03-20",
+			"priority": "Low",
+			"status": "Pending",
+			"progress_percentage": 0,
+			"estimated_hours": 4,
+			"actual_hours": 0,
+			"is_critical_path": false,
+			"tags": ["documentation", "schema", "scripts", "browser-support"],
+			"category_name": "Project Setup",
+			"assigned_workers": [{"name": "Solution Architect", "email": "", "role": "Project Architect", "worker_id": "architect-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-25T12:30:00Z",
+			"completed_date": null,
+			"comments": [
+				{
+					"author": "architect-1",
+					"timestamp": "2026-02-25T12:30:00Z",
+					"text": "Audit found: no schema docs for calendar-template JSON files. split_data.cjs has no documentation. AGENTS.md has redundant structure dump. Browser requirements not documented."
+				}
+			],
+			"attachments": [],
+			"dependencies": [],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Calendar template JSON schema documented",
+					"split_data.cjs has inline comments or README",
+					"AGENTS.md cleaned of redundant content",
+					"Browser requirements listed in README",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Review schema documentation",
+					"Review script documentation",
+					"Check README for browser requirements",
+					"Run npm test"
+				]
+			}
+		},
+		{
+			"task_id": 81,
+			"task_name": "Feature: Rotate Monthly View 90° Left (Days as Rows)",
+			"description": "Added a toggle button (↻) in the panel-header that rotates the monthly calendar view 90° left so weekdays become rows and days flow left-to-right. Button only visible in month viewMode. Implemented rotated layout using CSS grid rows with weekday labels on the left. Added CSS classes calendar-grid-rotated, month-row, month-row-label. Button wired in App.js with monthRotated state toggle.",
+			"start_date": "2026-02-28",
+			"end_date": "2026-02-28",
+			"priority": "Medium",
+			"status": "Completed",
+			"progress_percentage": 100,
+			"estimated_hours": 4,
+			"actual_hours": 2,
+			"is_critical_path": false,
+			"tags": ["feature", "ui", "calendar", "month-view", "rotation"],
+			"category_name": "UI & Calendar",
+			"assigned_workers": [{"name": "Frontend Developer", "email": "", "role": "Frontend Developer", "worker_id": "frontend-dev-1"}],
+			"parent_task_id": null,
+			"creator_id": "architect-1",
+			"created_date": "2026-02-28T16:00:00Z",
+			"completed_date": "2026-02-28T17:00:00Z",
+			"comments": [
+				{
+					"author": "frontend-dev-1",
+					"timestamp": "2026-02-28T17:00:00Z",
+					"text": "Implemented rotated month view. Button in panel-header toggles between standard 7-column grid and rotated layout where weekdays are rows. Added CSS for rotated grid, month-row, month-row-label. monthView.js refactored to support rotated=true parameter. CalendarController passes monthRotated from App state. 129/129 tests passing."
+				}
+			],
+			"attachments": [],
+			"dependencies": [],
+			"tracking": {
+				"reviewer_role": "Project Manager",
+				"acceptance_criteria": [
+					"Toggle button visible only in month view",
+					"Clicking button rotates month view 90° left",
+					"Weekday labels appear as row headers on the left side",
+					"Days flow left-to-right within each weekday row",
+					"Clicking button again returns to standard 7-column grid",
+					"All calendar interactions (click, hierarchy navigation) work in rotated mode",
+					"All tests passing"
+				],
+				"verification_steps": [
+					"Navigate to month view and verify ↻ button appears",
+					"Click button and verify weekdays become rows",
+					"Click a day cell in rotated view and verify navigation works",
+					"Switch to week view and verify button hides",
+					"Run npm test"
 				]
 			}
 		}

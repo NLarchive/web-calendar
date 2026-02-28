@@ -1,54 +1,100 @@
 {
   "id": "vet-care",
-  "title": "Veterinary Care Calendar Calculator",
-  "description": "Data-driven lifecycle schedule for dogs and cats from newborn stage through 18 years.",
-  "disclaimer": "General preventive schedule guidance only. Always confirm care timing with your veterinarian.",
   "fields": [
-    { "name": "petName", "label": "Pet name", "type": "text", "required": false, "placeholder": "Luna" },
+    {
+      "name": "petName",
+      "type": "text",
+      "required": false
+    },
     {
       "name": "species",
-      "label": "Species",
       "type": "select",
       "required": true,
       "defaultValue": "dog",
       "options": [
-        { "value": "dog", "label": "Dog" },
-        { "value": "cat", "label": "Cat" }
+        {
+          "value": "dog"
+        },
+        {
+          "value": "cat"
+        }
       ]
     },
-    { "name": "birthDate", "label": "Birth date (optional if age provided)", "type": "date", "required": false },
-    { "name": "ageYears", "label": "Age (years)", "type": "number", "required": true, "min": 0, "max": 18 },
-    { "name": "lastVaccine", "label": "Last core vaccine date", "type": "date", "required": true },
-    { "name": "lastDeworming", "label": "Last internal deworming date", "type": "date", "required": true },
-    { "name": "lastEctoparasite", "label": "Last ectoparasite treatment date", "type": "date", "required": true },
-    { "name": "lastCheckup", "label": "Last clinical control date", "type": "date", "required": true },
+    {
+      "name": "birthDate",
+      "type": "date",
+      "required": false
+    },
+    {
+      "name": "ageYears",
+      "type": "number",
+      "required": true,
+      "min": 0,
+      "max": 18
+    },
+    {
+      "name": "lastVaccine",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "lastDeworming",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "lastEctoparasite",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "lastCheckup",
+      "type": "date",
+      "required": true
+    },
     {
       "name": "environment",
-      "label": "Living environment",
       "type": "select",
       "required": true,
       "defaultValue": "indoor",
       "options": [
-        { "value": "indoor", "label": "Indoor" },
-        { "value": "mixed", "label": "Mixed indoor/outdoor" },
-        { "value": "outdoor", "label": "Outdoor" }
+        {
+          "value": "indoor"
+        },
+        {
+          "value": "mixed"
+        },
+        {
+          "value": "outdoor"
+        }
       ]
     },
     {
       "name": "country",
-      "label": "Country / Region Guidelines",
       "type": "select",
       "required": true,
       "defaultValue": "global",
       "options": [
-        { "value": "global", "label": "Global (WSAVA/ESCCAP)" },
-        { "value": "chile", "label": "Chile (Colmevet/Local Law)" }
+        {
+          "value": "global"
+        },
+        {
+          "value": "chile"
+        }
       ]
     }
   ],
   "derivedDates": [
-    { "name": "birthDateDerived", "fromField": "birthDate", "fallbackFromAgeYearsField": "ageYears" },
-    { "name": "endOfLifeDate", "fromDerived": "birthDateDerived", "addDays": 6574 }
+    {
+      "name": "birthDateDerived",
+      "fromField": "birthDate",
+      "fallbackFromAgeYearsField": "ageYears"
+    },
+    {
+      "name": "endOfLifeDate",
+      "fromDerived": "birthDateDerived",
+      "addDays": 6574
+    }
   ],
   "calculationWindow": {
     "startAnchor": "birthDateDerived",
@@ -58,174 +104,354 @@
   "events": [
     {
       "id": "newborn-registration",
-      "titleTemplate": "{speciesLabel} newborn registration{entitySuffix}",
-      "description": "Initial newborn veterinary registration and baseline exam.",
       "category": "health",
-      "tags": ["vet", "newborn"],
+      "tags": [
+        "vet",
+        "newborn"
+      ],
       "priority": 6,
       "reminderMinutes": 1440,
-      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 0 }
+      "schedule": {
+        "mode": "single",
+        "anchor": "birthDateDerived",
+        "offsetDays": 0
+      }
     },
     {
       "id": "early-check-6w",
-      "titleTemplate": "{speciesLabel} early-life check (6 weeks){entitySuffix}",
-      "description": "Early development and preventive care check.",
       "category": "health",
-      "tags": ["vet", "checkup", "newborn"],
+      "tags": [
+        "vet",
+        "checkup",
+        "newborn"
+      ],
       "priority": 7,
       "reminderMinutes": 1440,
-      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 42 }
+      "schedule": {
+        "mode": "single",
+        "anchor": "birthDateDerived",
+        "offsetDays": 42
+      }
     },
     {
       "id": "core-vaccine-primary-8w",
-      "titleTemplate": "{speciesLabel} primary core vaccine (8 weeks){entitySuffix}",
-      "description": "Primary vaccine dose in early life.",
       "category": "health",
-      "tags": ["vet", "vaccine", "primary"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "primary"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
-      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 56 }
+      "schedule": {
+        "mode": "single",
+        "anchor": "birthDateDerived",
+        "offsetDays": 56
+      }
     },
     {
       "id": "core-vaccine-booster-12w",
-      "titleTemplate": "{speciesLabel} core vaccine booster (12 weeks){entitySuffix}",
-      "description": "Early-life booster dose.",
       "category": "health",
-      "tags": ["vet", "vaccine", "booster"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "booster"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
-      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 84 }
+      "schedule": {
+        "mode": "single",
+        "anchor": "birthDateDerived",
+        "offsetDays": 84
+      }
     },
     {
       "id": "core-vaccine-booster-16w",
-      "titleTemplate": "{speciesLabel} core vaccine booster (16 weeks){entitySuffix}",
-      "description": "Final primary-series booster milestone.",
       "category": "health",
-      "tags": ["vet", "vaccine", "booster"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "booster"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
-      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 112 }
+      "schedule": {
+        "mode": "single",
+        "anchor": "birthDateDerived",
+        "offsetDays": 112
+      }
     },
     {
       "id": "spay-neuter-window",
-      "titleTemplate": "{speciesLabel} sterilization planning window{entitySuffix}",
-      "description": "Discuss sterilization timing and pre-op checks.",
       "category": "health",
-      "tags": ["vet", "surgery", "planning"],
+      "tags": [
+        "vet",
+        "surgery",
+        "planning"
+      ],
       "priority": 7,
       "reminderMinutes": 2880,
-      "schedule": { "mode": "single", "anchor": "birthDateDerived", "offsetDays": 180 }
+      "schedule": {
+        "mode": "single",
+        "anchor": "birthDateDerived",
+        "offsetDays": 180
+      }
     },
     {
       "id": "dog-vaccine-annual-chile",
-      "titleTemplate": "Dog annual vaccine (Óctuple/Séxtuple + Rabies){entitySuffix}",
-      "description": "Annual booster for core vaccines, leptospirosis, and mandatory rabies according to Chilean regulations.",
       "category": "health",
-      "tags": ["vet", "vaccine", "annual", "chile"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "annual",
+        "chile"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["dog"] },
-        { "field": "country", "in": ["chile"] }
+        {
+          "field": "species",
+          "in": [
+            "dog"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "chile"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 365,
+        "maxOccurrences": 40
+      }
     },
     {
       "id": "cat-vaccine-annual-chile",
-      "titleTemplate": "Cat annual vaccine (Triple + Rabies){entitySuffix}",
-      "description": "Annual booster for core vaccines and mandatory rabies according to Chilean regulations.",
       "category": "health",
-      "tags": ["vet", "vaccine", "annual", "chile"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "annual",
+        "chile"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["cat"] },
-        { "field": "country", "in": ["chile"] }
+        {
+          "field": "species",
+          "in": [
+            "cat"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "chile"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 365,
+        "maxOccurrences": 40
+      }
     },
     {
       "id": "dog-core-vaccine-global",
-      "titleTemplate": "Dog core vaccine booster (Triennial){entitySuffix}",
-      "description": "WSAVA guidelines: Core vaccines (CDV, CPV, CAV) every 3 years for adult dogs.",
       "category": "health",
-      "tags": ["vet", "vaccine", "core", "global"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "core",
+        "global"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["dog"] },
-        { "field": "country", "in": ["global"] }
+        {
+          "field": "species",
+          "in": [
+            "dog"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "global"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 1095, "maxOccurrences": 15 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 1095,
+        "maxOccurrences": 15
+      }
     },
     {
       "id": "dog-noncore-vaccine-global",
-      "titleTemplate": "Dog non-core/rabies vaccine booster{entitySuffix}",
-      "description": "Annual booster for non-core vaccines (e.g., Leptospirosis, KC) if at risk, and Rabies per local law.",
       "category": "health",
-      "tags": ["vet", "vaccine", "non-core", "global"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "non-core",
+        "global"
+      ],
       "priority": 8,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["dog"] },
-        { "field": "country", "in": ["global"] }
+        {
+          "field": "species",
+          "in": [
+            "dog"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "global"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 365,
+        "maxOccurrences": 40
+      }
     },
     {
       "id": "cat-core-vaccine-triennial-global",
-      "titleTemplate": "Cat core vaccine booster (Triennial){entitySuffix}",
-      "description": "WSAVA guidelines: Core vaccines (FPV, FHV, FCV) every 3 years for strictly indoor adult cats.",
       "category": "health",
-      "tags": ["vet", "vaccine", "core", "global"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "core",
+        "global"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["cat"] },
-        { "field": "country", "in": ["global"] },
-        { "field": "environment", "in": ["indoor"] }
+        {
+          "field": "species",
+          "in": [
+            "cat"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "global"
+          ]
+        },
+        {
+          "field": "environment",
+          "in": [
+            "indoor"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 1095, "maxOccurrences": 15 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 1095,
+        "maxOccurrences": 15
+      }
     },
     {
       "id": "cat-core-vaccine-annual-global",
-      "titleTemplate": "Cat core vaccine booster (Annual){entitySuffix}",
-      "description": "WSAVA guidelines: Annual core vaccines for cats with outdoor access or high risk.",
       "category": "health",
-      "tags": ["vet", "vaccine", "core", "global"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "core",
+        "global"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["cat"] },
-        { "field": "country", "in": ["global"] },
-        { "field": "environment", "in": ["mixed", "outdoor"] }
+        {
+          "field": "species",
+          "in": [
+            "cat"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "global"
+          ]
+        },
+        {
+          "field": "environment",
+          "in": [
+            "mixed",
+            "outdoor"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 365,
+        "maxOccurrences": 40
+      }
     },
     {
       "id": "cat-rabies-vaccine-global",
-      "titleTemplate": "Cat rabies vaccine booster{entitySuffix}",
-      "description": "Rabies booster according to local law (typically 1-3 years).",
       "category": "health",
-      "tags": ["vet", "vaccine", "rabies", "global"],
+      "tags": [
+        "vet",
+        "vaccine",
+        "rabies",
+        "global"
+      ],
       "priority": 9,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["cat"] },
-        { "field": "country", "in": ["global"] }
+        {
+          "field": "species",
+          "in": [
+            "cat"
+          ]
+        },
+        {
+          "field": "country",
+          "in": [
+            "global"
+          ]
+        }
       ],
-      "schedule": { "mode": "series", "anchor": "lastVaccine", "intervalDays": 365, "maxOccurrences": 40 }
+      "schedule": {
+        "mode": "series",
+        "anchor": "lastVaccine",
+        "intervalDays": 365,
+        "maxOccurrences": 40
+      }
     },
     {
       "id": "deworming-quarterly-series",
-      "titleTemplate": "{speciesLabel} internal deworming follow-up (Quarterly){entitySuffix}",
-      "description": "Quarterly internal parasite control cycle for mixed/outdoor environments.",
       "category": "health",
-      "tags": ["vet", "deworming", "quarterly"],
+      "tags": [
+        "vet",
+        "deworming",
+        "quarterly"
+      ],
       "priority": 8,
       "reminderMinutes": 60,
       "conditions": [
-        { "field": "environment", "in": ["mixed", "outdoor"] }
+        {
+          "field": "environment",
+          "in": [
+            "mixed",
+            "outdoor"
+          ]
+        }
       ],
       "schedule": {
         "mode": "series",
@@ -236,14 +462,21 @@
     },
     {
       "id": "deworming-semiannual-series",
-      "titleTemplate": "{speciesLabel} internal deworming / coprology (Semiannual){entitySuffix}",
-      "description": "Semiannual internal parasite control or coprology test for strictly indoor pets.",
       "category": "health",
-      "tags": ["vet", "deworming", "semiannual"],
+      "tags": [
+        "vet",
+        "deworming",
+        "semiannual"
+      ],
       "priority": 8,
       "reminderMinutes": 60,
       "conditions": [
-        { "field": "environment", "in": ["indoor"] }
+        {
+          "field": "environment",
+          "in": [
+            "indoor"
+          ]
+        }
       ],
       "schedule": {
         "mode": "series",
@@ -254,10 +487,12 @@
     },
     {
       "id": "ectoparasite-monthly-series",
-      "titleTemplate": "{speciesLabel} ectoparasite prevention cycle{entitySuffix}",
-      "description": "Monthly external parasite control cycle.",
       "category": "health",
-      "tags": ["vet", "ectoparasite", "monthly"],
+      "tags": [
+        "vet",
+        "ectoparasite",
+        "monthly"
+      ],
       "priority": 7,
       "reminderMinutes": 60,
       "schedule": {
@@ -269,10 +504,12 @@
     },
     {
       "id": "clinical-control-series",
-      "titleTemplate": "{speciesLabel} routine clinical control{entitySuffix}",
-      "description": "Semiannual wellness check for ongoing preventive follow-up.",
       "category": "health",
-      "tags": ["vet", "checkup", "wellness"],
+      "tags": [
+        "vet",
+        "checkup",
+        "wellness"
+      ],
       "priority": 7,
       "reminderMinutes": 1440,
       "schedule": {
@@ -284,15 +521,28 @@
     },
     {
       "id": "cat-felv-assessment",
-      "titleTemplate": "Cat FeLV risk reassessment{entitySuffix}",
-      "description": "Lifestyle-based FeLV risk review for outdoor/mixed environment.",
       "category": "health",
-      "tags": ["vet", "cat", "felv"],
+      "tags": [
+        "vet",
+        "cat",
+        "felv"
+      ],
       "priority": 6,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["cat"] },
-        { "field": "environment", "in": ["mixed", "outdoor"] }
+        {
+          "field": "species",
+          "in": [
+            "cat"
+          ]
+        },
+        {
+          "field": "environment",
+          "in": [
+            "mixed",
+            "outdoor"
+          ]
+        }
       ],
       "schedule": {
         "mode": "series",
@@ -303,15 +553,28 @@
     },
     {
       "id": "dog-vector-screening",
-      "titleTemplate": "Dog vector-borne disease screening{entitySuffix}",
-      "description": "Risk-based vector disease screening in outdoor/mixed environment.",
       "category": "health",
-      "tags": ["vet", "dog", "screening"],
+      "tags": [
+        "vet",
+        "dog",
+        "screening"
+      ],
       "priority": 6,
       "reminderMinutes": 1440,
       "conditions": [
-        { "field": "species", "in": ["dog"] },
-        { "field": "environment", "in": ["mixed", "outdoor"] }
+        {
+          "field": "species",
+          "in": [
+            "dog"
+          ]
+        },
+        {
+          "field": "environment",
+          "in": [
+            "mixed",
+            "outdoor"
+          ]
+        }
       ],
       "schedule": {
         "mode": "series",

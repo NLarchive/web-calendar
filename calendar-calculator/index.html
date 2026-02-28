@@ -5,37 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Calendar calculator templates for veterinary and pregnancy care plans." />
     <title>Calendar Calculator</title>
+    <link rel="stylesheet" href="../public/styles.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <nav id="calculator-navbar"></nav>
     <main class="container">
       <header class="header">
-        <h1>Calendar Calculator</h1>
-        <p>Generate future reminders from structured inputs and import them into the main calendar.</p>
-        <a class="link" href="../index.html">Open Main Calendar</a>
+        <h1 data-i18n="calculator.title">Calendar Calculator</h1>
+        <p data-i18n="calculator.description">Generate future reminders from structured inputs and import them into the main calendar.</p>
+        <a class="link" href="../index.html" data-i18n="calculator.openMainCalendar">Open Main Calendar</a>
       </header>
 
       <section class="panel">
-        <label for="calculator-template">Calculator template</label>
+        <label for="calculator-template" data-i18n="calculator.template">Calculator template</label>
         <select id="calculator-template"></select>
         <p id="template-description" class="muted"></p>
         <p id="template-disclaimer" class="disclaimer"></p>
       </section>
 
       <section class="panel">
-        <h2>Input data</h2>
+        <h2 data-i18n="calculator.inputData">Input data</h2>
         <form id="calculator-form" class="form-grid"></form>
         <div class="actions">
-          <button id="calculate-button" class="primary" type="button">Calculate Plan</button>
-          <button id="import-button" type="button" disabled>Queue Import To Main Calendar</button>
+          <button id="calculate-button" class="primary" type="button" data-i18n="calculator.calculatePlan">Calculate Plan</button>
+          <button id="import-button" type="button" disabled data-i18n="calculator.queueImport">Queue Import To Main Calendar</button>
         </div>
         <p id="status" class="status" aria-live="polite"></p>
       </section>
 
       <section class="panel">
-        <h2>Calculated appointments</h2>
+        <h2 data-i18n="calculator.calculatedAppointments">Calculated appointments</h2>
         <div id="results" class="results">
-          <p class="muted">No reminders calculated yet.</p>
+          <p class="muted" data-i18n="calculator.noRemindersYet">No reminders calculated yet.</p>
         </div>
       </section>
     </main>

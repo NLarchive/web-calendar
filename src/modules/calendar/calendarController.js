@@ -1,4 +1,5 @@
 import { expandRecurringAppointments, getRangeByView, sortAppointments } from '../../core/schedulerEngine.js';
+import { DEFAULT_CALENDAR_COLOR } from '../../core/constants.js';
 import { renderDayView } from './views/dayView.js';
 import { renderWeekView } from './views/weekView.js';
 import { renderMonthView } from './views/monthView.js';
@@ -14,13 +15,13 @@ export class CalendarController {
     return `${item.sourceId || item.id}::${item.occurrenceDate || item.date}`;
   }
 
-  render({ root, viewMode, focusDate, appointments, sortMode, onAppointmentClick, onHierarchyNavigate, calendarColorMap = new Map() }) {
+  render({ root, viewMode, focusDate, appointments, sortMode, onAppointmentClick, onHierarchyNavigate, calendarColorMap = new Map(), monthRotated = false }) {
     const [start, end] = getRangeByView(focusDate, viewMode);
     const expanded = expandRecurringAppointments(appointments, start, end);
     const sorted = sortAppointments(expanded, sortMode).map((item) => ({
       ...item,
       uiKey: this.createAppointmentKey(item),
-      calendarColor: calendarColorMap.get(item.calendarId || 'default') || '#2563eb',
+      calendarColor: calendarColorMap.get(item.calendarId || 'default') || DEFAULT_CALENDAR_COLOR,
     }));
 
     this.visibleItemsByKey = new Map(sorted.map((item) => [item.uiKey, item]));
@@ -72,6 +73,6 @@ export class CalendarController {
       return;
     }
 
-    root.innerHTML = renderMonthView(sorted, focusDate);
+    root.innerHTML = renderMonthView(sorted, focusDate, monthRotated);
   }
 }

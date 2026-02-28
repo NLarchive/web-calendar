@@ -10,6 +10,7 @@ import {
 function normalizeStateForExport(state) {
   return {
     appointments: state.appointments || [],
+    professionals: state.professionals || [],
     viewMode: state.viewMode || 'month',
     sortMode: state.sortMode || 'priority',
     focusDate: state.focusDate instanceof Date ? state.focusDate.toISOString() : state.focusDate,

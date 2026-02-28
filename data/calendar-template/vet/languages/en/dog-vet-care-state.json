@@ -1,0 +1,53 @@
+{
+  "appointments": [
+    {
+      "id": "dog-vaccine-annual-chile",
+      "title": "Dog annual vaccine (Óctuple/Séxtuple + Rabies)",
+      "description": "Annual booster for core vaccines, leptospirosis, and mandatory rabies according to Chilean regulations."
+    },
+    {
+      "id": "dog-deworming-q1",
+      "title": "Dog deworming (internal) - Q1",
+      "description": "Dosis trimestral de desparasitación interna."
+    },
+    {
+      "id": "dog-deworming-q2",
+      "title": "Dog deworming (internal) - Q2",
+      "description": "Dosis trimestral de desparasitación interna."
+    },
+    {
+      "id": "dog-deworming-q3",
+      "title": "Dog deworming (internal) - Q3",
+      "description": "Dosis trimestral de desparasitación interna."
+    },
+    {
+      "id": "dog-deworming-q4",
+      "title": "Dog deworming (internal) - Q4",
+      "description": "Dosis trimestral de desparasitación interna."
+    },
+    {
+      "id": "dog-ectoparasite-monthly",
+      "title": "Dog ectoparasite control (pour-on/spray)",
+      "description": "Control mensual de pulgas y garrapatas con pipeta (pour-on) o spray."
+    },
+    {
+      "id": "dog-ectoparasite-collar",
+      "title": "Dog ectoparasite collar replacement check",
+      "description": "Collar antiparasitario con revisión/reemplazo semestral (cada 6 meses)."
+    }
+  ],
+  "calendars": [
+    {
+      "id": "default",
+      "name": "Default"
+    },
+    {
+      "id": "work",
+      "name": "Work"
+    },
+    {
+      "id": "health",
+      "name": "Health"
+    }
+  ]
+}

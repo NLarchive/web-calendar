@@ -1,25 +1,27 @@
+import { t } from '../../i18n/index.js';
+
 export function renderInfoPanel(root, handlers = {}) {
   root.innerHTML = `
     <div class="modal-card info-panel-card">
-      <button type="button" data-action="close-info" class="modal-close-sticky" aria-label="Close info popup">✕</button>
+      <button type="button" data-action="close-info" class="modal-close-sticky" aria-label="${t('info.closeInfoPopup')}">✕</button>
       <div class="info-panel-header">
-        <h3>System Guide</h3>
+        <h3>${t('info.systemGuide')}</h3>
       </div>
-      <p class="small">Modular appointment scheduler for service and veterinary workflows.</p>
-      <h4>Core Features</h4>
+      <p class="small">${t('info.summary')}</p>
+      <h4>${t('info.coreFeatures')}</h4>
       <ul>
-        <li>Day/Week/Month/Year calendar navigation.</li>
-        <li>Priority-first sorting with date/time toggle.</li>
-        <li>Recurring appointment expansion in all timeline views.</li>
-        <li>State export/import and local persistence.</li>
-        <li>Connector and plugin extension points for integrations.</li>
+        <li>${t('info.feature1')}</li>
+        <li>${t('info.feature2')}</li>
+        <li>${t('info.feature3')}</li>
+        <li>${t('info.feature4')}</li>
+        <li>${t('info.feature5')}</li>
       </ul>
-      <h4>Usage Flow</h4>
+      <h4>${t('info.usageFlow')}</h4>
       <ol>
-        <li>Click <strong>+ New Appointment</strong> in navbar.</li>
-        <li>Create appointment and submit.</li>
-        <li>Click any calendar item to open full details popup.</li>
-        <li>Use Save/Load State to persist or load schedules.</li>
+        <li>${t('info.flow1')}</li>
+        <li>${t('info.flow2')}</li>
+        <li>${t('info.flow3')}</li>
+        <li>${t('info.flow4')}</li>
       </ol>
     </div>
   `;

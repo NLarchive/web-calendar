@@ -3,119 +3,123 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://raw.githubusercontent.com; font-src 'self';" />
     <meta name="description" content="Client-side modular web appointment calendar scheduler with day, week, month, and year views, recurring events, and multi-format sync." />
     <title>Web Appointment System</title>
     <link rel="stylesheet" href="./public/styles.css" />
   </head>
   <body>
+    <a href="#calendar" class="skip-link">Skip to calendar</a>
+    <div id="toast-container" role="alert" aria-live="assertive" class="toast-container"></div>
     <div id="app">
       <header id="navbar"></header>
       <main class="layout">
-        <section class="panel form-panel">
-          <h3>Upcoming</h3>
-          <div id="appointment-list"></div>
-        </section>
         <section class="panel calendar-panel">
           <div class="panel-header">
-            <h2>Calendar</h2>
+            <h2 data-i18n="app.calendar">Calendar</h2>
+            <button id="toggle-month-rotate" class="btn-icon hidden" type="button" aria-label="Rotate month view" title="Rotate month view">↻</button>
             <div id="current-datetime" aria-live="polite"></div>
           </div>
           <div id="calendar"></div>
+        </section>
+        <section class="panel form-panel">
+          <h3 data-i18n="app.upcoming">Upcoming</h3>
+          <div id="appointment-list"></div>
         </section>
       </main>
       <aside id="info-panel" class="info-panel hidden"></aside>
       <div id="appointment-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="appointment-modal-title">
         <div class="modal-card">
-          <button id="close-appointment-modal" class="modal-close-sticky" aria-label="Close new appointment popup">✕</button>
+          <button id="close-appointment-modal" class="modal-close-sticky" data-i18n-aria-label="app.newAppointment">✕</button>
           <div class="modal-header">
-            <h2 id="appointment-modal-title">New Appointment</h2>
+            <h2 id="appointment-modal-title" data-i18n="app.newAppointment">New Appointment</h2>
           </div>
           <div id="appointment-form"></div>
         </div>
       </div>
       <div id="appointment-details-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="appointment-details-modal-title">
         <div class="modal-card">
-          <button id="close-appointment-details-modal" class="modal-close-sticky" aria-label="Close appointment details popup">✕</button>
+          <button id="close-appointment-details-modal" class="modal-close-sticky" data-i18n-aria-label="app.appointmentDetails">✕</button>
           <div class="modal-header">
-            <h2 id="appointment-details-modal-title">Appointment Details</h2>
+            <h2 id="appointment-details-modal-title" data-i18n="app.appointmentDetails">Appointment Details</h2>
           </div>
           <div id="appointment-details-content"></div>
         </div>
       </div>
       <div id="sync-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sync-modal-title">
         <div class="modal-card">
-          <button id="close-sync-modal" class="modal-close-sticky" aria-label="Close sync popup">✕</button>
+          <button id="close-sync-modal" class="modal-close-sticky" data-i18n-aria-label="sync.closePopup">✕</button>
           <div class="modal-header">
-            <h2 id="sync-modal-title">Sync Calendar</h2>
+            <h2 id="sync-modal-title" data-i18n="app.syncCalendar">Sync Calendar</h2>
           </div>
           <form id="sync-form" class="form-grid">
-            <label for="sync-action-label">Action</label>
-            <input id="sync-action-label" type="text" value="Sync" readonly />
+            <label for="sync-action-label" data-i18n="sync.action">Action</label>
+            <input id="sync-action-label" type="text" value="Sync" data-i18n-value="sync.sync" readonly />
             
-            <label for="sync-format">Format</label>
+            <label for="sync-format" data-i18n="sync.format">Format</label>
             <select id="sync-format" name="format">
-              <option value="auto">Auto (best for selected app)</option>
+              <option value="auto" data-i18n="sync.auto">Auto (best for selected app)</option>
               <option value="json">JSON (.json)</option>
               <option value="csv">CSV (.csv)</option>
               <option value="ics">iCalendar (.ics)</option>
             </select>
 
-            <label for="sync-target-app">Target App</label>
+            <label for="sync-target-app" data-i18n="sync.targetApp">Target App</label>
             <select id="sync-target-app" name="targetApp">
-              <option value="download">Download only</option>
+              <option value="download" data-i18n="sync.downloadOnly">Download only</option>
               <option value="google">Google Calendar</option>
               <option value="outlook">Outlook</option>
               <option value="ical">iCalendar / Apple Calendar</option>
             </select>
 
-            <button class="primary" type="submit">Run Sync</button>
+            <button class="primary" type="submit" data-i18n="sync.runSync">Run Sync</button>
           </form>
-          <p class="small">After download, you must import the saved file into your calendar app to load appointments.</p>
-          <p class="small">In Sync App mode, format is selected automatically based on the target app.</p>
-          <p class="small">Supported formats: JSON, CSV, and iCalendar (.ics). Load State also accepts .json, .csv, and .ics.</p>
-          <p class="small">Google/Outlook/iCalendar sync uses export/import flow for client-side compatibility.</p>
+          <p class="small" data-i18n="sync.note1">After download, you must import the saved file into your calendar app to load appointments.</p>
+          <p class="small" data-i18n="sync.note2">In Sync App mode, format is selected automatically based on the target app.</p>
+          <p class="small" data-i18n="sync.note3">Supported formats: JSON, CSV, and iCalendar (.ics). Load State also accepts .json, .csv, and .ics.</p>
+          <p class="small" data-i18n="sync.note4">Google/Outlook/iCalendar sync uses export/import flow for client-side compatibility.</p>
         </div>
       </div>
       <div id="state-load-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="state-load-modal-title">
         <div class="modal-card">
-          <button id="close-state-load-modal" class="modal-close-sticky" aria-label="Close load state popup">✕</button>
+          <button id="close-state-load-modal" class="modal-close-sticky" data-i18n-aria-label="stateLoad.closePopup">✕</button>
           <div class="modal-header">
-            <h2 id="state-load-modal-title">Load State</h2>
+            <h2 id="state-load-modal-title" data-i18n="app.loadState">Load State</h2>
           </div>
           <form id="state-load-form" class="form-grid">
-            <label for="load-state-source">Source</label>
+            <label for="load-state-source" data-i18n="stateLoad.source">Source</label>
             <select id="load-state-source" name="source">
-              <option value="sample">Sample State</option>
-              <option value="custom">Custom State</option>
-              <option value="empty">Empty State</option>
+              <option value="sample" data-i18n="stateLoad.sampleState">Sample State</option>
+              <option value="custom" data-i18n="stateLoad.customState">Custom State</option>
+              <option value="empty" data-i18n="stateLoad.emptyState">Empty State</option>
             </select>
 
             <div id="sample-state-fields">
-              <label for="load-state-sample-folder">Category</label>
+              <label for="load-state-sample-folder" data-i18n="stateLoad.category">Category</label>
               <select id="load-state-sample-folder" name="sampleFolder">
-                <option value="vet">Veterinary Care</option>
-                <option value="pregnancy">Pregnancy Care</option>
+                <option value="vet" data-i18n="stateLoad.veterinaryCare">Veterinary Care</option>
+                <option value="pregnancy" data-i18n="stateLoad.pregnancyCare">Pregnancy Care</option>
               </select>
 
-              <label for="load-state-sample">Sample</label>
+              <label for="load-state-sample" data-i18n="stateLoad.sample">Sample</label>
               <select id="load-state-sample" name="sample">
                 <!-- Options populated dynamically based on folder -->
               </select>
 
-              <label for="load-state-sample-country">Country Profile</label>
+              <label for="load-state-sample-country" data-i18n="stateLoad.countryProfile">Country Profile</label>
               <select id="load-state-sample-country" name="sampleCountry">
-                <option value="global">Global (WHO/NICE/ACOG)</option>
-                <option value="chile">Chile (MINSAL/Local Guidance)</option>
+                <option value="global" data-i18n="stateLoad.globalProfile">Global (WHO/NICE/ACOG)</option>
+                <option value="chile" data-i18n="stateLoad.chileProfile">Chile (MINSAL/Local Guidance)</option>
               </select>
             </div>
             <div id="custom-state-fields" class="hidden">
-              <label for="load-state-file">State File</label>
+              <label for="load-state-file" data-i18n="stateLoad.stateFile">State File</label>
               <input id="load-state-file" type="file" accept=".json,.csv,.ics,application/json,text/csv,text/calendar" />
             </div>
-            <button class="primary" type="submit">Load State</button>
+            <button class="primary" type="submit" data-i18n="stateLoad.loadState">Load State</button>
           </form>
-          <p class="small">Loading a new state replaces current appointments. Use Save State first if you want a backup.</p>
-          <p class="small">Sample data source is local in development and GitHub-hosted in production.</p>
+          <p class="small" data-i18n="stateLoad.note1">Loading a new state replaces current appointments. Use Save State first if you want a backup.</p>
+          <p class="small" data-i18n="stateLoad.note2">Sample data source is local in development and GitHub-hosted in production.</p>
         </div>
       </div>
     </div>

@@ -1,7 +1,59 @@
-const TEMPLATE_FILES = [
-  '../../../data/calendar-template/vet/vet-calendar.json',
-  '../../../data/calendar-template/pregnancy/pregnancy-calendar.json',
-];
+import { getLanguage } from '../../i18n/index.js';
+
+function getTemplateFiles() {
+  return [
+    '../../../data/calendar-template/vet/vet-calendar.json',
+    '../../../data/calendar-template/pregnancy/pregnancy-calendar.json',
+  ];
+}
+
+function getTemplateStringsFile(topic, language) {
+  const lang = language === 'es' ? 'es' : 'en';
+  return `../../../data/calendar-template/${topic}/languages/${lang}/${topic === 'vet' ? 'vet-calendar.json' : 'pregnancy-calendar.json'}`;
+}
+
+async function fetchTemplateWithStrings(commonPath, topic, language) {
+  const common = await readTemplateJson(commonPath);
+  const stringsPath = getTemplateStringsFile(topic, language);
+  const strings = await readTemplateJson(stringsPath).catch(() => null);
+
+  if (!strings) return common;
+
+  // Merge strings into common
+  if (strings.title) common.title = strings.title;
+  if (strings.description) common.description = strings.description;
+  if (strings.disclaimer) common.disclaimer = strings.disclaimer;
+
+  if (Array.isArray(common.fields) && Array.isArray(strings.fields)) {
+    const stringsByFieldName = new Map(strings.fields.map((f) => [f.name, f]));
+    common.fields.forEach((f) => {
+      const s = stringsByFieldName.get(f.name);
+      if (s) {
+        if (s.label) f.label = s.label;
+        if (s.placeholder) f.placeholder = s.placeholder;
+        if (Array.isArray(f.options) && Array.isArray(s.options)) {
+          const optLabelsByValue = new Map(s.options.map((o) => [o.value, o.label]));
+          f.options.forEach((o) => {
+            o.label = optLabelsByValue.get(o.value) || o.label || o.value;
+          });
+        }
+      }
+    });
+  }
+
+  if (Array.isArray(common.events) && Array.isArray(strings.events)) {
+    const stringsByEventId = new Map(strings.events.map((e) => [e.id, e]));
+    common.events.forEach((e) => {
+      const s = stringsByEventId.get(e.id);
+      if (s) {
+        if (s.titleTemplate) e.titleTemplate = s.titleTemplate;
+        if (s.description) e.description = s.description;
+      }
+    });
+  }
+
+  return common;
+}
 
 function parseDate(value) {
   if (!value) return null;
@@ -173,17 +225,22 @@ function createEventItems(event, context) {
     const intervalMonths = Number(schedule.intervalMonths) || 0;
     const maxOccurrences = Number(schedule.maxOccurrences) || 200;
 
-    let current = new Date(anchorDate);
-    let count = 0;
+    // Guard: all intervals zero or any negative → skip series
+    if ((intervalDays <= 0 && intervalWeeks <= 0 && intervalMonths <= 0)) {
+      // no forward progression possible
+    } else {
+      let current = new Date(anchorDate);
+      let count = 0;
 
-    while (count < maxOccurrences && current <= windowEnd) {
-      items.push(buildItem(current));
-      count += 1;
+      while (count < maxOccurrences && current <= windowEnd) {
+        items.push(buildItem(current));
+        count += 1;
 
-      if (intervalDays) current = addDays(current, intervalDays);
-      else if (intervalWeeks) current = addWeeks(current, intervalWeeks);
-      else if (intervalMonths) current = addMonths(current, intervalMonths);
-      else break;
+        if (intervalDays > 0) current = addDays(current, intervalDays);
+        else if (intervalWeeks > 0) current = addWeeks(current, intervalWeeks);
+        else if (intervalMonths > 0) current = addMonths(current, intervalMonths);
+        else break;
+      }
     }
   }
 
@@ -210,7 +267,7 @@ function createEventItems(event, context) {
 function normalizeField(field) {
   return {
     name: field.name,
-    label: field.label,
+    label: field.label || field.name,
     type: field.type || 'text',
     required: Boolean(field.required),
     placeholder: field.placeholder || '',
@@ -224,9 +281,9 @@ function normalizeField(field) {
 function mapTemplateToRuntime(templateData) {
   const runtimeTemplate = {
     id: templateData.id,
-    title: templateData.title,
-    description: templateData.description,
-    disclaimer: templateData.disclaimer,
+    title: templateData.title || templateData.id,
+    description: templateData.description || '',
+    disclaimer: templateData.disclaimer || '',
     fields: (templateData.fields || []).map(normalizeField),
     calculate: ({ input }) => {
       const derivedDates = resolveDerivedDates(templateData, input);
@@ -282,6 +339,21 @@ async function readTemplateJson(relativePath) {
 }
 
 export async function loadCalculatorTemplates() {
-  const sources = await Promise.all(TEMPLATE_FILES.map((file) => readTemplateJson(file)));
-  return sources.map((entry) => mapTemplateToRuntime(entry));
+  const language = getLanguage();
+  const topics = ['vet', 'pregnancy'];
+  const commonFiles = getTemplateFiles();
+
+  try {
+    const mergedSources = await Promise.all(
+      commonFiles.map((file, idx) => fetchTemplateWithStrings(file, topics[idx], language))
+    );
+    return mergedSources.map((entry) => mapTemplateToRuntime(entry));
+  } catch (error) {
+    console.error('Error loading templates:', error);
+    // fallback to English
+    const fallbackSources = await Promise.all(
+      commonFiles.map((file, idx) => fetchTemplateWithStrings(file, topics[idx], 'en'))
+    );
+    return fallbackSources.map((entry) => mapTemplateToRuntime(entry));
+  }
 }

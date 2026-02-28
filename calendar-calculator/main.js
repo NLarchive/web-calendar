@@ -1,9 +1,12 @@
-import { DEFAULT_CALENDARS } from '../src/core/constants.js';
+import { DEFAULT_CALENDARS, SORT_MODES, VIEW_MODES } from '../src/core/constants.js';
 import { createCalendarCalculatorEngine } from '../src/core/calendarCalculatorEngine.js';
 import { formatDateTime } from '../src/core/dateUtils.js';
 import { queueCalendarCalculatorImport } from '../src/plugins/calendarCalculatorPlugin.js';
 import { loadCalculatorTemplates } from '../src/modules/calculator/calculatorTemplates.js';
+import { applyStaticTranslations, initializeLanguage, setLanguage, t } from '../src/i18n/index.js';
+import { renderNavbar } from '../src/modules/ui/navbar.js';
 
+const navbarRoot = document.getElementById('calculator-navbar');
 const templateSelect = document.getElementById('calculator-template');
 const formRoot = document.getElementById('calculator-form');
 const templateDescription = document.getElementById('template-description');
@@ -15,6 +18,51 @@ const importButton = document.getElementById('import-button');
 
 let latestAppointments = [];
 let engine = null;
+
+initializeLanguage();
+if (typeof document !== 'undefined') {
+  document.title = t('calculator.title');
+}
+
+function renderCalcNavbar() {
+  if (!navbarRoot) return;
+  renderNavbar(
+    navbarRoot,
+    {
+      viewMode: 'month',
+      sortMode: SORT_MODES.PRIORITY,
+      calendars: [],
+      filters: { query: '', status: 'all', calendarId: 'all', fromDate: '', toDate: '' },
+    },
+    {
+      onPrev: () => {},
+      onToday: () => {},
+      onNext: () => {},
+      onViewChange: () => {},
+      onToggleSort: () => {},
+      onOpenNewAppointment: () => { window.location.href = '../index.html'; },
+      onOpenCalculator: () => { window.location.href = '../index.html'; },
+      onOpenSyncApp: () => {},
+      onSaveState: () => {},
+      onOpenLoadState: () => {},
+      onToggleInfo: () => {},
+      onSearchChange: () => {},
+      onFilterStatusChange: () => {},
+      onFilterCalendarChange: () => {},
+      onFilterFromDateChange: () => {},
+      onFilterToDateChange: () => {},
+      onLanguageChange: (lang) => {
+        setLanguage(lang);
+        applyStaticTranslations(document);
+        if (typeof document !== 'undefined') {
+          document.title = t('calculator.title');
+        }
+        renderCalcNavbar();
+        initializeCalculator();
+      },
+    },
+  );
+}
 
 function setStatus(message, isError = false) {
   statusRoot.textContent = message;
@@ -76,7 +124,7 @@ function collectInput() {
 
 function renderResults(appointments) {
   if (!appointments.length) {
-    resultsRoot.innerHTML = '<p class="muted">No future reminders were generated for the provided data.</p>';
+    resultsRoot.innerHTML = `<p class="muted">${t('calculator.noFutureReminders')}</p>`;
     return;
   }
 
@@ -89,7 +137,7 @@ function renderResults(appointments) {
         <article class="result-item">
           <h3>${item.title}</h3>
           <div class="small">${when}</div>
-          <div class="small">${item.category || 'general'} • P${item.priority}</div>
+          <div class="small">${item.category || t('calculator.defaultCategory')} • P${item.priority}</div>
           <p>${item.description || ''}</p>
         </article>
       `;
@@ -99,7 +147,7 @@ function renderResults(appointments) {
 
 function runCalculation() {
   if (!engine) {
-    setStatus('Calculator templates are still loading.', true);
+    setStatus(t('calculator.templatesLoading'), true);
     return;
   }
 
@@ -118,12 +166,12 @@ function runCalculation() {
   latestAppointments = result.appointments;
   importButton.disabled = latestAppointments.length === 0;
   renderResults(latestAppointments);
-  setStatus(`Calculated ${latestAppointments.length} future reminders.`);
+  setStatus(t('calculator.calculatedCount', { count: latestAppointments.length }));
 }
 
 function queueImport() {
   if (!latestAppointments.length) {
-    setStatus('Calculate reminders first.', true);
+    setStatus(t('calculator.calculateFirst'), true);
     return;
   }
 
@@ -136,11 +184,11 @@ function queueImport() {
 
   const ok = queueCalendarCalculatorImport(payload);
   if (!ok) {
-    setStatus('Unable to queue import in local storage.', true);
+    setStatus(t('calculator.unableQueueImport'), true);
     return;
   }
 
-  setStatus('Import queued. Open the main calendar page to apply the generated reminders.');
+  setStatus(t('calculator.importQueued'));
 }
 
 async function initializeCalculator() {
@@ -149,18 +197,17 @@ async function initializeCalculator() {
     engine = createCalendarCalculatorEngine(templates);
     renderTemplateOptions();
     renderFields(templateSelect.value || engine.getTemplates()[0]?.id);
-    setStatus('Calculator templates loaded. Fill the form and run calculation.');
+    setStatus(t('calculator.templatesLoaded'));
   } catch (error) {
-    setStatus(error?.message || 'Failed to load calculator templates.', true);
+    setStatus(error?.message || t('calculator.failedLoadTemplates'), true);
     calculateButton.disabled = true;
     importButton.disabled = true;
   }
 }
 
-templateSelect.addEventListener('change', () => {
-  latestAppointments = [];
+templateSelect.addEventListener('change', () => {  latestAppointments = [];
   importButton.disabled = true;
-  resultsRoot.innerHTML = '<p class="muted">No reminders calculated yet.</p>';
+  resultsRoot.innerHTML = `<p class="muted">${t('calculator.noRemindersYet')}</p>`;
   setStatus('');
   renderFields(templateSelect.value);
 });
@@ -168,4 +215,6 @@ templateSelect.addEventListener('change', () => {
 calculateButton.addEventListener('click', runCalculation);
 importButton.addEventListener('click', queueImport);
 
+renderCalcNavbar();
 initializeCalculator();
+applyStaticTranslations(document);

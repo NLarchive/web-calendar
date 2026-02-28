@@ -1,0 +1,186 @@
+{
+  "title": "Calculadora de calendario de cuidado veterinario",
+  "description": "Calendario de ciclo de vida para perros y gatos desde recien nacidos hasta los 18 anos.",
+  "disclaimer": "Solo orientacion preventiva general. Confirme siempre los tiempos de atencion con su veterinario.",
+  "fields": [
+    {
+      "name": "petName",
+      "label": "Nombre de mascota",
+      "placeholder": "Luna",
+      "options": []
+    },
+    {
+      "name": "species",
+      "label": "Especie",
+      "options": [
+        {
+          "value": "dog",
+          "label": "Perro"
+        },
+        {
+          "value": "cat",
+          "label": "Gato"
+        }
+      ]
+    },
+    {
+      "name": "birthDate",
+      "label": "Fecha de nacimiento (opcional si se indica edad)",
+      "options": []
+    },
+    {
+      "name": "ageYears",
+      "label": "Edad (años)",
+      "options": []
+    },
+    {
+      "name": "lastVaccine",
+      "label": "Fecha de ultima vacuna base",
+      "options": []
+    },
+    {
+      "name": "lastDeworming",
+      "label": "Fecha de ultima desparasitacion interna",
+      "options": []
+    },
+    {
+      "name": "lastEctoparasite",
+      "label": "Fecha de ultimo tratamiento antiparasitario externo",
+      "options": []
+    },
+    {
+      "name": "lastCheckup",
+      "label": "Fecha de ultimo control clinico",
+      "options": []
+    },
+    {
+      "name": "environment",
+      "label": "Entorno de vida",
+      "options": [
+        {
+          "value": "indoor",
+          "label": "Interior"
+        },
+        {
+          "value": "mixed",
+          "label": "Mixto interior/exterior"
+        },
+        {
+          "value": "outdoor",
+          "label": "Exterior"
+        }
+      ]
+    },
+    {
+      "name": "country",
+      "label": "Guia de pais / region",
+      "options": [
+        {
+          "value": "global",
+          "label": "Global (WSAVA/ESCCAP)"
+        },
+        {
+          "value": "chile",
+          "label": "Chile (Colmevet/Ley local)"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "newborn-registration",
+      "titleTemplate": "{speciesLabel} - registro recien nacido{entitySuffix}",
+      "description": "Registro veterinario inicial y examen basal al nacer."
+    },
+    {
+      "id": "early-check-6w",
+      "titleTemplate": "{speciesLabel} - control temprano (6 semanas){entitySuffix}",
+      "description": "Control de desarrollo y cuidados preventivos en etapa temprana."
+    },
+    {
+      "id": "core-vaccine-primary-8w",
+      "titleTemplate": "{speciesLabel} - vacuna base primaria (8 semanas){entitySuffix}",
+      "description": "Primera dosis de vacuna en etapa temprana."
+    },
+    {
+      "id": "core-vaccine-booster-12w",
+      "titleTemplate": "{speciesLabel} - refuerzo vacuna base (12 semanas){entitySuffix}",
+      "description": "Dosis de refuerzo en etapa temprana."
+    },
+    {
+      "id": "core-vaccine-booster-16w",
+      "titleTemplate": "{speciesLabel} - refuerzo vacuna base (16 semanas){entitySuffix}",
+      "description": "Ultimo refuerzo de la serie primaria."
+    },
+    {
+      "id": "spay-neuter-window",
+      "titleTemplate": "{speciesLabel} - ventana de planificacion de esterilizacion{entitySuffix}",
+      "description": "Discutir calendario de esterilizacion y examenes preoperatorios."
+    },
+    {
+      "id": "dog-vaccine-annual-chile",
+      "titleTemplate": "Vacuna anual canina (Octuple/Sextuple + Rabia){entitySuffix}",
+      "description": "Refuerzo anual de vacunas base, leptospirosis y rabia obligatoria segun normativa chilena."
+    },
+    {
+      "id": "cat-vaccine-annual-chile",
+      "titleTemplate": "Vacuna anual felina (Triple + Rabia){entitySuffix}",
+      "description": "Refuerzo anual de vacunas base y rabia obligatoria segun normativa chilena."
+    },
+    {
+      "id": "dog-core-vaccine-global",
+      "titleTemplate": "Perro - refuerzo vacuna base (trienal){entitySuffix}",
+      "description": "Guia WSAVA: vacunas base (CDV, CPV, CAV) cada 3 anos para perros adultos."
+    },
+    {
+      "id": "dog-noncore-vaccine-global",
+      "titleTemplate": "Perro - refuerzo vacuna no base/rabia{entitySuffix}",
+      "description": "Refuerzo anual de vacunas no base (p.ej. leptospirosis, traqueobronquitis) y rabia segun ley local."
+    },
+    {
+      "id": "cat-core-vaccine-triennial-global",
+      "titleTemplate": "Gato - refuerzo vacuna base (trienal){entitySuffix}",
+      "description": "Guia WSAVA: vacunas base (FPV, FHV, FCV) cada 3 anos para gatos adultos de interior."
+    },
+    {
+      "id": "cat-core-vaccine-annual-global",
+      "titleTemplate": "Gato - refuerzo vacuna base (anual){entitySuffix}",
+      "description": "Guia WSAVA: vacunas base anuales para gatos con acceso exterior o alto riesgo."
+    },
+    {
+      "id": "cat-rabies-vaccine-global",
+      "titleTemplate": "Gato - refuerzo vacuna antirabica{entitySuffix}",
+      "description": "Refuerzo de rabia segun ley local (tipicamente 1-3 anos)."
+    },
+    {
+      "id": "deworming-quarterly-series",
+      "titleTemplate": "{speciesLabel} - desparasitacion interna (trimestral){entitySuffix}",
+      "description": "Ciclo trimestral de control de parasitos internos en entornos mixtos/exterior."
+    },
+    {
+      "id": "deworming-semiannual-series",
+      "titleTemplate": "{speciesLabel} - desparasitacion interna/coprologia (semestral){entitySuffix}",
+      "description": "Control semestral de parasitos internos o test coproparasitario para mascotas de interior."
+    },
+    {
+      "id": "ectoparasite-monthly-series",
+      "titleTemplate": "{speciesLabel} - ciclo de prevencion de ectoparasitos{entitySuffix}",
+      "description": "Ciclo mensual de control de parasitos externos."
+    },
+    {
+      "id": "clinical-control-series",
+      "titleTemplate": "{speciesLabel} - control clinico rutinario{entitySuffix}",
+      "description": "Control de salud semestral para seguimiento preventivo continuo."
+    },
+    {
+      "id": "cat-felv-assessment",
+      "titleTemplate": "Gato - reevaluacion de riesgo FeLV{entitySuffix}",
+      "description": "Revision de riesgo FeLV segun estilo de vida para entorno exterior/mixto."
+    },
+    {
+      "id": "dog-vector-screening",
+      "titleTemplate": "Perro - examen de enfermedades vectoriales{entitySuffix}",
+      "description": "Examen de enfermedades vectoriales en entorno exterior/mixto segun riesgo."
+    }
+  ]
+}

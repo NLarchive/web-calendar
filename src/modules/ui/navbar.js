@@ -1,43 +1,47 @@
 import { VIEW_MODES, SORT_MODES } from '../../core/constants.js';
 import { getSupportedTimeZones, normalizeTimeZone, getDetectedTimeZone } from '../../core/dateUtils.js';
+import { getLanguage, getLocale, t } from '../../i18n/index.js';
 
 export function renderNavbar(root, state, handlers) {
   const calendars = Array.isArray(state.calendars) ? state.calendars : [];
   const filters = state.filters || {};
+  const activeLanguage = getLanguage();
+  const sortModeLabel =
+    state.sortMode === SORT_MODES.PRIORITY ? t('navbar.sortPriority') : t('navbar.sortDatetime');
 
   root.className = 'navbar';
   root.innerHTML = `
     <div class="navbar-main">
       <div class="navbar-section">
-        <button data-action="prev" aria-label="Previous period">◀</button>
-        <button data-action="today">Today</button>
-        <button data-action="next" aria-label="Next period">▶</button>
+        <button data-action="prev" aria-label="${t('navbar.previousPeriod')}">◀</button>
+        <button data-action="today">${t('navbar.today')}</button>
+        <button data-action="next" aria-label="${t('navbar.nextPeriod')}">▶</button>
       </div>
 
       <div class="navbar-section">
-        <label class="navbar-inline-label" for="view-mode-select">View</label>
-        <select id="view-mode-select" data-action="view-mode" aria-label="Select calendar view" name="viewMode">
-          ${VIEW_MODES.map((mode) => `<option value="${mode}" ${state.viewMode === mode ? 'selected' : ''}>${mode[0].toUpperCase() + mode.slice(1)}</option>`).join('')}
+        <label class="navbar-inline-label" for="view-mode-select">${t('navbar.view')}</label>
+        <select id="view-mode-select" data-action="view-mode" aria-label="${t('navbar.selectCalendarView')}" name="viewMode">
+          ${VIEW_MODES.map((mode) => `<option value="${mode}" ${state.viewMode === mode ? 'selected' : ''}>${t(`navbar.viewMode.${mode}`)}</option>`).join('')}
         </select>
       </div>
 
-      <div class="navbar-clock" aria-live="polite" title="Current Time"></div>
+      <div class="navbar-clock" aria-live="polite" title="${t('navbar.currentTime')}"></div>
     </div>
 
     <div class="navbar-groups">
-      <button class="primary" data-action="open-new-appointment">+ New Appointment</button>
+      <button class="primary" data-action="open-new-appointment">${t('navbar.newAppointment')}</button>
 
       <details class="navbar-group" data-group="actions">
-        <summary>Actions</summary>
+        <summary>${t('navbar.actions')}</summary>
         <div class="navbar-group-panel">
-          <button data-action="open-calculator">Calendar Calculator</button>
-          <button data-action="open-sync-app">Sync App</button>
-          <button data-action="toggle-sort">Sort: ${state.sortMode === SORT_MODES.PRIORITY ? 'Priority' : 'Date/Time'}</button>
-          <button data-action="save-state">Save State</button>
-          <button data-action="load-state">Load State</button>
-          <button data-action="toggle-info">Info</button>
-          <div class="navbar-inline-label">Timezone
-            <select id="navbar-timezone-select" name="timezone" aria-label="Select timezone">
+          <button data-action="open-calculator">${t('navbar.calculator')}</button>
+          <button data-action="open-sync-app">${t('navbar.syncApp')}</button>
+          <button data-action="toggle-sort">${t('navbar.sort', { mode: sortModeLabel })}</button>
+          <button data-action="save-state">${t('navbar.saveState')}</button>
+          <button data-action="load-state">${t('navbar.loadState')}</button>
+          <button data-action="toggle-info">${t('navbar.info')}</button>
+          <div class="navbar-inline-label">${t('navbar.timezone')}
+            <select id="navbar-timezone-select" name="timezone" aria-label="${t('navbar.timezone')}">
               ${(() => {
                 const defaultTZ = normalizeTimeZone(getDetectedTimeZone());
                 const opts = getSupportedTimeZones(defaultTZ);
@@ -49,17 +53,17 @@ export function renderNavbar(root, state, handlers) {
       </details>
 
       <details class="navbar-group" data-group="filters">
-        <summary>Filters</summary>
+        <summary>${t('navbar.filters')}</summary>
         <div class="navbar-group-panel">
-          <input id="navbar-search" name="search" data-action="search" placeholder="Search title/description/category/tags" value="${filters.query || ''}" aria-label="Search appointments" />
-          <select id="filter-status-select" name="filterStatus" data-action="filter-status" aria-label="Filter by status">
-            <option value="all" ${(filters.status || 'all') === 'all' ? 'selected' : ''}>All Status</option>
-            <option value="confirmed" ${filters.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-            <option value="tentative" ${filters.status === 'tentative' ? 'selected' : ''}>Tentative</option>
-            <option value="cancelled" ${filters.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+          <input id="navbar-search" name="search" data-action="search" placeholder="${t('navbar.searchPlaceholder')}" value="${filters.query || ''}" aria-label="${t('navbar.searchAppointments')}" />
+          <select id="filter-status-select" name="filterStatus" data-action="filter-status" aria-label="${t('navbar.filterByStatus')}">
+            <option value="all" ${(filters.status || 'all') === 'all' ? 'selected' : ''}>${t('navbar.allStatus')}</option>
+            <option value="confirmed" ${filters.status === 'confirmed' ? 'selected' : ''}>${t('navbar.confirmed')}</option>
+            <option value="tentative" ${filters.status === 'tentative' ? 'selected' : ''}>${t('navbar.tentative')}</option>
+            <option value="cancelled" ${filters.status === 'cancelled' ? 'selected' : ''}>${t('navbar.cancelled')}</option>
           </select>
-          <select id="filter-calendar-select" name="filterCalendar" data-action="filter-calendar" aria-label="Filter by calendar">
-            <option value="all" ${(filters.calendarId || 'all') === 'all' ? 'selected' : ''}>All Calendars</option>
+          <select id="filter-calendar-select" name="filterCalendar" data-action="filter-calendar" aria-label="${t('navbar.filterByCalendar')}">
+            <option value="all" ${(filters.calendarId || 'all') === 'all' ? 'selected' : ''}>${t('navbar.allCalendars')}</option>
             ${calendars
               .map(
                 (calendar) =>
@@ -67,12 +71,17 @@ export function renderNavbar(root, state, handlers) {
               )
               .join('')}
           </select>
-          <label class="navbar-inline-label" for="filter-from-date">From</label>
-          <input id="filter-from-date" name="fromDate" data-action="filter-from-date" type="date" value="${filters.fromDate || ''}" aria-label="Filter from date" />
-          <label class="navbar-inline-label" for="filter-to-date">To</label>
-          <input id="filter-to-date" name="toDate" data-action="filter-to-date" type="date" value="${filters.toDate || ''}" aria-label="Filter to date" />
+          <label class="navbar-inline-label" for="filter-from-date">${t('navbar.from')}</label>
+          <input id="filter-from-date" name="fromDate" data-action="filter-from-date" type="date" value="${filters.fromDate || ''}" aria-label="${t('navbar.filterFromDate')}" />
+          <label class="navbar-inline-label" for="filter-to-date">${t('navbar.to')}</label>
+          <input id="filter-to-date" name="toDate" data-action="filter-to-date" type="date" value="${filters.toDate || ''}" aria-label="${t('navbar.filterToDate')}" />
         </div>
       </details>
+
+      <div class="navbar-language" aria-label="${t('navbar.language')}">
+        <button data-action="set-lang-en" class="${activeLanguage === 'en' ? 'primary' : ''}" type="button">${t('navbar.languageEnglish')}</button>
+        <button data-action="set-lang-es" class="${activeLanguage === 'es' ? 'primary' : ''}" type="button">${t('navbar.languageSpanish')}</button>
+      </div>
     </div>
   `;
 
@@ -86,6 +95,8 @@ export function renderNavbar(root, state, handlers) {
   root.querySelector('[data-action="save-state"]').addEventListener('click', handlers.onSaveState);
   root.querySelector('[data-action="load-state"]').addEventListener('click', handlers.onOpenLoadState);
   root.querySelector('[data-action="toggle-info"]').addEventListener('click', handlers.onToggleInfo);
+  root.querySelector('[data-action="set-lang-en"]')?.addEventListener('click', () => handlers.onLanguageChange?.('en'));
+  root.querySelector('[data-action="set-lang-es"]')?.addEventListener('click', () => handlers.onLanguageChange?.('es'));
   root.querySelector('[data-action="view-mode"]').addEventListener('change', (event) =>
     handlers.onViewChange(event.target.value),
   );
@@ -164,7 +175,7 @@ export function renderNavbar(root, state, handlers) {
     try {
       const now = new Date();
       const tz = getSelectedTimeZone();
-      const formatter = new Intl.DateTimeFormat('en-GB', {
+      const formatter = new Intl.DateTimeFormat(getLocale(), {
         hour: '2-digit',
         minute: '2-digit',
         day: '2-digit',

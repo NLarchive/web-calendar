@@ -1,7 +1,7 @@
 /* Tablet and below */
 @media (max-width: 1024px) {
   .layout {
-    grid-template-columns: 1fr;
+    /* No grid needed, layout is flex column */
   }
 
   .navbar {
@@ -26,7 +26,6 @@
 /* Phone portrait */
 @media (max-width: 768px) {
   .layout {
-    grid-template-columns: 1fr;
     padding: 0;
     gap: 0;
   }

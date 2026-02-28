@@ -3,7 +3,8 @@ function escapeICS(value) {
     .replace(/\\/g, '\\\\')
     .replace(/\n/g, '\\n')
     .replace(/,/g, '\\,')
-    .replace(/;/g, '\\;');
+    .replace(/;/g, '\\;')
+    .replace(/:/g, '\\:');
 }
 
 function unescapeICS(value) {
@@ -11,8 +12,12 @@ function unescapeICS(value) {
     .replace(/\\n/g, '\n')
     .replace(/\\,/g, ',')
     .replace(/\\;/g, ';')
+    .replace(/\\:/g, ':')
     .replace(/\\\\/g, '\\');
 }
+
+import { MAX_FILE_SIZE } from '../../core/constants.js';
+import { buildProfessionalDescriptionText, findProfessionalById, getProfessionalDisplayName } from '../professional/professionalContacts.js';
 
 function csvEscape(value) {
   const text = String(value ?? '');
@@ -146,6 +151,7 @@ function parseDescription(description) {
     allDay: false,
     calendarId: 'default',
     reminderMinutes: null,
+    professionalId: null,
   };
 
   for (const line of lines) {
@@ -171,6 +177,7 @@ function parseDescription(description) {
         ? Math.round(parsedReminder)
         : null;
     }
+    else if (line.startsWith('PROFESSIONALID:')) details.professionalId = line.replace('PROFESSIONALID:', '').trim() || null;
     else if (line.startsWith('DETAIL:')) details.description = line.replace('DETAIL:', '').trim();
   }
 
@@ -206,6 +213,7 @@ export function stateToCSV(state) {
     'category',
     'tags',
     'priority',
+    'professionalId',
     'createdAt',
   ];
 
@@ -229,6 +237,7 @@ export function stateToCSV(state) {
     category: item.category || 'general',
     tags: joinPipeList(item.tags),
     priority: Number(item.priority) || 1,
+    professionalId: item.professionalId || '',
     createdAt: item.createdAt || '',
   }));
 
@@ -241,10 +250,13 @@ export function stateToCSV(state) {
 
 export function stateToICS(state, options = {}) {
   const prodId = options.prodId || '-//Web Appointment Scheduler//EN';
+  const professionals = Array.isArray(state.professionals) ? state.professionals : [];
   const events = (state.appointments || []).map((item) => {
     const uid = item.id || crypto.randomUUID();
     const dtStart = toICSDateTime(item.date);
     const rrule = recurrenceToRRule(item.recurrence);
+    const professional = findProfessionalById(professionals, item.professionalId);
+    const professionalText = buildProfessionalDescriptionText(professional);
     const descriptionLines = [
       `DETAIL:${item.description || ''}`,
       `CATEGORY:${item.category || 'general'}`,
@@ -258,7 +270,14 @@ export function stateToICS(state, options = {}) {
       `URL:${item.url || ''}`,
       `STATUS:${item.status || 'confirmed'}`,
       `ATTENDEES:${(item.attendees || []).join(',')}`,
+      `PROFESSIONALID:${item.professionalId || ''}`,
+      ...(professionalText ? [professionalText] : []),
     ].join('\n');
+
+    const summaryParts = [item.title || 'Untitled Appointment'];
+    if (professional) {
+      summaryParts.push(`[${getProfessionalDisplayName(professional)}]`);
+    }
 
     return [
       'BEGIN:VEVENT',
@@ -268,7 +287,7 @@ export function stateToICS(state, options = {}) {
       item.endDate ? `DTEND:${toICSDateTime(item.endDate)}` : null,
       `X-WEBAPPT-TIMEZONE:${escapeICS(item.timezone || 'UTC')}`,
       `X-WEBAPPT-ALLDAY:${item.allDay ? 'TRUE' : 'FALSE'}`,
-      `SUMMARY:${escapeICS(item.title || 'Untitled Appointment')}`,
+      `SUMMARY:${escapeICS(summaryParts.join(' '))}`,
       `DESCRIPTION:${escapeICS(descriptionLines)}`,
       item.location ? `LOCATION:${escapeICS(item.location)}` : null,
       item.url ? `URL:${escapeICS(item.url)}` : null,
@@ -340,6 +359,7 @@ export function parseStateFromICS(icsText) {
           allDay: unescapeICS(current['X-WEBAPPT-ALLDAY'] || '').toLowerCase() === 'true' || details.allDay,
           calendarId: details.calendarId || 'default',
           reminderMinutes: details.reminderMinutes,
+          professionalId: details.professionalId || null,
           category: details.category,
           tags: details.tags,
           priority: Number(current.PRIORITY) || 1,
@@ -411,6 +431,7 @@ export function parseStateFromCSV(csvText) {
       category: row.category || 'general',
       tags: splitPipeList(row.tags),
       priority: Number(row.priority) || 1,
+      professionalId: row.professionalId || null,
       createdAt: row.createdAt || new Date().toISOString(),
     };
   });
@@ -430,6 +451,9 @@ export function getPreferredFormatForTargetApp(targetApp) {
 }
 
 export async function parseCalendarStateFile(file) {
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error('File exceeds 10 MB size limit.');
+  }
   const text = await file.text();
   const fileName = (file?.name || '').toLowerCase();
   const trimmed = text.trim();

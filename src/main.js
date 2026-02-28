@@ -1,46 +1,76 @@
 import { App } from './app/App.js';
 import { createRepoUpdateMonitor } from './core/repoUpdateMonitor.js';
+import {
+  applyStaticTranslations,
+  initializeLanguage,
+  onLanguageChange,
+  t,
+} from './i18n/index.js';
+
+initializeLanguage();
+applyStaticTranslations(document);
+if (typeof document !== 'undefined') {
+  document.title = t('app.title');
+}
+
+function getElement(id) {
+  const el = document.getElementById(id);
+  if (!el) console.warn(`Missing DOM element: #${id}`);
+  return el;
+}
 
 const app = new App({
-  navbarRoot: document.getElementById('navbar'),
-  formRoot: document.getElementById('appointment-form'),
-  modalRoot: document.getElementById('appointment-modal'),
-  closeModalButton: document.getElementById('close-appointment-modal'),
-  detailsModalRoot: document.getElementById('appointment-details-modal'),
-  closeDetailsModalButton: document.getElementById('close-appointment-details-modal'),
-  detailsContentRoot: document.getElementById('appointment-details-content'),
-  syncModalRoot: document.getElementById('sync-modal'),
-  closeSyncModalButton: document.getElementById('close-sync-modal'),
-  syncFormRoot: document.getElementById('sync-form'),
-  syncActionLabelRoot: document.getElementById('sync-action-label'),
-  syncFormatRoot: document.getElementById('sync-format'),
-  syncTargetAppRoot: document.getElementById('sync-target-app'),
-  stateLoadModalRoot: document.getElementById('state-load-modal'),
-  closeStateLoadModalButton: document.getElementById('close-state-load-modal'),
-  stateLoadFormRoot: document.getElementById('state-load-form'),
-  stateLoadSourceRoot: document.getElementById('load-state-source'),
-  stateLoadSampleFolderRoot: document.getElementById('load-state-sample-folder'),
-  stateLoadSampleRoot: document.getElementById('load-state-sample'),
-  stateLoadSampleCountryRoot: document.getElementById('load-state-sample-country'),
-  stateLoadFileRoot: document.getElementById('load-state-file'),
-  sampleStateFieldsRoot: document.getElementById('sample-state-fields'),
-  customStateFieldsRoot: document.getElementById('custom-state-fields'),
-  listRoot: document.getElementById('appointment-list'),
-  calendarRoot: document.getElementById('calendar'),
-  infoRoot: document.getElementById('info-panel'),
-  datetimeRoot: document.getElementById('current-datetime'),
+  navbarRoot: getElement('navbar'),
+  formRoot: getElement('appointment-form'),
+  modalRoot: getElement('appointment-modal'),
+  closeModalButton: getElement('close-appointment-modal'),
+  detailsModalRoot: getElement('appointment-details-modal'),
+  closeDetailsModalButton: getElement('close-appointment-details-modal'),
+  detailsContentRoot: getElement('appointment-details-content'),
+  syncModalRoot: getElement('sync-modal'),
+  closeSyncModalButton: getElement('close-sync-modal'),
+  syncFormRoot: getElement('sync-form'),
+  syncActionLabelRoot: getElement('sync-action-label'),
+  syncFormatRoot: getElement('sync-format'),
+  syncTargetAppRoot: getElement('sync-target-app'),
+  stateLoadModalRoot: getElement('state-load-modal'),
+  closeStateLoadModalButton: getElement('close-state-load-modal'),
+  stateLoadFormRoot: getElement('state-load-form'),
+  stateLoadSourceRoot: getElement('load-state-source'),
+  stateLoadSampleFolderRoot: getElement('load-state-sample-folder'),
+  stateLoadSampleRoot: getElement('load-state-sample'),
+  stateLoadSampleCountryRoot: getElement('load-state-sample-country'),
+  stateLoadFileRoot: getElement('load-state-file'),
+  sampleStateFieldsRoot: getElement('sample-state-fields'),
+  customStateFieldsRoot: getElement('custom-state-fields'),
+  listRoot: getElement('appointment-list'),
+  calendarRoot: getElement('calendar'),
+  infoRoot: getElement('info-panel'),
+  datetimeRoot: getElement('current-datetime'),
+  toggleMonthRotateButton: getElement('toggle-month-rotate'),
 });
 
 if (typeof window !== 'undefined') {
   window.__APP__ = app;
-  window.__MCP_ENDPOINTS__ = {
-    listConnectors: () => app.connectorRegistry.list(),
-    pullTasks: () => app.connectorRegistry.get('mcp-task-connector')?.pull(),
-    pushTasks: (payload) => app.connectorRegistry.get('mcp-task-connector')?.push(payload),
-  };
 }
 
-app.start();
+try {
+  app.start();
+} catch (err) {
+  console.error('App initialization failed:', err);
+  const calendarRoot = document.getElementById('calendar');
+  if (calendarRoot) {
+    calendarRoot.innerHTML = '<p style="padding:1rem;color:red;">Application failed to start. Please reload the page.</p>';
+  }
+}
+
+onLanguageChange(() => {
+  applyStaticTranslations(document);
+  if (typeof document !== 'undefined') {
+    document.title = t('app.title');
+  }
+  app.render();
+});
 
 const repoUpdateMonitor = createRepoUpdateMonitor({
   intervalMs: 45000,

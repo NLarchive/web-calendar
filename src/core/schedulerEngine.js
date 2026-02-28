@@ -11,9 +11,10 @@ import {
   startOfWeek,
   startOfYear,
 } from './dateUtils.js';
-import { RECURRENCE, SORT_MODES } from './constants.js';
+import { RECURRENCE, SORT_MODES, MAX_RECURRENCE_COUNT } from './constants.js';
 
 export function normalizeAppointment(input) {
+  if (!input || typeof input !== 'object') throw new Error('Invalid appointment input');
   const timezone = normalizeTimeZone(input.timezone || getDetectedTimeZone());
   const date = parseInputDate(input.date, { timeZone: timezone });
   if (!date) throw new Error('Invalid appointment date');
@@ -40,7 +41,7 @@ export function normalizeAppointment(input) {
 
   const parsedRecurrenceCount = Number(input.recurrenceCount);
   const normalizedRecurrenceCount = Number.isFinite(parsedRecurrenceCount) && parsedRecurrenceCount > 0
-    ? Math.round(parsedRecurrenceCount)
+    ? Math.min(Math.round(parsedRecurrenceCount), MAX_RECURRENCE_COUNT)
     : null;
 
   const allDay =
@@ -70,6 +71,7 @@ export function normalizeAppointment(input) {
     calendarId: String(input.calendarId || 'default').trim() || 'default',
     reminderMinutes: normalizedReminderMinutes,
     recurrenceCount: normalizedRecurrenceCount,
+    professionalId: (input.professionalId || '').trim() || null,
     createdAt: input.createdAt || new Date().toISOString(),
   };
 }

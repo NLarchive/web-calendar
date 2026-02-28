@@ -1,0 +1,158 @@
+{
+  "title": "Calculadora de calendario de control de embarazo",
+  "description": "Cronograma de seguimiento prenatal desde la concepcion (semana 0) hasta el control postparto.",
+  "disclaimer": "Solo plantilla educativa de orientacion. Los tiempos clinicos deben ser personalizados por su obstetra o equipo de salud.",
+  "fields": [
+    {
+      "name": "personName",
+      "label": "Nombre de persona",
+      "placeholder": "Ana",
+      "options": []
+    },
+    {
+      "name": "conceptionDate",
+      "label": "Fecha de concepcion",
+      "options": []
+    },
+    {
+      "name": "highRisk",
+      "label": "Perfil de riesgo",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Estandar"
+        },
+        {
+          "value": "high",
+          "label": "Seguimiento de alto riesgo"
+        }
+      ]
+    },
+    {
+      "name": "country",
+      "label": "Guia de pais / region",
+      "options": [
+        {
+          "value": "global",
+          "label": "Global (WHO/NICE/ACOG)"
+        },
+        {
+          "value": "chile",
+          "label": "Chile (MINSAL calendario publico)"
+        }
+      ]
+    },
+    {
+      "name": "lastTdapDate",
+      "label": "Fecha de ultima Tdap (opcional)",
+      "options": []
+    }
+  ],
+  "events": [
+    {
+      "id": "prenatal-initial",
+      "titleTemplate": "Primera consulta prenatal{entitySuffix}",
+      "description": "Evaluacion prenatal inicial y plan de cuidados de base."
+    },
+    {
+      "id": "dating-ultrasound",
+      "titleTemplate": "Ecografia de datacion (11-14 semanas){entitySuffix}",
+      "description": "Recomendacion global: ecografia de datacion en el primer trimestre tardio con cribado combinado opcional."
+    },
+    {
+      "id": "dating-ultrasound-chile",
+      "titleTemplate": "Ecografia temprana (ruta Chile){entitySuffix}",
+      "description": "Ruta Chile: realizar ecografia temprana antes de la semana 20, idealmente en el primer trimestre."
+    },
+    {
+      "id": "nuchal-translucency",
+      "titleTemplate": "Translucencia nucal / cribado primer trimestre{entitySuffix}",
+      "description": "Control de cribado del primer trimestre."
+    },
+    {
+      "id": "anatomy-ultrasound",
+      "titleTemplate": "Ecografia anatomica (18-22 semanas){entitySuffix}",
+      "description": "Recomendacion global: ecografia detallada de anomalias alrededor de las 18-22 semanas."
+    },
+    {
+      "id": "anatomy-ultrasound-chile",
+      "titleTemplate": "Ecografia anatomica (Chile 20-24 semanas){entitySuffix}",
+      "description": "Ruta Chile: ecografia estructural alrededor de las 20-24 semanas."
+    },
+    {
+      "id": "gdm-screening",
+      "titleTemplate": "Cribado de diabetes gestacional{entitySuffix}",
+      "description": "Control tipico de glucosa oral."
+    },
+    {
+      "id": "routine-control-30w",
+      "titleTemplate": "Control rutinario de presion y crecimiento{entitySuffix}",
+      "description": "Control prenatal de seguimiento en el tercer trimestre."
+    },
+    {
+      "id": "who-contact-20w",
+      "titleTemplate": "Control ANC OMS (20 semanas){entitySuffix}",
+      "description": "Punto de contacto del modelo global alineado a la recomendacion OMS de 8 controles."
+    },
+    {
+      "id": "who-contact-26w",
+      "titleTemplate": "Control ANC OMS (26 semanas){entitySuffix}",
+      "description": "Punto de contacto del modelo global alineado a la recomendacion OMS de 8 controles."
+    },
+    {
+      "id": "who-contact-34w",
+      "titleTemplate": "Control ANC OMS (34 semanas){entitySuffix}",
+      "description": "Punto de contacto del modelo global alineado a la recomendacion OMS de 8 controles."
+    },
+    {
+      "id": "who-late-contacts",
+      "titleTemplate": "Control ANC OMS tardio (semana {week}){entitySuffix}",
+      "description": "Contactos tardios del modelo global cerca del termino (36, 38, 40 semanas)."
+    },
+    {
+      "id": "chile-controls-4w",
+      "titleTemplate": "Control prenatal Chile (cada 4 semanas, semana {week}){entitySuffix}",
+      "description": "Calendario Chile bajo riesgo: controles cada 4 semanas hasta la semana 28."
+    },
+    {
+      "id": "chile-controls-2w",
+      "titleTemplate": "Control prenatal Chile (cada 2 semanas, semana {week}){entitySuffix}",
+      "description": "Calendario Chile bajo riesgo: controles cada 2 semanas de la semana 30 a 36."
+    },
+    {
+      "id": "chile-controls-weekly",
+      "titleTemplate": "Control prenatal semanal Chile (semana {week}){entitySuffix}",
+      "description": "Calendario Chile bajo riesgo: controles semanales de la semana 37 hasta la fecha de parto."
+    },
+    {
+      "id": "tdap-planning",
+      "titleTemplate": "Planificacion vacuna Tdap{entitySuffix}",
+      "description": "Ventana de planificacion tipica entre las semanas 27-36."
+    },
+    {
+      "id": "gbs-screening",
+      "titleTemplate": "Cribado de Estreptococo grupo B{entitySuffix}",
+      "description": "Cribado GBS tipico alrededor de las semanas 35-37."
+    },
+    {
+      "id": "birth-plan-review",
+      "titleTemplate": "Revision del plan de parto{entitySuffix}",
+      "description": "Revisar senales de alerta y plan de parto."
+    },
+    {
+      "id": "weekly-late-controls",
+      "titleTemplate": "Control prenatal semanal (semana {week}){entitySuffix}",
+      "description": "Control semanal en etapa final del embarazo."
+    },
+    {
+      "id": "high-risk-monitoring",
+      "titleTemplate": "Control de seguimiento de alto riesgo (semana {week}){entitySuffix}",
+      "description": "Control adicional de seguimiento de alto riesgo."
+    },
+    {
+      "id": "postpartum-6w",
+      "titleTemplate": "Control postparto (6 semanas){entitySuffix}",
+      "description": "Recuperacion postparto y seguimiento de salud."
+    }
+  ]
+}

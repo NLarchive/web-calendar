@@ -1,5 +1,7 @@
 import { escapeHtml } from '../../../core/sanitize.js';
 import { getDateKeyInTimeZone } from '../../../core/dateUtils.js';
+import { DEFAULT_CALENDAR_COLOR } from '../../../core/constants.js';
+import { getLocale, t } from '../../../i18n/index.js';
 
 export function renderYearView(items, focusDate) {
   const year = focusDate.getFullYear();
@@ -17,14 +19,14 @@ export function renderYearView(items, focusDate) {
       const monthFocusDate = new Date(year, monthIndex, 1, 9, 0, 0, 0).toISOString();
 
       return `
-      <article class="year-month hierarchy-cell ${isCurrentMonth ? 'month-cell-today' : ''}" data-nav-target="month" data-focus-date="${monthFocusDate}" role="button" tabindex="0" aria-label="Open month view for ${new Date(year, monthIndex, 1).toLocaleDateString(undefined, { month: 'long' })}">
-        <h4>${new Date(year, monthIndex, 1).toLocaleDateString(undefined, { month: 'long' })}</h4>
-        <div class="small">Appointments: ${monthItems.length}</div>
+      <article class="year-month hierarchy-cell ${isCurrentMonth ? 'month-cell-today' : ''}" data-nav-target="month" data-focus-date="${monthFocusDate}" role="button" tabindex="0" aria-label="${t('views.openMonthViewFor', { month: new Date(year, monthIndex, 1).toLocaleDateString(getLocale(), { month: 'long' }) })}">
+        <h4>${new Date(year, monthIndex, 1).toLocaleDateString(getLocale(), { month: 'long' })}</h4>
+        <div class="small">${t('views.appointments', { count: monthItems.length })}</div>
         ${monthItems
           .slice(0, 4)
           .map(
             (entry) =>
-              `<div class="small" style="border-left: 3px solid ${entry.calendarColor || '#2563eb'}; padding-left: 4px;"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">• ${escapeHtml(entry.title)} (P${entry.priority})</button></div>`,
+              `<div class="small" style="border-left: 3px solid ${entry.calendarColor || DEFAULT_CALENDAR_COLOR}; padding-left: 4px;"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">• ${escapeHtml(entry.title)} (P${entry.priority})</button></div>`,
           )
           .join('')}
       </article>`;

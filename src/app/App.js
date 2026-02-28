@@ -2,8 +2,9 @@ import { CacheMemory } from '../core/cacheMemory.js';
 import { EventBus } from '../core/eventBus.js';
 import { normalizeAppointment } from '../core/schedulerEngine.js';
 import { loadFromLocalStorage, saveToLocalStorage } from '../core/storage.js';
-import { DEFAULT_CALENDARS, SORT_MODES, VIEW_MODES } from '../core/constants.js';
+import { DEFAULT_CALENDARS, SORT_MODES, VIEW_MODES, DEFAULT_CALENDAR_COLOR } from '../core/constants.js';
 import { renderNavbar } from '../modules/ui/navbar.js';
+// ... (DEFAULT_PROFESSIONALS will be loaded dynamically below)
 import { closeInfoPanel, renderInfoPanel, toggleInfoPanel } from '../modules/ui/infoPanel.js';
 import { renderAppointmentDetails } from '../modules/ui/appointmentDetailsPopup.js';
 import { renderAppointmentForm } from '../modules/appointments/appointmentForm.js';
@@ -13,22 +14,50 @@ import { createDefaultConnectorRegistry } from '../connectors/connectorRegistry.
 import { PluginManager } from '../plugins/pluginManager.js';
 import { CalendarCalculatorPlugin } from '../plugins/calendarCalculatorPlugin.js';
 import { getPreferredFormatForTargetApp, parseCalendarStateFile } from '../modules/sync/calendarSyncFormats.js';
+import { getDetectedTimeZone, normalizeTimeZone } from '../core/dateUtils.js';
+import { showToast } from '../core/sanitize.js';
+import { buildProfessionalContactList } from '../modules/professional/professionalContacts.js';
+import {
+  applyStaticTranslations,
+  getLanguage,
+  getLocale,
+  setLanguage,
+  t,
+} from '../i18n/index.js';
+
+
+
+/**
+ * Load professional defaults safely if the configuration file is present.
+ * @returns {Promise<any[]>}
+ */
+async function loadDefaultProfessionals() {
+  try {
+    const mod = await import('../config/professionalDefaults.js');
+    return Array.isArray(mod.DEFAULT_PROFESSIONALS) ? mod.DEFAULT_PROFESSIONALS : [];
+  } catch {
+    return [];
+  }
+}
+
+// Top-level await for configuration. App.js will only be ready once this resolves.
+const DEFAULT_PROFESSIONALS = await loadDefaultProfessionals();
 
 
 
 const SAMPLE_FILES = {
   vet: [
-    { value: 'dog-vet-care-state.json', label: 'Dog Vet Care Schedule' },
-    { value: 'cat-vet-care-state.json', label: 'Cat Vet Care Schedule' }
+    { value: 'dog-vet-care-state.json', labelKey: 'stateLoad.sampleDog' },
+    { value: 'cat-vet-care-state.json', labelKey: 'stateLoad.sampleCat' }
   ],
   pregnancy: [
-    { value: 'pregnancy-care-state.json', label: 'Pregnancy Care Schedule' }
+    { value: 'pregnancy-care-state.json', labelKey: 'stateLoad.samplePregnancy' }
   ]
 };
 
 const COUNTRY_LABELS = {
-  global: 'Global (WHO/NICE/ACOG)',
-  chile: 'Chile (MINSAL/Local Guidance)',
+  global: 'stateLoad.globalProfile',
+  chile: 'stateLoad.chileProfile',
 };
 
 function getDetectedCountry() {
@@ -41,12 +70,58 @@ function getDetectedCountry() {
   return 'global';
 }
 
+function normalizeSampleState(nextState) {
+  const safeState = nextState && typeof nextState === 'object' ? nextState : {};
+
+  // If professionals are explicitly defined in the state, use them; otherwise, use defaults.
+  // This allows samples to override defaults if they WANT to, but otherwise they stay thin.
+  const professionals = Array.isArray(safeState.professionals) && safeState.professionals.length
+    ? safeState.professionals
+    : DEFAULT_PROFESSIONALS;
+
+  const professionalsById = new Map(professionals.map((item) => [item.id, item]));
+  const detectedTimezone = normalizeTimeZone(getDetectedTimeZone());
+
+  const appointments = Array.isArray(safeState.appointments)
+    ? safeState.appointments.map((item) => {
+      const nextProfessionalId = item.professionalId || (professionals.length > 0 ? professionals[0].id : undefined);
+      const professional = professionalsById.get(nextProfessionalId) || null;
+
+      if (!professional) {
+        return {
+          ...item,
+          timezone: item.timezone || detectedTimezone,
+        };
+      }
+
+      // If we found a professional, we ensure the appointment has the latest contact data from it.
+      // This is the "loading defaults" part.
+      return {
+        ...item,
+        professionalId: nextProfessionalId,
+        timezone: item.timezone || detectedTimezone,
+        location: item.location || professional.address || '',
+        url: item.url || professional.website || '',
+        contact: (Array.isArray(item.contact) && item.contact.length > 0)
+          ? item.contact
+          : buildProfessionalContactList(professional),
+      };
+    })
+    : [];
+
+  return {
+    ...safeState,
+    professionals,
+    appointments,
+  };
+}
+
 function formatFocusLabel(viewMode, focusDate) {
   // concise label for the calendar header (used in #current-datetime)
   if (!focusDate || !(focusDate instanceof Date)) return '';
 
   if (viewMode === 'day') {
-    return focusDate.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+    return focusDate.toLocaleDateString(getLocale(), { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
   }
 
   if (viewMode === 'week') {
@@ -56,15 +131,18 @@ function formatFocusLabel(viewMode, focusDate) {
     start.setDate(start.getDate() - diff);
     const end = new Date(start);
     end.setDate(start.getDate() + 6);
-    return `Week: ${start.toLocaleDateString()} — ${end.toLocaleDateString()}`;
+    return t('appMessages.weekRange', {
+      start: start.toLocaleDateString(getLocale()),
+      end: end.toLocaleDateString(getLocale()),
+    });
   }
 
   if (viewMode === 'year') {
-    return `Year: ${focusDate.getFullYear()}`;
+    return t('appMessages.year', { year: focusDate.getFullYear() });
   }
 
   // month
-  return focusDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  return focusDate.toLocaleDateString(getLocale(), { month: 'long', year: 'numeric' });
 }
 
 export class App {
@@ -90,6 +168,9 @@ export class App {
       calendars: Array.isArray(persisted?.calendars) && persisted.calendars.length
         ? persisted.calendars
         : DEFAULT_CALENDARS,
+      professionals: Array.isArray(persisted?.professionals) && persisted.professionals.length
+        ? persisted.professionals
+        : DEFAULT_PROFESSIONALS,
       filters: {
         query: persisted?.filters?.query || '',
         status: persisted?.filters?.status || 'all',
@@ -104,6 +185,7 @@ export class App {
     this.selectedAppointmentId = null;
     this.reminderTimerId = null;
     this.triggeredReminderKeys = new Set();
+    this.monthRotated = false;
   }
 
   start() {
@@ -113,6 +195,7 @@ export class App {
     renderInfoPanel(this.roots.infoRoot, {
       onClose: () => closeInfoPanel(this.roots.infoRoot),
     });
+    applyStaticTranslations(document);
     this.pluginManager.emit('onAppReady', { app: this });
 
     this.startReminderLoop();
@@ -188,6 +271,11 @@ export class App {
       this.render();
     });
 
+    this.roots.toggleMonthRotateButton?.addEventListener('click', () => {
+      this.monthRotated = !this.monthRotated;
+      this.renderContent();
+    });
+
     this.updateStateLoadSourceUI();
   }
 
@@ -250,13 +338,14 @@ export class App {
           this.render();
           this.closeAppointmentModal();
         } catch (error) {
-          alert(error?.message || 'Unable to save appointment.');
+          showToast(error?.message || t('appMessages.unableToSaveAppointment'), 'error');
         }
       },
       {
         mode: appointment ? 'edit' : 'create',
         appointment,
         calendarOptions: this.state.calendars,
+        professionalOptions: this.state.professionals,
       },
     );
   }
@@ -274,17 +363,19 @@ export class App {
   }
 
   applyLoadedState(nextState) {
-    const parsedFocusDate = nextState.focusDate ? new Date(nextState.focusDate) : this.state.focusDate;
+    const normalized = normalizeSampleState(nextState);
+    const parsedFocusDate = normalized.focusDate ? new Date(normalized.focusDate) : this.state.focusDate;
     const focusDate = Number.isNaN(parsedFocusDate.getTime()) ? this.state.focusDate : parsedFocusDate;
 
     this.state = {
       ...this.state,
-      ...nextState,
-      appointments: Array.isArray(nextState.appointments) ? nextState.appointments : this.state.appointments,
-      calendars: Array.isArray(nextState.calendars) && nextState.calendars.length ? nextState.calendars : this.state.calendars,
+      ...normalized,
+      appointments: Array.isArray(normalized.appointments) ? normalized.appointments : this.state.appointments,
+      calendars: Array.isArray(normalized.calendars) && normalized.calendars.length ? normalized.calendars : this.state.calendars,
+      professionals: Array.isArray(normalized.professionals) && normalized.professionals.length ? normalized.professionals : this.state.professionals,
       filters: {
         ...this.state.filters,
-        ...(nextState.filters || {}),
+        ...(normalized.filters || {}),
       },
       focusDate,
     };
@@ -300,7 +391,7 @@ export class App {
     this.cache.set('state', stateToStore);
     const ok = saveToLocalStorage(stateToStore);
     if (!ok) {
-      alert('Unable to save state to local storage. You can still export state manually.');
+      showToast(t('appMessages.unableToSaveLocalStorage'), 'error');
     }
   }
 
@@ -313,7 +404,7 @@ export class App {
     this.roots.modalRoot?.classList.remove('hidden');
     const title = document.getElementById('appointment-modal-title');
     if (title) {
-      title.textContent = this.editingAppointmentId ? 'Edit Appointment' : 'New Appointment';
+      title.textContent = this.editingAppointmentId ? t('app.editAppointment') : t('app.newAppointment');
     }
     this.roots.formRoot?.querySelector('input,select,textarea,button')?.focus();
   }
@@ -325,7 +416,9 @@ export class App {
 
   openAppointmentDetailsModal(appointment) {
     this.selectedAppointmentId = appointment?.sourceId || appointment?.id || null;
-    renderAppointmentDetails(this.roots.detailsContentRoot, appointment);
+    renderAppointmentDetails(this.roots.detailsContentRoot, appointment, {
+      professionals: this.state.professionals,
+    });
     this.roots.detailsContentRoot?.querySelector('[data-action="edit-appointment"]')?.addEventListener('click', () => {
       this.closeAppointmentDetailsModal();
       if (!this.selectedAppointmentId) return;
@@ -334,7 +427,7 @@ export class App {
     });
     this.roots.detailsContentRoot?.querySelector('[data-action="delete-appointment"]')?.addEventListener('click', () => {
       if (!this.selectedAppointmentId) return;
-      const confirmed = typeof window.confirm !== 'function' || window.confirm('Delete this appointment?');
+      const confirmed = typeof window.confirm !== 'function' || window.confirm(t('appMessages.deleteConfirm'));
       if (!confirmed) return;
       this.state.appointments = this.state.appointments.filter((item) => item.id !== this.selectedAppointmentId);
       this.persist();
@@ -353,7 +446,7 @@ export class App {
   openSyncModal(mode = 'sync') {
     this.syncMode = mode;
     if (this.roots.syncActionLabelRoot) {
-      this.roots.syncActionLabelRoot.value = mode === 'save' ? 'Save State' : 'Sync App';
+      this.roots.syncActionLabelRoot.value = mode === 'save' ? t('sync.saveState') : t('sync.sync');
     }
 
     if (this.roots.syncFormatRoot) {
@@ -408,7 +501,7 @@ export class App {
     options.forEach((opt) => {
       const optionEl = document.createElement('option');
       optionEl.value = opt.value;
-      optionEl.textContent = opt.label;
+      optionEl.textContent = t(opt.labelKey);
       sampleSelect.appendChild(optionEl);
     });
 
@@ -422,8 +515,76 @@ export class App {
       : './data/calendar-template/';
   }
 
-  getSampleUrl(sampleFolder, sampleName) {
+  /**
+   * Builds the URL for a localized sample file.
+   */
+  getSampleStringsUrl(sampleFolder, sampleName) {
+    const lang = getLanguage() === 'es' ? 'es' : 'en';
+    return `${this.getSampleBaseUrl()}${sampleFolder}/languages/${lang}/${sampleName}`;
+  }
+
+  /**
+   * Builds the URL for a common sample file at the topic root.
+   */
+  getSampleCommonUrl(sampleFolder, sampleName) {
     return `${this.getSampleBaseUrl()}${sampleFolder}/${sampleName}`;
+  }
+
+  async fetchSampleState(sampleFolder, sampleName) {
+    const commonUrl = this.getSampleCommonUrl(sampleFolder, sampleName);
+    const stringsUrl = this.getSampleStringsUrl(sampleFolder, sampleName);
+    const FETCH_TIMEOUT = 10000;
+
+    const fetchWithTimeout = (url) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+      return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+    };
+
+    try {
+      const [commonRes, stringsRes] = await Promise.all([
+        fetchWithTimeout(commonUrl),
+        fetchWithTimeout(stringsUrl).catch(() => null), // strings might not exist for some samples
+      ]);
+
+      if (!commonRes.ok) throw new Error('Failed to load common sample state');
+      const commonData = await commonRes.json();
+      const stringsData = (stringsRes && stringsRes.ok) ? await stringsRes.json() : null;
+
+      if (!stringsData) return commonData;
+
+      // Merge strings into common data.
+      // We look at appointments and calendars for translatable strings.
+      if (Array.isArray(commonData.appointments) && Array.isArray(stringsData.appointments)) {
+        const stringsById = new Map(stringsData.appointments.map((a) => [a.id, a]));
+        commonData.appointments = commonData.appointments.map((a) => {
+          const strings = stringsById.get(a.id);
+          if (!strings) return a;
+          return {
+            ...a,
+            title: strings.title || a.title,
+            description: strings.description || a.description,
+          };
+        });
+      }
+
+      if (Array.isArray(commonData.calendars) && Array.isArray(stringsData.calendars)) {
+        const stringsById = new Map(stringsData.calendars.map((c) => [c.id, c]));
+        commonData.calendars = commonData.calendars.map((c) => {
+          const strings = stringsById.get(c.id);
+          if (!strings) return c;
+          return {
+            ...c,
+            name: strings.name || c.name,
+          };
+        });
+      }
+
+      return commonData;
+    } catch (error) {
+      console.error('Error fetching sample state:', error);
+      throw error;
+    }
   }
 
   async updateSampleCountryPreview() {
@@ -439,27 +600,25 @@ export class App {
     }
 
     try {
-      const response = await fetch(this.getSampleUrl(sampleFolder, sampleName));
-      if (!response.ok) throw new Error('Failed to load sample metadata');
-      const sampleState = await response.json();
+      const sampleState = await this.fetchSampleState(sampleFolder, sampleName);
       const countryKey = sampleState?.sampleMeta?.country || sampleState?.country || 'global';
       if (countryRoot.tagName === 'SELECT') {
         countryRoot.value = countryKey;
         if (!countryRoot.value) countryRoot.value = 'global';
       } else {
-        countryRoot.value = COUNTRY_LABELS[countryKey] || String(countryKey);
+        countryRoot.value = t(COUNTRY_LABELS[countryKey] || '', {}, String(countryKey));
       }
     } catch {
       if (countryRoot.tagName === 'SELECT') {
         countryRoot.value = getDetectedCountry();
       } else {
-        countryRoot.value = 'Unknown';
+        countryRoot.value = t('app.unknown');
       }
     }
   }
 
   confirmStateReplacement() {
-    const message = 'Loading a new state will replace current appointments. Save State first if you want a backup. Continue?';
+    const message = t('stateLoad.confirmReplacement');
     if (typeof window.confirm !== 'function') return true;
     return window.confirm(message);
   }
@@ -484,7 +643,7 @@ export class App {
       if (source === 'custom') {
         const file = this.roots.stateLoadFileRoot?.files?.[0];
         if (!file) {
-          alert('Please select a state file.');
+          showToast(t('stateLoad.selectStateFile'), 'error');
           return;
         }
 
@@ -497,23 +656,20 @@ export class App {
       const sampleName = this.roots.stateLoadSampleRoot?.value;
       const sampleFolder = this.roots.stateLoadSampleFolderRoot?.value || 'vet';
       if (!sampleName) {
-        alert('Please select a sample state.');
+        showToast(t('stateLoad.selectSampleState'), 'error');
         return;
       }
 
-      const response = await fetch(this.getSampleUrl(sampleFolder, sampleName));
-      if (!response.ok) throw new Error('Failed to load sample state');
-
-      const nextState = await response.json();
+      const nextState = await this.fetchSampleState(sampleFolder, sampleName);
       this.applyLoadedState(nextState);
       this.closeStateLoadModal();
     } catch (error) {
       if (source === 'custom') {
-        alert('Invalid state file');
+        showToast(t('stateLoad.invalidStateFile'), 'error');
         return;
       }
 
-      alert(`Failed to load state: ${error?.message || 'Unknown error'}`);
+      showToast(t('stateLoad.failedToLoadState', { message: error?.message || t('appMessages.unknownError') }), 'error');
     }
   }
 
@@ -524,7 +680,7 @@ export class App {
     const connector = this.connectorRegistry.get('calendar-sync-connector');
 
     if (!connector) {
-      alert('Sync connector is not available.');
+      showToast(t('sync.connectorUnavailable'), 'error');
       return;
     }
 
@@ -541,10 +697,10 @@ export class App {
     try {
       const result = await connector.push(payload);
       if (!result?.ok) {
-        alert('Sync failed.');
+        showToast(t('sync.syncFailed'), 'error');
       }
     } catch {
-      alert('Sync failed.');
+      showToast(t('sync.syncFailed'), 'error');
     }
   }
 
@@ -564,7 +720,7 @@ export class App {
   getCalendarColorMap() {
     const colorMap = new Map();
     this.state.calendars.forEach((calendar) => {
-      colorMap.set(calendar.id, calendar.color || '#2563eb');
+      colorMap.set(calendar.id, calendar.color || DEFAULT_CALENDAR_COLOR);
     });
     return colorMap;
   }
@@ -622,7 +778,10 @@ export class App {
       if (this.triggeredReminderKeys.has(key)) return;
       if (now < reminderTime || now >= eventTime) return;
 
-      const message = `Reminder: ${appointment.title || 'Appointment'} at ${new Date(appointment.date).toLocaleString()}`;
+      const message = t('appMessages.reminder', {
+        title: appointment.title || t('appMessages.appointment'),
+        when: new Date(appointment.date).toLocaleString(getLocale()),
+      });
       if (typeof Notification !== 'undefined') {
         if (Notification.permission === 'granted') {
           new Notification(message);
@@ -651,6 +810,11 @@ export class App {
       this.roots.datetimeRoot.textContent = formatFocusLabel(this.state.viewMode, this.state.focusDate);
     }
 
+    // Show/hide rotate button based on view mode
+    if (this.roots.toggleMonthRotateButton) {
+      this.roots.toggleMonthRotateButton.classList.toggle('hidden', this.state.viewMode !== 'month');
+    }
+
     const filteredAppointments = this.getFilteredAppointments();
     renderAppointmentList(
       this.roots.listRoot,
@@ -668,6 +832,7 @@ export class App {
       onAppointmentClick: (appointment) => this.openAppointmentDetailsModal(appointment),
       onHierarchyNavigate: (payload) => this.navigateHierarchy(payload),
       calendarColorMap: this.getCalendarColorMap(),
+      monthRotated: this.monthRotated,
     });
   }
 
@@ -721,6 +886,12 @@ export class App {
         this.state.filters.toDate = value;
         this.persist();
         this.renderContent();
+      },
+      onLanguageChange: (language) => {
+        setLanguage(language);
+        this.updateSampleDropdown();
+        applyStaticTranslations(document);
+        this.render();
       },
     });
 

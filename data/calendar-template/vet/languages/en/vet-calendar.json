@@ -1,0 +1,186 @@
+{
+  "title": "Veterinary Care Calendar Calculator",
+  "description": "Data-driven lifecycle schedule for dogs and cats from newborn stage through 18 years.",
+  "disclaimer": "General preventive schedule guidance only. Always confirm care timing with your veterinarian.",
+  "fields": [
+    {
+      "name": "petName",
+      "label": "Pet name",
+      "placeholder": "Luna",
+      "options": []
+    },
+    {
+      "name": "species",
+      "label": "Species",
+      "options": [
+        {
+          "value": "dog",
+          "label": "Dog"
+        },
+        {
+          "value": "cat",
+          "label": "Cat"
+        }
+      ]
+    },
+    {
+      "name": "birthDate",
+      "label": "Birth date (optional if age provided)",
+      "options": []
+    },
+    {
+      "name": "ageYears",
+      "label": "Age (years)",
+      "options": []
+    },
+    {
+      "name": "lastVaccine",
+      "label": "Last core vaccine date",
+      "options": []
+    },
+    {
+      "name": "lastDeworming",
+      "label": "Last internal deworming date",
+      "options": []
+    },
+    {
+      "name": "lastEctoparasite",
+      "label": "Last ectoparasite treatment date",
+      "options": []
+    },
+    {
+      "name": "lastCheckup",
+      "label": "Last clinical control date",
+      "options": []
+    },
+    {
+      "name": "environment",
+      "label": "Living environment",
+      "options": [
+        {
+          "value": "indoor",
+          "label": "Indoor"
+        },
+        {
+          "value": "mixed",
+          "label": "Mixed indoor/outdoor"
+        },
+        {
+          "value": "outdoor",
+          "label": "Outdoor"
+        }
+      ]
+    },
+    {
+      "name": "country",
+      "label": "Country / Region Guidelines",
+      "options": [
+        {
+          "value": "global",
+          "label": "Global (WSAVA/ESCCAP)"
+        },
+        {
+          "value": "chile",
+          "label": "Chile (Colmevet/Local Law)"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "newborn-registration",
+      "titleTemplate": "{speciesLabel} newborn registration{entitySuffix}",
+      "description": "Initial newborn veterinary registration and baseline exam."
+    },
+    {
+      "id": "early-check-6w",
+      "titleTemplate": "{speciesLabel} early-life check (6 weeks){entitySuffix}",
+      "description": "Early development and preventive care check."
+    },
+    {
+      "id": "core-vaccine-primary-8w",
+      "titleTemplate": "{speciesLabel} primary core vaccine (8 weeks){entitySuffix}",
+      "description": "Primary vaccine dose in early life."
+    },
+    {
+      "id": "core-vaccine-booster-12w",
+      "titleTemplate": "{speciesLabel} core vaccine booster (12 weeks){entitySuffix}",
+      "description": "Early-life booster dose."
+    },
+    {
+      "id": "core-vaccine-booster-16w",
+      "titleTemplate": "{speciesLabel} core vaccine booster (16 weeks){entitySuffix}",
+      "description": "Final primary-series booster milestone."
+    },
+    {
+      "id": "spay-neuter-window",
+      "titleTemplate": "{speciesLabel} sterilization planning window{entitySuffix}",
+      "description": "Discuss sterilization timing and pre-op checks."
+    },
+    {
+      "id": "dog-vaccine-annual-chile",
+      "titleTemplate": "Dog annual vaccine (Óctuple/Séxtuple + Rabies){entitySuffix}",
+      "description": "Annual booster for core vaccines, leptospirosis, and mandatory rabies according to Chilean regulations."
+    },
+    {
+      "id": "cat-vaccine-annual-chile",
+      "titleTemplate": "Cat annual vaccine (Triple + Rabies){entitySuffix}",
+      "description": "Annual booster for core vaccines and mandatory rabies according to Chilean regulations."
+    },
+    {
+      "id": "dog-core-vaccine-global",
+      "titleTemplate": "Dog core vaccine booster (Triennial){entitySuffix}",
+      "description": "WSAVA guidelines: Core vaccines (CDV, CPV, CAV) every 3 years for adult dogs."
+    },
+    {
+      "id": "dog-noncore-vaccine-global",
+      "titleTemplate": "Dog non-core/rabies vaccine booster{entitySuffix}",
+      "description": "Annual booster for non-core vaccines (e.g., Leptospirosis, KC) if at risk, and Rabies per local law."
+    },
+    {
+      "id": "cat-core-vaccine-triennial-global",
+      "titleTemplate": "Cat core vaccine booster (Triennial){entitySuffix}",
+      "description": "WSAVA guidelines: Core vaccines (FPV, FHV, FCV) every 3 years for strictly indoor adult cats."
+    },
+    {
+      "id": "cat-core-vaccine-annual-global",
+      "titleTemplate": "Cat core vaccine booster (Annual){entitySuffix}",
+      "description": "WSAVA guidelines: Annual core vaccines for cats with outdoor access or high risk."
+    },
+    {
+      "id": "cat-rabies-vaccine-global",
+      "titleTemplate": "Cat rabies vaccine booster{entitySuffix}",
+      "description": "Rabies booster according to local law (typically 1-3 years)."
+    },
+    {
+      "id": "deworming-quarterly-series",
+      "titleTemplate": "{speciesLabel} internal deworming follow-up (Quarterly){entitySuffix}",
+      "description": "Quarterly internal parasite control cycle for mixed/outdoor environments."
+    },
+    {
+      "id": "deworming-semiannual-series",
+      "titleTemplate": "{speciesLabel} internal deworming / coprology (Semiannual){entitySuffix}",
+      "description": "Semiannual internal parasite control or coprology test for strictly indoor pets."
+    },
+    {
+      "id": "ectoparasite-monthly-series",
+      "titleTemplate": "{speciesLabel} ectoparasite prevention cycle{entitySuffix}",
+      "description": "Monthly external parasite control cycle."
+    },
+    {
+      "id": "clinical-control-series",
+      "titleTemplate": "{speciesLabel} routine clinical control{entitySuffix}",
+      "description": "Semiannual wellness check for ongoing preventive follow-up."
+    },
+    {
+      "id": "cat-felv-assessment",
+      "titleTemplate": "Cat FeLV risk reassessment{entitySuffix}",
+      "description": "Lifestyle-based FeLV risk review for outdoor/mixed environment."
+    },
+    {
+      "id": "dog-vector-screening",
+      "titleTemplate": "Dog vector-borne disease screening{entitySuffix}",
+      "description": "Risk-based vector disease screening in outdoor/mixed environment."
+    }
+  ]
+}

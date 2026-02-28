@@ -1,5 +1,7 @@
 import { escapeHtml } from '../../../core/sanitize.js';
 import { getDateKeyInTimeZone } from '../../../core/dateUtils.js';
+import { DEFAULT_CALENDAR_COLOR } from '../../../core/constants.js';
+import { getLocale, t } from '../../../i18n/index.js';
 
 function toLocalDayKey(date) {
   const year = date.getFullYear();
@@ -29,17 +31,17 @@ export function renderWeekView(items, rangeStart) {
       const focusIso = day.toISOString();
 
       return `
-      <div class="calendar-day hierarchy-cell ${isToday ? 'month-cell-today' : ''}" data-nav-target="day" data-focus-date="${focusIso}" role="button" tabindex="0" aria-label="Open day view for ${day.toLocaleDateString()}">
-        <h4>${day.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' })}</h4>
+      <div class="calendar-day hierarchy-cell ${isToday ? 'month-cell-today' : ''}" data-nav-target="day" data-focus-date="${focusIso}" role="button" tabindex="0" aria-label="${t('views.openDayViewFor', { date: day.toLocaleDateString(getLocale()) })}">
+        <h4>${day.toLocaleDateString(getLocale(), { weekday: 'short', day: '2-digit', month: 'short' })}</h4>
         ${
           dayItems.length
             ? `<ul>${dayItems
                 .map(
                   (entry) =>
-                    `<li style="border-left: 3px solid ${entry.calendarColor || '#2563eb'}; padding-left: 4px;"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">${escapeHtml(entry.title)} <span class="badge">P${entry.priority}</span></button></li>`,
+                    `<li style="border-left: 3px solid ${entry.calendarColor || DEFAULT_CALENDAR_COLOR}; padding-left: 4px;"><button type="button" class="calendar-link" data-appointment-key="${encodeURIComponent(entry.uiKey)}">${escapeHtml(entry.title)} <span class="badge">P${entry.priority}</span></button></li>`,
                 )
                 .join('')}</ul>`
-            : '<p class="small">No tasks</p>'
+            : `<p class="small">${t('views.noTasks')}</p>`
         }
       </div>`;
     })

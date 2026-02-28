@@ -1,0 +1,28 @@
+{
+  "appointments": [
+    {
+      "id": "preg-prenatal-initial",
+      "title": "Primera consulta prenatal",
+      "description": "Evaluacion prenatal inicial y plan de cuidados de base."
+    },
+    {
+      "id": "preg-dating-ultrasound",
+      "title": "Ecografia de datacion",
+      "description": "Programar ecografia de datacion en el primer trimestre."
+    }
+  ],
+  "calendars": [
+    {
+      "id": "default",
+      "name": "Predeterminado"
+    },
+    {
+      "id": "work",
+      "name": "Trabajo"
+    },
+    {
+      "id": "health",
+      "name": "Salud"
+    }
+  ]
+}
